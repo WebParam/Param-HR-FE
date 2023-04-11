@@ -3,10 +3,26 @@ import { Inter } from 'next/font/google'
 import styles from './page.module.css'
 
 import '../app/styles/index.scss';
+import {Api} from "../lib/restapi/endpoints";
+import { IUserRequestModel } from '@/interfaces/user';
 
 const inter = Inter({ subsets: ['latin'] })
 
+
 export default function Personnel() {
+  
+
+  async function AddPersonnel(){
+  var payload = {id:"0",userid:"0"} as IUserRequestModel;
+   const data = await Api.POST_CreatePersonnel(payload);
+   console.log("Response",data)
+  }
+
+  async function ListAllPersonnel(){
+
+     const data = await Api.GET_AllPersonnel();
+     console.log("Response",data)
+    }
   return (
     <div className="App">
     <div>
@@ -413,6 +429,9 @@ export default function Personnel() {
                         </div>
                         <input type="text" className="form-control bdc-grey-200 start-date" placeholder="Available end date" data-provide="datepicker" />
                       </div>     
+                      <button onClick={()=>AddPersonnel()} >Add Personnel</button> <button onClick={()=>AddPersonnel()} >Add Personnel</button>
+                      <button onClick={()=>ListAllPersonnel()} >List all Personnel</button> <button onClick={()=>ListAllPersonnel()} >List Personnel</button>
+                      
                       <div className="input-group" style={{width: '10%', float: 'left', marginTop: '10px', marginLeft: '15px'}}>
                         <input type="text" className="form-control" placeholder="Minimum price" id="inputZip" />
                       </div>
