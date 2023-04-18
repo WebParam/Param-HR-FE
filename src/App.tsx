@@ -3,7 +3,10 @@ import logo from './logo.svg';
 import './App.css';
 import '../src/styles/index.scss';
 import Sidebar from './components/sidebar';
-import Dashboard from './components/dashboard';
+import { Routes, Route } from "react-router-dom"
+import Dashboard from './pages/dashboard';
+import Personnel from './pages/personnel';
+import PersonnelDetail from './pages/personnel-detail';
 
 function App() {
   return (
@@ -238,7 +241,12 @@ function App() {
 
         {/* <!-- ### $App Screen Content ### --> */}
         <main className='main-content bgc-grey-100'>
-       <Dashboard/>
+        <Routes>
+        <Route path="/" element={ <Dashboard/> } />
+        <Route path="personnel" element={ <Personnel/> } />
+        <Route path="personnel-detail" element={ <PersonnelDetail/> } /> 
+        {/* <Route path="contact" element={ <Contact/> } /> */}
+      </Routes>
         
         </main>
 

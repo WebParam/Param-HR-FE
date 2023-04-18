@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 function Sidebar() {
   return (
@@ -42,7 +43,8 @@ function Sidebar() {
           </a>
         </li>
         <li className="nav-item dropdown">
-          <a className="dropdown-toggle" href="javascript:void(0);">
+        <Link className="dropdown-toggle" to="personnel">
+           {/* <a className="dropdown-toggle" href="javascript:void(0);"> */}
             <span className="icon-holder">
               <i className="c-orange-500 ti-user"></i>
             </span>
@@ -50,7 +52,8 @@ function Sidebar() {
             <span className="arrow">
               <i className="ti-angle-right"></i>
             </span>
-          </a>
+          {/* </a> */}
+          </Link>
           <ul className="dropdown-menu">
             <li>
               <a className='sidebar-link' href="personnel.html">Search</a>
@@ -60,6 +63,18 @@ function Sidebar() {
             </li>
           </ul>
         </li>
+        <li>     
+        <Link className="dropdown-toggle" to="personnel-detail">
+           {/* <a className="dropdown-toggle" href="javascript:void(0);"> */}
+            <span className="icon-holder">
+              <i className="c-orange-500 ti-user"></i>
+            </span>
+            <span className="title">Personnel Detail</span>
+            <span className="arrow">
+              <i className="ti-angle-right"></i>
+            </span>
+          {/* </a> */}
+          </Link></li>
         <li className="nav-item dropdown">
           <a className="dropdown-toggle" href="javascript:void(0);">
             <span className="icon-holder">
