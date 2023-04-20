@@ -1,15 +1,15 @@
-import React from 'react';
-import logo from './logo.svg';
+import React from "react";
+import { Routes, Route } from "react-router-dom";
+import { ContainerApp } from "./components/ContainerApp";
+import Sidebar from "./components/sidebar";
 import './App.css';
 import '../src/styles/index.scss';
-import Sidebar from './components/sidebar';
-import { Routes, Route } from "react-router-dom"
-import Dashboard from './pages/dashboard';
-import Personnel from './pages/personnel';
-import PersonnelDetail from './pages/personnel-detail';
+import Dashboard from "./pages/dashboard";
+import Personnel from "./pages/personnel";
+import PersonnelDetail from "./pages/personnel-detail";
 
-function App() {
-  return (
+const App = () => (
+  <>
   <div className="App">
     <div>
       {/* <!-- #Left Sidebar ==================== --> */}
@@ -241,14 +241,30 @@ function App() {
 
         {/* <!-- ### $App Screen Content ### --> */}
         <main className='main-content bgc-grey-100'>
-        <Routes>
-        <Route path="/" element={ <Dashboard/> } />
-        <Route path="personnel" element={ <Personnel/> } />
-        <Route path="personnel-detail" element={ <PersonnelDetail/> } /> 
-        {/* <Route path="contact" element={ <Contact/> } /> */}
-      </Routes>
-        
-        </main>
+    <Routes>
+      <Route
+        path="/"
+        element={
+          <Dashboard
+          />
+        }
+      />
+          <Route
+        path="personnel"
+        element={
+          <Personnel
+          />
+        }
+      />
+          <Route
+        path="personnel-detail"
+        element={
+          <PersonnelDetail
+          />
+        }
+      />
+    </Routes>
+    </main>
 
         {/* <!-- ### $App Screen Footer ### --> */}
         <footer className="bdT ta-c p-30 lh-0 fsz-sm c-grey-600">
@@ -257,7 +273,7 @@ function App() {
       </div>
     </div>
   </div>
-  );
-}
+  </>
+);
 
 export default App;
