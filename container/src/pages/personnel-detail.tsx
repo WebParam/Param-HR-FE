@@ -1,220 +1,281 @@
 
-import React from 'react';
+import React, { useState } from 'react';
+import { useLocation } from "react-router-dom";
+import { IPersonnel, IPersonnelResponseModel } from 'src/interfaces/personnel';
+
 
 
 export default function PersonnelDetail() {
+  const location = useLocation();
+
+ 
+  const [name, setName] = useState<string>("");
+  const [surname, setSurname] = useState<string>("");
+  const [nickname, setNickname] = useState<string>("");
+  const [birthday, setBirthday] = useState<string>("");
+  const [rate, setRate] = useState<string>("");
+  const [skillLevel, setSkillLevel] = useState<string>("");
+  const [workAddress, setWorkaddress] = useState<string>("");
+  const [homeAddress, setHomeAddress] = useState<string>("");
+  const [city, setCity] = useState<string>("");
+  const [province, setProvinces] = useState<string>("");
+  const [country, setCountry] = useState<string>("");
+  
+  const [position, setPosition] = useState<string>("");
+
+  const [masters, setMasters] = useState<string>("");
+  
+  const [languages, setLanguage] = useState<string[]>([]);
+
+  const [skills, setEducation] = useState<string[]>([]);
+  const [cv, setCV] = useState<Blob|undefined>();
+  const [degree, setDegree] = useState<Blob|undefined>();
+
+  const [personnel, setPersonnel] = useState<IPersonnelResponseModel|undefined>(undefined);
+// get userId
+const userDetails = location.state?.data as IPersonnel??undefined;
+
+const createFormFile=()=>{
+  const formData = new FormData();
+  formData.append("name", name);
+  formData.append("surname", surname);
+  formData.append("nickname", nickname);
+  formData.append("birthday", birthday);
+  formData.append("rate", rate);
+  formData.append("skillLevel", skillLevel);
+  formData.append("workAddress", workAddress);
+  formData.append("homeAddress", homeAddress);
+  formData.append("city", city);
+  formData.append("province", province);
+  formData.append("country", country);
+  formData.append("position", position);
+ 
+  formData.append("masters", masters);
+  formData.append("languages", "");
+  formData.append("skills", "");
+  if(cv) formData.append("cv", cv as Blob);
+  if(degree) formData.append("degree", degree as Blob);
+
+  return formData;
+}
+
+const saveCV=(e:any)=>{
+ 
+    setCV(e.target.files[0]);
+   
+  }
+
+
   return (
-      <div id="mainContent">
+      <div id="mainContent" style={{textAlign:"left"}}>
         <div className="container-fluid">
           <h4 className="c-grey-900 mT-10 mB-30">Personnel</h4>
           <div className="row bgc-white bd bdrs-3 p-20 mB-20">
-            {/* <div class="col-md-12"> */}
-            {/* <div class="bgc-white bd bdrs-3 p-20 mB-20"> */}
-            <h4 className="c-grey-900 mB-20">Angelica Kiongo</h4>
-            <div className="col-md-7">
-              <div className="bgc-white p-20 bd">
-                <div className="col-md-5">
-                  <div className="peer mR-15">
-                    <img className="w-6r bdrs-50p" src="https://randomuser.me/api/portraits/women/30.jpg" alt="" />
-                    {/* <input type="file" class="form-control w-6r" id="exampleInputPassword1"> */}
-                  </div>
-                </div>
-                <div className="col-md-8">
-                  <h6 className="c-grey-900">Senior project manager</h6>
-                </div>
-                <div className="mT-30">
-                  <form>
-                    <div className="row">
-                      <div className="mb-3 col-md-6">
-                        <label className="form-label" htmlFor="inputPassword4">Name</label>
-                        <input type="text" className="form-control" id="inputPassword4" placeholder="Angelica" />
-                      </div>
-                      <div className="mb-3 col-md-6">
-                        <label className="form-label" htmlFor="inputPassword4">Surname</label>
-                        <input type="text" className="form-control" id="inputPassword4" placeholder="Kiongo" />
-                      </div>
-                      <div className="mb-3 col-md-6">
-                        <label className="form-label" htmlFor="inputPassword4">Nickname</label>
-                        <input type="text" className="form-control" id="inputPassword4" placeholder="Angie" />
-                      </div>
-                      <div className="mb-3 col-md-6">
-                        <label className="form-label" htmlFor="inputEmail4">Email</label>
-                        <input type="email" defaultValue="a.kiongo@ttstechnologies.com" className="form-control" id="inputEmail4" placeholder="Email" />
-                      </div>
-                      <div className="mb-3 col-md-6">
-                        <label className="form-label" htmlFor="inputEmail4">Rate</label>
-                        <input type="text" className="form-control" id="inputEmail4" placeholder="ZAR 740" />
-                      </div>
-                      <div className="mb-3 col-md-4">
-                        <label className="form-label" htmlFor="inputZip">Skill level</label>
-                        <select id="inputState" className="form-control">
-                          <option selected>Senior</option>
-                          <option>...</option>
-                        </select>
-                      </div>
-                    </div>
-                    <div className="mb-3">
-                      <label className="form-label" htmlFor="inputAddress">Work Address</label>
-                      <input type="text" className="form-control" id="inputAddress" placeholder="1234 Main St" />
-                    </div>
-                    <div className="mb-3">
-                      <label className="form-label" htmlFor="inputAddress2">Home Address</label>
-                      <input type="text" className="form-control" id="inputAddress2" placeholder="Apartment, studio, or floor" />
-                    </div>
-                    <div className="row">
-                      <div className="mb-3 col-md-4">
-                        <label className="form-label" htmlFor="inputCity">City</label>
-                        <input type="text" defaultValue="Thika" className="form-control" id="inputCity" />
-                      </div>
-                      <div className="mb-3 col-md-4">
-                        <label className="form-label" htmlFor="inputState">Province</label>
-                        <select id="inputState" className="form-control">
-                          <option selected>Nairobi</option>
-                          <option>...</option>
-                        </select>
-                      </div>
-                      <div className="mb-3 col-md-4">
-                        <label className="form-label" htmlFor="inputZip">Country</label>
-                        <select id="inputState" className="form-control">
-                          <option selected>Kenya</option>
-                          <option>...</option>
-                        </select>
-                      </div>
-                    </div>
-                    <div className="row">
-                      <div className="mb-3 col-md-6">
-                        <label className="form-label fw-500">Birthdate</label>
-                        <div className="timepicker-input input-icon mb-3">
-                          <div className="input-group">
-                            <div className="input-group-text bgc-white bd bdwR-0">
-                              <i className="ti-calendar" />
+                  <>
+                       <h4 className="c-grey-900 mB-20">{userDetails?.user?.name} {userDetails?.user?.surname}</h4>
+                      <div className="col-md-7">
+                        <div className="bgc-white p-20 bd">
+                          <div className="col-md-5">
+                            <div className="peer mR-15">
+                              <img className="w-6r bdrs-50p" src="https://randomuser.me/api/portraits/women/30.jpg" alt="" />
+                              {/* <input type="file" class="form-control w-6r" id="exampleInputPassword1"> */}
                             </div>
-                            <input type="text" className="form-control bdc-grey-200 start-date" placeholder="12-01-1982" data-provide="datepicker" />
+                          </div>
+                          <div className="col-md-8">
+                            <h6 className="c-grey-900">{userDetails?.position}</h6>
+                          </div>
+                          <div className="mT-30">
+                            <form>
+                              <div className="row">
+                                <div className="mb-3 col-md-6">
+                                  <label className="form-label" htmlFor="name">Name</label>
+                                  <input type="text" defaultValue={userDetails.user.name} className="form-control" id="name" />
+                                </div>
+                                <div className="mb-3 col-md-6">
+                                  <label className="form-label" htmlFor="surname">Surname</label>
+                                  <input type="text" defaultValue={userDetails.user.surname} className="form-control" id="surname"  />
+                                </div>
+                                <div className="mb-3 col-md-6">
+                                  <label className="form-label" htmlFor="nickname">Nickname</label>
+                                  <input type="text" defaultValue={userDetails.nickname} className="form-control" id="nickname" />
+                                </div>
+                                <div className="mb-3 col-md-6">
+                                  <label className="form-label" htmlFor="email">Email</label>
+                                  <input type="email" defaultValue={userDetails.user.email} className="form-control" id="email" />
+                                </div>
+                                <div className="mb-3 col-md-6">
+                                  <label className="form-label" htmlFor="rate">Rate</label>
+                                  <input type="text" defaultValue={userDetails.rate} className="form-control" id="rate"  />
+                                </div>
+                                <div className="mb-3 col-md-4">
+                                  <label className="form-label" htmlFor="skill">Skill level</label>
+                                  <select id="inputState" className="form-control">
+                                    <option selected>Senior</option>
+                                    <option>...</option>
+                                  </select>
+                                </div>
+                              </div>
+                              <div className="mb-3">
+                                <label className="form-label" htmlFor="workAddress">Work Address</label>
+                                <input type="text" className="form-control" defaultValue={userDetails.workAddress} id="workAddress" />
+                              </div>
+                              <div className="mb-3">
+                                <label className="form-label" htmlFor="homeAddress">Home Address</label>
+                                <input type="text" className="form-control" defaultValue={userDetails.homeAddress} id="homeAddress" />
+                              </div>
+                              <div className="row">
+                                <div className="mb-3 col-md-4">
+                                  <label className="form-label" htmlFor="city">City</label>
+                                  <input type="text" id="city" defaultValue={userDetails.city} className="form-control"  />
+                                </div>
+                                <div className="mb-3 col-md-4">
+                                  <label className="form-label" htmlFor="inputState">Province</label>
+                                  <select id="inputState" className="form-control">
+                                    <option selected>Nairobi</option>
+                                    <option>...</option>
+                                  </select>
+                                </div>
+                                <div className="mb-3 col-md-4">
+                                  <label className="form-label" htmlFor="country">Country</label>
+                                  <select id="inputState" className="form-control">
+                                    <option selected>Kenya</option>
+                                    <option>...</option>
+                                  </select>
+                                </div>
+                              </div>
+                              <div className="row">
+                                <div className="mb-3 col-md-6">
+                                  <label className="form-label fw-500">Birthdate</label>
+                                  <div className="timepicker-input input-icon mb-3">
+                                    <div className="input-group">
+                                      <div className="input-group-text bgc-white bd bdwR-0">
+                                        <i className="ti-calendar" />
+                                      </div>
+                                      <input type="text" className="form-control bdc-grey-200 start-date" defaultValue={userDetails.birthday} data-provide="datepicker" />
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <div className="mb-3">
+                                <button type="button" className="btn btn-primary btn-color">Save changes</button>
+                              </div><br />
+                              {/* <br/>
+                                <button type="submit" class="btn btn-primary btn-color">Update</button> */}
+                            </form>
                           </div>
                         </div>
                       </div>
-                    </div>
-                    <div className="mb-3">
-                      <button type="button" className="btn btn-primary btn-color">Save changes</button>
-                    </div><br />
-                    {/* <br/>
-                      <button type="submit" class="btn btn-primary btn-color">Update</button> */}
-                  </form>
-                </div>
-              </div>
-            </div>
-            <div className="col-md-5">
-              <div className="bgc-white p-20 bd">
-                <h6 className="c-grey-900">Skills &amp; Qualifications</h6>
-                <div className="mT-30">
-                  <form>
-                    <div className="row">
-                      <div className="mb-3 col-md-4">
-                        <label className="form-label" htmlFor="inputZip">Skill level</label>
-                        <select id="inputState" className="form-control">
-                          <option selected>Senior</option>
-                          <option>...</option>
-                        </select>
-                      </div> <br />
-                      <div className="mb-3 col-md-9">
-                        <label className="form-label" htmlFor="inputPassword4">Education</label>
-                        <input type="text" className="form-control" id="inputPassword4" placeholder="Add education" />
-                      </div>
-                      <div className="mb-3">
-                        <div className="checkbox checkbox-circle checkbox-info peers ai-c" style={{float: 'left'}}>
-                          <input type="checkbox" defaultChecked id="inputCall2" name="inputCheckboxesCall" className="peer" />
-                          <label htmlFor="inputCall2" className="form-label peers peer-greed js-sb ai-c">
-                            <span className="peer peer-greed">Degree</span>
-                          </label><br />
-                          <select id="inputState" className="form-control">
-                            <option selected>University of Nairobi</option>
-                            <option>...</option>
-                          </select><br />
-                        </div>
-                        <div className="checkbox checkbox-circle checkbox-info peers ai-c" style={{float: 'left', marginLeft: '10px'}}>
-                          <input type="checkbox" defaultChecked id="inputCall2" name="inputCheckboxesCall" className="peer" />
-                          <label htmlFor="inputCall2" className="form-label peers peer-greed js-sb ai-c">
-                            <span className="peer peer-greed">Masters </span>
-                          </label>
-                          <select id="inputState" className="form-control">
-                            <option selected>University of New South Wales</option>
-                            <option>...</option>
-                          </select><br />
-                        </div>
-                      </div>
-                    </div>
-                    <br />
-                    <div className="row">
-                      <div className="mb-3 col-md-9">
-                        <label className="form-label" htmlFor="inputPassword4">Languages</label>
-                        <input type="text" className="form-control" id="inputPassword4" placeholder="Add language" />
-                      </div>
-                      <div className="mb-3">
-                        <div className="checkbox checkbox-circle checkbox-info peers ai-c" style={{float: 'left'}}>
-                          <input type="checkbox" defaultChecked id="inputCall2" name="inputCheckboxesCall" className="peer" />
-                          <label htmlFor="inputCall2" className="form-label peers peer-greed js-sb ai-c">
-                            <span className="peer peer-greed">English</span>
-                          </label>
-                        </div>
-                        <div className="checkbox checkbox-circle checkbox-info peers ai-c" style={{float: 'left', marginLeft: '10px'}}>
-                          <input type="checkbox" defaultChecked id="inputCall2" name="inputCheckboxesCall" className="peer" />
-                          <label htmlFor="inputCall2" className="form-label peers peer-greed js-sb ai-c">
-                            <span className="peer peer-greed">Swahili </span>
-                          </label>
-                        </div>
-                      </div>
-                    </div>
-                    <br />
-                    <div className="row">
-                      <div className="mb-3 col-md-9">
-                        <label className="form-label" htmlFor="inputPassword4">Skills</label>
-                        <input type="text" className="form-control" id="inputPassword4" placeholder="Add skills" />
-                      </div>
-                      {/* <div class="mb-3"> */}
-                      <span className="peer">
-                        <span className="badge rounded-pill  bg-info lh-0 p-10">PM</span>
-                        <span className="badge rounded-pill  bg-info lh-0 p-10">BPMN</span>
-                        <span className="badge rounded-pill  bgc-pink-500 lh-0 p-10">Scrum Master</span>
-                      </span>
-                      {/* </div> */}
-                    </div><br />
-                    <div className="row">
-                      <div className="col-md-9">
-                        <h6 className="form-label" style={{float: 'left'}}>Documents</h6>
-                      </div>
-                      <div className="mb-3 ">
-                        <button type="submit" style={{float: 'right', marginRight: '34%'}} className="btn btn-primary btn-color">Add document</button> 
-                        <div style={{float: 'left', marginLeft: '10px'}}>
-                          {/* <input type="checkbox" checked id="inputCall2" name="inputCheckboxesCall" class="peer"> */}
-                          <a>
-                            <label htmlFor="inputCall2" className="form-label peers peer-greed js-sb ai-c">
-                              <i className="ti-files" /><span className="peer peer-greed" style={{marginLeft: '5px'}}>   CV</span>
-                            </label>
-                          </a>
-                        </div><br />
-                        <div style={{float: 'left', marginLeft: '10px'}}>
-                          {/* <input type="checkbox" checked id="inputCall2" name="inputCheckboxesCall" class="peer"> */}
-                          <a ><label htmlFor="inputCall2" className="form-label peers peer-greed js-sb ai-c">
-                              <i className="ti-files" /><span className="peer peer-greed" style={{marginLeft: '5px'}}>  Degree</span>
-                            </label></a>
-                        </div><br />
-                        <div style={{float: 'left', marginLeft: '10px'}}>
-                          {/* <input type="checkbox" checked id="inputCall2" name="inputCheckboxesCall" class="peer"> */}
-                          <a ><label htmlFor="inputCall2" className="form-label peers peer-greed js-sb ai-c">
-                              <i className="ti-files" /><span className="peer peer-greed" style={{marginLeft: '5px'}}>   Masters</span>
-                            </label></a>
+                      <div className="col-md-5">
+                        <div className="bgc-white p-20 bd">
+                          <h6 className="c-grey-900">Skills &amp; Qualifications</h6>
+                          <div className="mT-30">
+                            <form>
+                              <div className="row">
+                                <div className="mb-3 col-md-4">
+                                  <label className="form-label" htmlFor="inputZip">Skill level</label>
+                                  <select id="inputState" className="form-control">
+                                    <option selected>Senior</option>
+                                    <option>...</option>
+                                  </select>
+                                </div> <br />
+                                <div className="mb-3 col-md-9">
+                                  <label className="form-label" htmlFor="education">Education</label>
+                                  <input type="text" className="form-control" id="education" defaultValue={userDetails.education}/>
+                                </div>
+                                <div className="mb-3">
+                                  <div className="checkbox checkbox-circle checkbox-info peers ai-c" style={{float: 'left'}}>
+                                    <input type="checkbox" defaultChecked id="inputCall2" name="inputCheckboxesCall" className="peer" />
+                                    <label htmlFor="inputCall2" className="form-label peers peer-greed js-sb ai-c">
+                                      <span className="peer peer-greed">Degree</span>
+                                    </label><br />
+                                    <select id="inputState" className="form-control">
+                                      <option selected>University of Nairobi</option>
+                                      <option>...</option>
+                                    </select><br />
+                                  </div>
+                                  <div className="checkbox checkbox-circle checkbox-info peers ai-c" style={{float: 'left', marginLeft: '10px'}}>
+                                    <input type="checkbox" defaultChecked id="inputCall2" name="inputCheckboxesCall" className="peer" />
+                                    <label htmlFor="inputCall2" className="form-label peers peer-greed js-sb ai-c">
+                                      <span className="peer peer-greed">Masters </span>
+                                    </label>
+                                    <select id="inputState" className="form-control">
+                                      <option selected>University of New South Wales</option>
+                                      <option>...</option>
+                                    </select><br />
+                                  </div>
+                                </div>
+                              </div>
+                              <br />
+                              <div className="row">
+                                <div className="mb-3 col-md-9">
+                                  <label className="form-label" htmlFor="inputPassword4">Languages</label>
+                                  <input type="text" className="form-control" id="inputPassword4" placeholder="Add language" />
+                                </div>
+                                <div className="mb-3">
+                                  <div className="checkbox checkbox-circle checkbox-info peers ai-c" style={{float: 'left'}}>
+                                    <input type="checkbox" defaultChecked id="inputCall2" name="inputCheckboxesCall" className="peer" />
+                                    <label htmlFor="inputCall2" className="form-label peers peer-greed js-sb ai-c">
+                                      <span className="peer peer-greed">English</span>
+                                    </label>
+                                  </div>
+                                  <div className="checkbox checkbox-circle checkbox-info peers ai-c" style={{float: 'left', marginLeft: '10px'}}>
+                                    <input type="checkbox" defaultChecked id="inputCall2" name="inputCheckboxesCall" className="peer" />
+                                    <label htmlFor="inputCall2" className="form-label peers peer-greed js-sb ai-c">
+                                      <span className="peer peer-greed">Swahili </span>
+                                    </label>
+                                  </div>
+                                </div>
+                              </div>
+                              <br />
+                              <div className="row">
+                                <div className="mb-3 col-md-9">
+                                  <label className="form-label" htmlFor="inputPassword4">Skills</label>
+                                  <input type="text" className="form-control" id="inputPassword4" placeholder="Add skills" />
+                                </div>
+                                {/* <div class="mb-3"> */}
+                                <span className="peer">
+                                  <span className="badge rounded-pill  bg-info lh-0 p-10">PM</span>
+                                  <span className="badge rounded-pill  bg-info lh-0 p-10">BPMN</span>
+                                  <span className="badge rounded-pill  bgc-pink-500 lh-0 p-10">Scrum Master</span>
+                                </span>
+                                {/* </div> */}
+                              </div><br />
+                              <div className="row">
+                                <div className="col-md-9">
+                                  <h6 className="form-label" style={{float: 'left'}}>Documents</h6>
+                                </div>
+                                <div className="mb-3 ">
+                                  <button type="submit" style={{float: 'right', marginRight: '34%'}} className="btn btn-primary btn-color">Add document</button> 
+                                  <div style={{float: 'left', marginLeft: '10px'}}>
+                                    {/* <input type="checkbox" checked id="inputCall2" name="inputCheckboxesCall" class="peer"> */}
+                                    <a>
+                                      <label htmlFor="inputCall2" className="form-label peers peer-greed js-sb ai-c">
+                                        <i className="ti-files" /><span className="peer peer-greed" style={{marginLeft: '5px'}}>   CV</span>
+                                      </label>
+                                      <input type="file" id="cv" name="cv" onChange={saveCV} />
+                                    </a>
+                                  </div><br />
+                                  <div style={{float: 'left', marginLeft: '10px'}}>
+                                    {/* <input type="checkbox" checked id="inputCall2" name="inputCheckboxesCall" class="peer"> */}
+                                    <a ><label htmlFor="inputCall2" className="form-label peers peer-greed js-sb ai-c">
+                                        <i className="ti-files" /><span className="peer peer-greed" style={{marginLeft: '5px'}}>  Degree</span>
+                                      </label></a>
+                                  </div><br />
+                                  <div style={{float: 'left', marginLeft: '10px'}}>
+                                    {/* <input type="checkbox" checked id="inputCall2" name="inputCheckboxesCall" class="peer"> */}
+                                    <a ><label htmlFor="inputCall2" className="form-label peers peer-greed js-sb ai-c">
+                                        <i className="ti-files" /><span className="peer peer-greed" style={{marginLeft: '5px'}}>   Masters</span>
+                                      </label></a>
+                                  </div>
+                                </div>
+                              </div><br />
+                              {/* <br/>
+                                <button type="submit" class="btn btn-primary btn-color">Update</button> */}
+                            </form>
+                          </div>
                         </div>
                       </div>
-                    </div><br />
-                    {/* <br/>
-                      <button type="submit" class="btn btn-primary btn-color">Update</button> */}
-                  </form>
-                </div>
-              </div>
-            </div>
-            {/*                  
-            </div> */}
-            {/* </div> */}
+                  </>
           </div>
           <div className="row">
             <div className="col-md-6 mt-2">

@@ -13,7 +13,8 @@ export interface IPersonnel{
     city : string,
     province: string,
     country : string,
-    position:string
+    position:string,
+    education:string
 }
 
 export interface IPersonnelRequestModel extends IPersonnel{

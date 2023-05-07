@@ -2,10 +2,12 @@
 import { IPersonnelResponseModel } from 'src/interfaces/personnel';
 import { IUserRequestModel, IUserResponseModel } from '../interfaces/user';
 import { Api } from '../lib/restapi/endpoints';
+import {useNavigate} from "react-router-dom"
 
 import React, { useState, useEffect } from 'react';
 
 function Personnel() {
+  const navigate = useNavigate();
   async function AddPersonnel(){
     var payload = {id:"0",userid:"0"} as IUserRequestModel;
      const data = await Api.POST_CreatePersonnel(payload);
@@ -22,6 +24,13 @@ function Personnel() {
       useEffect(() => {
         ListAllPersonnel();
       }, [])
+
+      const handleSelect = (user: IPersonnelResponseModel) => {
+    
+        navigate('/personnel-detail', {
+          state: user
+        });
+      };
 
   const [personnel, setPersonnel] = useState<IPersonnelResponseModel[]>([]);
   console.log("Personnel",personnel)
@@ -274,9 +283,10 @@ function Personnel() {
                     </tr>
                   </tfoot>
                   <tbody>
-                    {personnel.length>0 && personnel.map(person => 
 
-                        <tr>
+                    {personnel.length>0 && personnel.map(person => 
+                       
+                        <tr onClick={()=>{handleSelect(person)}}>
                         <td><a>{person.data.user?.name} {person.data.user?.surname}</a></td>
                         <td>{person.data.position}</td>
                         <td>{person.data.skillLevel}</td>
@@ -285,6 +295,7 @@ function Personnel() {
                         <td>n/a</td>
                         <td>{person.data.rate} /hour</td>
                         </tr>
+                    
                     )}
                    
                  
