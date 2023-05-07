@@ -12,6 +12,10 @@ module.exports = (env, argv) => {
   return {
     entry: "./src/index.ts",
     mode: process.env.NODE_ENV || "development",
+    output: {
+      filename: '[name].[contenthash].js',
+      publicPath: '/container/latest/',
+    },
     devServer: {
       port: 3000,
       open: true,
