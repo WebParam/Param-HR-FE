@@ -17,7 +17,7 @@ export const ContainerApp = () => {
       flexDirection="column"
     >
       <Box color="#fff" position="fixed" right="0" top="0" mr="2rem" mt="2rem">
-        Container
+       
       </Box>
     </Center>
   );

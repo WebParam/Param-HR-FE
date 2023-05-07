@@ -14,7 +14,7 @@ module.exports = (env, argv) => {
     mode: process.env.NODE_ENV || "development",
     output: {
       filename: '[name].[contenthash].js',
-      publicPath: '/container/latest/',
+      // publicPath: '/container/latest/',
     },
     devServer: {
       port: 3000,

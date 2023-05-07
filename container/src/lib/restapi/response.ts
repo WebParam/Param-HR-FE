@@ -5,7 +5,7 @@ const className="troob.api.lib.api.response"
 export interface IResponseObject<T> {
   error: boolean;
   message?: string;
-  result?: T;
+  data?: T;
 }
 
 
