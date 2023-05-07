@@ -82,30 +82,30 @@ const saveCV=(e:any)=>{
                             </div>
                           </div>
                           <div className="col-md-8">
-                            <h6 className="c-grey-900">{userDetails?.position}</h6>
+                            <h6 className="c-grey-900">{userDetails?.position??""}</h6>
                           </div>
                           <div className="mT-30">
                             <form>
                               <div className="row">
                                 <div className="mb-3 col-md-6">
                                   <label className="form-label" htmlFor="name">Name</label>
-                                  <input type="text" defaultValue={userDetails.user.name} className="form-control" id="name" />
+                                  <input type="text" defaultValue={userDetails?.user?.name??""} className="form-control" id="name" />
                                 </div>
                                 <div className="mb-3 col-md-6">
                                   <label className="form-label" htmlFor="surname">Surname</label>
-                                  <input type="text" defaultValue={userDetails.user.surname} className="form-control" id="surname"  />
+                                  <input type="text" defaultValue={userDetails?.user?.surname??""} className="form-control" id="surname"  />
                                 </div>
                                 <div className="mb-3 col-md-6">
                                   <label className="form-label" htmlFor="nickname">Nickname</label>
-                                  <input type="text" defaultValue={userDetails.nickname} className="form-control" id="nickname" />
+                                  <input type="text" defaultValue={userDetails?.nickname??""} className="form-control" id="nickname" />
                                 </div>
                                 <div className="mb-3 col-md-6">
                                   <label className="form-label" htmlFor="email">Email</label>
-                                  <input type="email" defaultValue={userDetails.user.email} className="form-control" id="email" />
+                                  <input type="email" defaultValue={userDetails?.user?.email??""} className="form-control" id="email" />
                                 </div>
                                 <div className="mb-3 col-md-6">
                                   <label className="form-label" htmlFor="rate">Rate</label>
-                                  <input type="text" defaultValue={userDetails.rate} className="form-control" id="rate"  />
+                                  <input type="text" defaultValue={userDetails?.rate??""} className="form-control" id="rate"  />
                                 </div>
                                 <div className="mb-3 col-md-4">
                                   <label className="form-label" htmlFor="skill">Skill level</label>
@@ -117,16 +117,16 @@ const saveCV=(e:any)=>{
                               </div>
                               <div className="mb-3">
                                 <label className="form-label" htmlFor="workAddress">Work Address</label>
-                                <input type="text" className="form-control" defaultValue={userDetails.workAddress} id="workAddress" />
+                                <input type="text" className="form-control" defaultValue={userDetails?.workAddress??""} id="workAddress" />
                               </div>
                               <div className="mb-3">
                                 <label className="form-label" htmlFor="homeAddress">Home Address</label>
-                                <input type="text" className="form-control" defaultValue={userDetails.homeAddress} id="homeAddress" />
+                                <input type="text" className="form-control" defaultValue={userDetails?.homeAddress??""} id="homeAddress" />
                               </div>
                               <div className="row">
                                 <div className="mb-3 col-md-4">
                                   <label className="form-label" htmlFor="city">City</label>
-                                  <input type="text" id="city" defaultValue={userDetails.city} className="form-control"  />
+                                  <input type="text" id="city" defaultValue={userDetails?.city??""} className="form-control"  />
                                 </div>
                                 <div className="mb-3 col-md-4">
                                   <label className="form-label" htmlFor="inputState">Province</label>
@@ -151,7 +151,7 @@ const saveCV=(e:any)=>{
                                       <div className="input-group-text bgc-white bd bdwR-0">
                                         <i className="ti-calendar" />
                                       </div>
-                                      <input type="text" className="form-control bdc-grey-200 start-date" defaultValue={userDetails.birthday} data-provide="datepicker" />
+                                      <input type="text" className="form-control bdc-grey-200 start-date" defaultValue={userDetails?.birthday??""} data-provide="datepicker" />
                                     </div>
                                   </div>
                                 </div>
@@ -180,7 +180,7 @@ const saveCV=(e:any)=>{
                                 </div> <br />
                                 <div className="mb-3 col-md-9">
                                   <label className="form-label" htmlFor="education">Education</label>
-                                  <input type="text" className="form-control" id="education" defaultValue={userDetails.education}/>
+                                  <input type="text" className="form-control" id="education" defaultValue={userDetails?.education??""}/>
                                 </div>
                                 <div className="mb-3">
                                   <div className="checkbox checkbox-circle checkbox-info peers ai-c" style={{float: 'left'}}>

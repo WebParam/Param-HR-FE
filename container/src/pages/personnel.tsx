@@ -31,6 +31,13 @@ function Personnel() {
           state: user
         });
       };
+      
+      const handleNew = () => {
+    
+        navigate('/personnel-detail', {
+          state: undefined
+        });
+      };
 
   const [personnel, setPersonnel] = useState<IPersonnelResponseModel[]>([]);
   console.log("Personnel",personnel)
@@ -56,7 +63,9 @@ function Personnel() {
                   </div>
                   <input type="text" className="form-control bdc-grey-200 start-date" placeholder="Available end date" data-provide="datepicker" />
                 </div>     
-                <button onClick={()=>AddPersonnel()} >Add Personnel</button> <button onClick={()=>AddPersonnel()} >Add Personnel</button>
+                <button onClick={handleNew} >Add Personnel</button> <button 
+                // onClick={()=>AddPersonnel()}
+                 >Add Personnel</button>
                 <button onClick={()=>ListAllPersonnel()} >List all Personnel</button> <button onClick={()=>ListAllPersonnel()} >List Personnel</button>
                 
                 <div className="input-group" style={{width: '10%', float: 'left', marginTop: '10px', marginLeft: '15px'}}>
