@@ -62,7 +62,7 @@ const createFormFile=()=>{
 const saveCV=(e:any)=>{
  
     setCV(e.target.files[0]);
-   
+   console.log(cv);
   }
 
 
