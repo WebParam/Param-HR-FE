@@ -1,5 +1,5 @@
-import React from "react";
-import { Routes, Route } from "react-router-dom";
+import React, { useState } from "react";
+import { Route, Routes } from "react-router-dom";
 import { ContainerApp } from "./components/ContainerApp";
 import Sidebar from "./components/sidebar";
 import './App.css';
@@ -7,18 +7,25 @@ import '../src/styles/index.scss';
 import Dashboard from "./pages/dashboard";
 import Personnel from "./pages/personnel";
 import PersonnelDetail from "./pages/personnel-detail";
+import Login from "./pages/login";
+import Cookies from 'universal-cookie';
+
+const cookies = new Cookies();
+const isLoggedIn = cookies.get('param-hr-user') ;
+console.log("in", isLoggedIn);
 
 const App = () => (
+  
   <>
   <div className="App">
     <div>
       {/* <!-- #Left Sidebar ========================= --> */}
-      <Sidebar/>
+     {isLoggedIn && <Sidebar/>}
 
       {/* <!-- #Main ============================ --> */}
       <div className="page-container">
         {/* <!-- ### $Topbar ### --> */}
-        <div className="header navbar">
+        {isLoggedIn &&     <div className="header navbar">
           <div className="header-container">
             <ul className="nav-left">
               <li>
@@ -238,6 +245,7 @@ const App = () => (
             </ul>
           </div>
         </div>
+        }
 
         {/* <!-- ### $App Screen Content ### --> */}
         <main className='main-content bgc-grey-100'>
@@ -245,7 +253,7 @@ const App = () => (
       <Route
         path="/"
         element={
-          <Dashboard
+          <Login
           />
         }
       />
@@ -260,6 +268,13 @@ const App = () => (
         path="personnel-detail"
         element={
           <PersonnelDetail
+          />
+        }
+      />
+          <Route
+        path="dashboard"
+        element={
+          <Dashboard
           />
         }
       />

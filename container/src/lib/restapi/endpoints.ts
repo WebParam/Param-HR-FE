@@ -1,5 +1,5 @@
 import { GET, POST } from "./client";
-import { IUserRequestModel, IUserResponseModel } from "../../interfaces/user";
+import { IUserLoginModel, IUserRegisterModel, IUserRequestModel, IUserResponseModel } from "../../interfaces/user";
 import { IResponseObject } from "./response";
 import { IPersonnelResponseModel } from "src/interfaces/personnel";
 
@@ -21,5 +21,19 @@ export const Api = {
   ): Promise<IResponseObject<IUserResponseModel>> => {
     const response = await POST(`${url}/Personnel/GetAllPersonnel`, payload);
     return response;
+  },
+
+  POST_Login: async (
+    payload: IUserLoginModel
+  ): Promise<IResponseObject<IUserResponseModel>> => {
+    const response = await POST(`${url}/Users/Login`, payload);
+    return response;
+  },
+  POST_Register: async (
+    payload: IUserRegisterModel
+  ): Promise<IResponseObject<IUserResponseModel>> => {
+    const response = await POST(`${url}/Users/AddUser`, payload);
+    return response;
   }
+
 };

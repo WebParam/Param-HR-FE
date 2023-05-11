@@ -4,12 +4,13 @@ import { Link } from 'react-router-dom';
 function Sidebar() {
   return (
     <div className="sidebar">
-        <div className="sidebar-inner">
+        <div className="sidebar-inner" style={{textAlign:"left"}}>
       {/* <!-- ### $Sidebar Header ### --> */}
       <div className="sidebar-logo">
         <div className="peers ai-c fxw-nw">
           <div className="peer peer-greed">
-            <a className="sidebar-link td-n" href="super-admin.html">
+            {/* <a className="sidebar-link td-n" href="super-admin.html"> */}
+            <Link className="sidebar-link td-n" to="dashboard">
               <div className="peers ai-c fxw-nw">
                 <div className="peer">
                   <div className="logo">
@@ -20,7 +21,7 @@ function Sidebar() {
                   <h5 className="lh-1 mB-0 logo-text">Myca HR </h5>
                 </div>
               </div>
-            </a>
+            </Link>
           </div>
           <div className="peer">
             <div className="mobile-toggle sidebar-toggle">
@@ -35,12 +36,13 @@ function Sidebar() {
       {/* <!-- ### $Sidebar Menu ### --> */}
       <ul className="sidebar-menu scrollable pos-r">
         <li className="nav-item mT-30 actived">
-          <a className="sidebar-link" href="super-admin.html">
+          {/* <a className="sidebar-link" href="super-admin.html"> */}
+          <Link className="sidebar-link" to="dashboard">
             <span className="icon-holder">
               <i className="c-blue-500 ti-home"></i>
             </span>
             <span className="title">Home</span>
-          </a>
+          </Link>
         </li>
         <li className="nav-item dropdown">
         <Link className="dropdown-toggle" to="personnel">

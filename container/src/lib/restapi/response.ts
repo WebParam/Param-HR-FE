@@ -6,6 +6,7 @@ export interface IResponseObject<T> {
   error: boolean;
   message?: string;
   data?: T;
+  status:number
 }
 
 

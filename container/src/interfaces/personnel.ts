@@ -15,6 +15,10 @@ export interface IPersonnel{
     country : string,
     position:string,
     education:string
+    masters:string,
+    languages:string,
+    skills:string,
+    competencies:string
 }
 
 export interface IPersonnelRequestModel extends IPersonnel{
@@ -24,5 +28,6 @@ export interface IPersonnelRequestModel extends IPersonnel{
 
 export interface IPersonnelResponseModel extends IPersonnel{
     data:IPersonnel,
+    cv:string,
     message?:string
 }

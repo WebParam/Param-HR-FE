@@ -7,7 +7,90 @@ import {useNavigate} from "react-router-dom"
 import React, { useState, useEffect } from 'react';
 
 function Personnel() {
+
+
+  const [filteredPersonnel, setFilteredPersonnel] = useState<IPersonnelResponseModel[]>([]);
+  const [skillsDropdown, toggleSkillsDropdown] = useState<boolean>(false);
+  const [experienceDropdown, toggleExperienceDropdown] = useState<boolean>(false);
+  const [companyDropdown, toggleCompanyDropdown] = useState<boolean>(false);
+  const [positionDropdown, togglePositionDropdown] = useState<boolean>(false);
+  const [statusDropdown, toggleStatusDropdown] = useState<boolean>(false);
+
+  function clearOtherDropdowns(){
+    toggleSkillsDropdown(false);
+    toggleExperienceDropdown(false);
+    toggleCompanyDropdown(false);
+    togglePositionDropdown(false);
+    toggleStatusDropdown(false);
+  }
+
+  const [skillsFilter, setSkillsFilter] = useState<string>("");
+  const [experienceFilter, setExperienceFilter] = useState<string>("");
+  const [companyFilter, setCompanyFilter] = useState<string>("");
+  const [positionFilter, setPositionFilter] = useState<string>("");
+  const [statusFilter, setStatusFilter] = useState<string>("");
+  const [minPriceFilter, setMinPriceFilter] = useState<string>("");
+  const [maxPriceFilter, setMaxPriceFilter] = useState<string>("");
+  const [startDateFilter, setStartDateFilter] = useState<string>("");
+  const [endDateFilter, setEndDateFilter] = useState<string>("");
+
+
+function filter(){
+  personnel.filter((person) => {
+    if(skillsFilter!=""){
+      if(person.competencies?.includes(skillsFilter)){
+        return true;
+      }
+    }
+    if(experienceFilter!=""){
+      if(person.skills?.includes(experienceFilter)){
+        return true;
+      }
+    }
+    // if(companyFilter!=""){
+    //   if(person.company?.includes(companyFilter)){
+    //     return true;
+    //   }
+    // }
+    if(positionFilter!=""){
+      if(person.position?.includes(positionFilter)){
+        return true;
+      }
+    }
+    // if(statusFilter!=""){
+    //   if(person.status?.includes(statusFilter)){
+    //     return true;
+    //   }
+    // }
+    // if(minPriceFilter!=""){
+    //   if(person.rate?.includes(minPriceFilter)){
+    //     return true;
+    //   }
+    // }
+    // if(maxPriceFilter!=""){
+    //   if(person.maxPrice?.includes(maxPriceFilter)){
+    //     return true;
+    //   }
+    // }
+    // if(startDateFilter!=""){
+    //   if(person.startDate?.includes(startDateFilter)){
+    //     return true;
+    //   }
+    // }
+    // if(endDateFilter!=""){
+    //   if(person.endDate?.includes(endDateFilter)){
+    //     return true;
+    //   }
+    // }
+    return false;
+
+
+  })
+
+}
+  
   const navigate = useNavigate();
+
   async function AddPersonnel(){
     var payload = {id:"0",userid:"0"} as IUserRequestModel;
      const data = await Api.POST_CreatePersonnel(payload);
@@ -18,7 +101,7 @@ function Personnel() {
        const data = await Api.GET_AllPersonnel();
        console.log("Response",data)
        setPersonnel(data.data??[]);
-
+      setFilteredPersonnel(data.data??[]);
       }
 
       useEffect(() => {
@@ -26,7 +109,7 @@ function Personnel() {
       }, [])
 
       const handleSelect = (user: IPersonnelResponseModel) => {
-    
+    console.log("User",user)
         navigate('/personnel-detail', {
           state: user
         });
@@ -42,6 +125,8 @@ function Personnel() {
   const [personnel, setPersonnel] = useState<IPersonnelResponseModel[]>([]);
   console.log("Personnel",personnel)
 
+
+
   return (
    <>
       <div id="mainContent">
@@ -51,34 +136,30 @@ function Personnel() {
             <div className="col-md-12">
               <div className="bgc-white bd bdrs-3 p-20 mB-20">
                 <h4 className="c-grey-900 mB-20">All personnel</h4>
-                <div className="input-group" style={{width: '20%', float: 'left', marginTop: '10px'}}>
+                <div className="input-group" style={{width: '15%', float: 'left', marginTop: '10px'}}>
                   <div className="input-group-text bgc-white bd bdwR-0">
                     <i className="ti-calendar" />
                   </div>
-                  <input type="text" className="form-control bdc-grey-200 start-date" placeholder="Available start date" data-provide="datepicker" />
+                  <input type="date" className="form-control bdc-grey-200 start-date" placeholder="Available start date" data-provide="datepicker" />
                 </div>
-                <div className="input-group" style={{width: '20%', float: 'left', marginTop: '10px', marginLeft: '5px'}}>
+                <div className="input-group" style={{width: '15%', float: 'left', marginTop: '10px', marginLeft: '5px'}}>
                   <div className="input-group-text bgc-white bd bdwR-0">
                     <i className="ti-calendar" />
                   </div>
-                  <input type="text" className="form-control bdc-grey-200 start-date" placeholder="Available end date" data-provide="datepicker" />
+                  <input type="date" className="form-control bdc-grey-200 start-date" placeholder="Available end date" data-provide="datepicker" />
                 </div>     
-                <button onClick={handleNew} >Add Personnel</button> <button 
-                // onClick={()=>AddPersonnel()}
-                 >Add Personnel</button>
-                <button onClick={()=>ListAllPersonnel()} >List all Personnel</button> <button onClick={()=>ListAllPersonnel()} >List Personnel</button>
                 
                 <div className="input-group" style={{width: '10%', float: 'left', marginTop: '10px', marginLeft: '15px'}}>
-                  <input type="text" className="form-control" placeholder="Minimum price" id="inputZip" />
+                  <input type="text" className="form-control" placeholder="Minimum price" id="minPrice" />
                 </div>
                 <div className="input-group" style={{width: '10%', float: 'left', marginTop: '10px', marginLeft: '5px'}}>
-                  <input type="text" className="form-control" placeholder="Maximum price" id="inputZip" />
+                  <input type="text" className="form-control" placeholder="Maximum price" id="maxPrice" />
                 </div>
                 <div className="dropdown" style={{float: 'left', margin: '10px', marginLeft: '5%'}}>
-                  <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <button onClick={()=>{clearOtherDropdowns(); toggleSkillsDropdown(!skillsDropdown)}} className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Skills
                   </button>
-                  <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                  <div style={{display:skillsDropdown==true?"block":"none"}} className="dropdown-menu" aria-labelledby="dropdownMenuButton">
                     <a className="dropdown-item" href="#">C#</a>
                     <a className="dropdown-item" href="#">Java</a>
                     <a className="dropdown-item" href="#">JS</a>
@@ -87,10 +168,10 @@ function Personnel() {
                   </div>
                 </div>
                 <div className="dropdown" style={{float: 'left', margin: '10px'}}>
-                  <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <button onClick={()=>{clearOtherDropdowns(); toggleCompanyDropdown(!companyDropdown)}}  className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Company
                   </button>
-                  <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                  <div  style={{display:companyDropdown==true?"block":"none"}} className="dropdown-menu" aria-labelledby="dropdownMenuButton">
                     <a className="dropdown-item" href="#">Param Solutions</a>
                     <a className="dropdown-item" href="#">Kwela</a>
                     <a className="dropdown-item" href="#">DDS</a>
@@ -100,10 +181,10 @@ function Personnel() {
                   </div>
                 </div>
                 <div className="dropdown" style={{float: 'left', margin: '10px'}}>
-                  <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <button onClick={()=>{clearOtherDropdowns(); togglePositionDropdown(!positionDropdown)}} className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Position
                   </button>
-                  <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                  <div  style={{display:positionDropdown==true?"block":"none"}} className="dropdown-menu" aria-labelledby="dropdownMenuButton">
                     <a className="dropdown-item" href="#">Engineer</a>
                     <a className="dropdown-item" href="#">Product Manager</a>
                     <a className="dropdown-item" href="#">Business Analyst</a>
@@ -112,10 +193,10 @@ function Personnel() {
                   </div>
                 </div>
                 <div className="dropdown" style={{float: 'left', margin: '10px'}}>
-                  <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <button onClick={()=>{clearOtherDropdowns(); toggleExperienceDropdown(!experienceDropdown)}} className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Experience
                   </button>
-                  <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                  <div  style={{display:experienceDropdown==true?"block":"none"}} className="dropdown-menu" aria-labelledby="dropdownMenuButton">
                     <a className="dropdown-item" href="#">Junior</a>
                     <a className="dropdown-item" href="#">Senior</a>
                     <a className="dropdown-item" href="#">Team lead</a>
@@ -123,10 +204,10 @@ function Personnel() {
                   </div>
                 </div>
                 <div className="dropdown" style={{float: 'left', margin: '10px'}}>
-                  <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <button onClick={()=>{clearOtherDropdowns(); toggleStatusDropdown(!statusDropdown)}} className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Status
                   </button>
-                  <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                  <div style={{display:statusDropdown==true?"block":"none"}} className="dropdown-menu" aria-labelledby="dropdownMenuButton">
                     <a className="dropdown-item" href="#">Bench</a>
                     <a className="dropdown-item" href="#">Allocated</a>
                   </div>
