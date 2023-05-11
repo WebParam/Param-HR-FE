@@ -11,14 +11,19 @@ export interface IPersonnel{
     workAddress : string,
     homeAddress : string,
     city : string,
-    province: string,
     country : string,
     position:string,
-    education:string
-    masters:string,
+    education:string,
     languages:string,
     skills:string,
-    competencies:string
+    competencies:string,
+    proffession:string,
+    timezone:string,
+    mastersInstitution:string,
+    degreeInstitution:string,
+    degreeType:string,
+    mastersType:string
+
 }
 
 export interface IPersonnelRequestModel extends IPersonnel{

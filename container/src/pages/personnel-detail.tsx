@@ -4,7 +4,7 @@ import { useLocation } from "react-router-dom";
 import { IPersonnel, IPersonnelResponseModel } from 'src/interfaces/personnel';
 const axios = require("axios").default;
 
-
+import Select from 'react-select';
 import Cookies from 'universal-cookie';
 
 export default function PersonnelDetail() {
@@ -14,43 +14,45 @@ export default function PersonnelDetail() {
   const [name, setName] = useState<string>("");
   const [surname, setSurname] = useState<string>("");
   const [nickname, setNickname] = useState<string>("");
-  const [birthday, setBirthday] = useState<string>("12/12/2023");
-  const [rate, setRate] = useState<string>("500");
-  const [skillLevel, setSkillLevel] = useState<string>("test");  
+  const [birthday, setBirthday] = useState<string>("");
+  const [rate, setRate] = useState<string>("");
+  const [skillLevel, setSkillLevel] = useState<string>("0");  
   const [email, setEmail] = useState<string>("");
   const [workAddress, setWorkaddress] = useState<string>("");
   const [homeAddress, setHomeAddress] = useState<string>("");
   const [city, setCity] = useState<string>("");
-  const [province, setProvinces] = useState<string>("test");
-  const [country, setCountry] = useState<string>("test");  
-  const [position, setPosition] = useState<string>("twest");
-  const [masters, setMasters] = useState<string>("0");
-  const [degreeDiploma, setDegreeDiploma] = useState<string>("0");
+  const [timezone, setTimezone] = useState<string>("");
+  const [country, setCountry] = useState<string>("");  
   const [languages, setLanguage] = useState<string>("");
-  // const [languagesArray, setLanguagesArray] = useState<string[]>([]);
-  const [education, setEducation] = useState<string>("");
-  const [contacts, setContacts] = useState<string>("test");
+  const [contacts, setContacts] = useState<string>("");
   const [id, setId] = useState<string>(""); 
   const [competencies, setCompetencies] = useState<string>("");
   const [skills, setSkills] = useState<string>("");
   const [userId, setUserId] = useState<string>("");
-  const [cvUrl, setcvUrl] = useState<string>("");
-  const [degreeUrl, setDegreeUrl] = useState<string>("");
-  const [mastersUrl, setMastersUrl] = useState<string>("");
-  const [cv, setCV] = useState<Blob|undefined>();
+  const [proffession, setProfession] = useState<string>("");  
+  const [hasDegree, setHasDegree] = useState<boolean>(false);  
   const [degree, setDegree] = useState<Blob|undefined>();
-  const [personnel, setPersonnel] = useState<IPersonnelResponseModel|undefined>(undefined);
+  const [degreeUrl, setDegreeUrl] = useState<string>("");
+  const [degreeType, setDegreeType] = useState<string>("0");
+  const [degreeInstitution, setDegreeInstitution] = useState<string>("");
 
-  
-  const [hasDegree, setHasDegree] = useState<boolean>();  
-  const [hasMasters, setHasMasters] = useState<boolean>();
+  const [hasMasters, setHasMasters] = useState<boolean>(false);
+  const [masters, setMasters] = useState<Blob|undefined>();
+  const [mastersType, setMastersType] = useState<string>("0");
+  const [mastersUrl, setMastersUrl] = useState<string>("");
+  const [mastersInstitution, setMastersInstitution] = useState<string>("");
 
-const allUserDetails = location.state as IPersonnelResponseModel??undefined;
-const userDetails = location.state?.data as IPersonnel??undefined;
 
-const cookies = new Cookies();
-const loggedInUser = cookies.get('param-hr-user');
-const _loggedInUserId = loggedInUser?.data.data.id;
+  const [cv, setCV] = useState<Blob|undefined>();
+  const [cvUrl, setcvUrl] = useState<string>("");
+
+  const allUserDetails = location.state as IPersonnelResponseModel??undefined;
+  const userDetails = location.state?.data as IPersonnel??undefined;
+
+  const cookies = new Cookies();
+  const loggedInUser = cookies.get('param-hr-user');
+  const _loggedInUserId = loggedInUser?.data.id;
+
 
 
 
@@ -68,25 +70,31 @@ const createFormFiles=()=>{
   formData.append("workAddress", workAddress!=""?workAddress:userDetails?.workAddress);
   formData.append("homeAddress", homeAddress!=""?homeAddress:userDetails?.homeAddress);
   formData.append("city", city!=""?city:userDetails?.city);
-  formData.append("province", province!=""?province:userDetails?.province);
+  formData.append("timezone", timezone!=""?timezone:userDetails?.timezone);
   formData.append("country", country!=""?country:userDetails?.country);
-  formData.append("position", position!=""?position:userDetails?.position);
-  formData.append("education", education!=""?position:userDetails?.education);
-  formData.append("email", email!=""?position:userDetails?.user.email);
-  formData.append("contacts", contacts!=""?position:userDetails?.user.contacts);
+  formData.append("proffession", proffession!=""?proffession:userDetails?.proffession);
+  formData.append("email", email!=""?email:userDetails?.user.email);
+  formData.append("timezone", timezone!=""?proffession:userDetails?.timezone);      
+  formData.append("contacts", contacts!=""?contacts:userDetails?.user.contacts);
+
 //  
-  formData.append("masters", masters!=""?masters:userDetails?.masters);
+  formData.append("degreeInstitution", degreeInstitution!=""?degreeInstitution:userDetails?.degreeInstitution);
+  formData.append("degreeType", degreeType!=""?degreeType:userDetails?.degreeType);
+  formData.append("mastersInstitution", mastersInstitution!=""?mastersInstitution:userDetails?.mastersInstitution);
+  formData.append("mastersType", mastersType!=""?mastersType:userDetails?.mastersType);
+
   formData.append("languages", languages!=""?languages:userDetails?.languages);
+
   formData.append("skills", skills!=""?skills:userDetails?.skills);
   formData.append("competencies", competencies!=""?competencies:userDetails?.competencies);
 
 
 
   if(cv) formData.append("cv", cv as Blob);
-  if(degree) formData.append("degree", degree as Blob);
+  if(degree) formData.append("degree", degree as Blob);  
+  if(masters) formData.append("masters", masters as Blob);
 
-
-
+ 
   const config = {     
       headers: { 'content-type': 'multipart/form-data' }
   }
@@ -97,6 +105,8 @@ const createFormFiles=()=>{
           setId(response.data.data.id);
           setUserId(response.data.data.user.id);
           setcvUrl(response.data.cv)
+          setMastersUrl(response.data.masters);
+          setDegreeUrl(response.data.degree);
           
       })
       .catch((error:any) => {
@@ -105,15 +115,95 @@ const createFormFiles=()=>{
 
   }
 
-
-
   const saveCV=(e:any)=>{
  
     setCV(e.target.files[0]);
    console.log(cv);
   }
 
+  const handleEducationChange = (selectedOptions:any) => {
+    const selectedValuesString = scaffold(selectedOptions);
+    setLanguage(selectedValuesString);
+  };
 
+  const handleCompetenciesChange = (selectedOptions:any) => {
+    const selectedValuesString = scaffold(selectedOptions);
+    setCompetencies(selectedValuesString);
+  };
+
+  const handleSkillsChange = (selectedOptions:any) => {
+    const selectedValuesString = scaffold(selectedOptions);
+    setSkills(selectedValuesString);
+  };
+
+
+  const scaffold = (options:any) => {
+    const values = options?.map((option:any) => option.value);
+    return values.join(',');
+  }
+
+  function getOptionsFromString(optionsString:string, options:ISelectOption[]) {
+    const values = optionsString?.split(',');
+    const selectedOptions = values?.map((value:string) => {
+      return options.find((option:any) => option.value === value);
+    });
+
+    return selectedOptions;
+  
+
+  }
+
+  interface ISelectOption{
+    value:string;
+    label:string;
+  }
+
+    const languageOptions = [
+      { value: 'english', label: 'English' },
+      { value: 'french', label: 'French' },
+      { value: 'swahili', label: 'Swahili' },
+      { value: 'portugese', label: 'Portugese' }
+    ];
+
+    const skillOptions = [
+      { value: 'software', label: 'Software Development' },
+      { value: 'project', label: 'Project Management' },
+      { value: 'testing', label: 'Software Testing' },
+      { value: 'analyst', label: 'Business Analysis' },
+      { value: 'devops', label: 'Devops' },
+      { value: 'architecture', label: 'Software Architecture' }
+    ];
+
+    const competencyOptions = [                                 
+      { value: 'dotnet', label: '.Net' },
+      { value: 'js', label: 'Javascript' },
+      { value: 'python', label: 'Python' },
+      { value: 'cplus', label: 'C/C+' },
+      { value: 'sql', label: 'SQL' },
+      { value: 'react', label: 'React' },
+      { value: 'angular', label: 'Angular' },
+      { value: 'vue', label: 'Vue JS' },
+      { value: 'blockchain', label: 'Blockchain' },
+      { value: 'solidity', label: 'Solidity' },
+      { value: 'ai', label: 'AI/ML' },
+      { value: 'openai', label: 'Open AI' },
+      { value: 'php', label: 'PHP' },
+      { value: 'java', label: 'Java' },
+      { value: 'aws', label: 'AWS' },
+      { value: 'azure', label: 'Azure' },
+      { value: 'docker', label: 'Docker' },
+      { value: 'kubernates', label: 'Kubernates' },
+      { value: 'truffle', label: 'Truffle Suite' },
+      { value: 'git', label: 'Git' },
+      { value: 'go', label: 'Go' },
+      { value: 'powerapp', label: 'Power Apps' },
+      { value: 'salesforce', label: 'Sales Force' },
+      { value: 'sap', label: 'SAP' },
+      { value: 'bpmn', label: 'BPMN' },
+    ]
+
+
+    
   return (
       <div id="mainContent" style={{textAlign:"left"}}>
         <div className="container-fluid">
@@ -123,19 +213,22 @@ const createFormFiles=()=>{
                       
                       <div className="col-md-7">
                         <div className="bgc-white p-20 bd">
-                          <div className="col-md-4">
+                          <div className="col-md-8">  
+                          
+                          <div className="col-md-8" style={{float: "right", marginTop:"2%"}}>
+                          <h4 style={{fontSize:"1.5em"}} className="c-grey-900 mB-20">{userDetails?.user?.name} {userDetails?.user?.surname}</h4>
+                            <h6  className="c-grey-900">{userDetails?.proffession??""}</h6>
+                          </div>
                             <div className="peer ">
                               <img className="w-6r bdrs-50p" src="https://randomuser.me/api/portraits/women/30.jpg" alt="" />
+                              <br/><br/>
                               <input type="file" className="form-control w-6r" id="exampleInputPassword1"/>
                               
                             </div>
                             
                           </div>
                          
-                          <div className="col-md-8">
-                          <h4 style={{fontSize:"1.5em"}} className="c-grey-900 mB-20">{userDetails?.user?.name} {userDetails?.user?.surname}</h4>
-                            <h6  className="c-grey-900">{userDetails?.position??""}</h6>
-                          </div>
+                        
                           <div className="mT-30">
                             <form>
                               <div className="row">
@@ -177,25 +270,24 @@ const createFormFiles=()=>{
                                 
                                 <div className="mb-3 col-md-4">
                                   <label className="form-label" htmlFor="skill">Proffession</label>
-                                  <select id="inputState" className="form-control">
-                                    <option value={0} selected>Please select</option>
-                                    <option value={1}>Business analyst</option>
-                                    <option value={2}>Project manager</option>
-                                    <option value={3}>Software Developer</option>
-                                    <option value={4}>Software Tester</option>
-                                    <option value={5}>Business analyst</option>
-                                    
+                                  <select onChange={(e)=>setProfession(e.target.value)} id="inputState" className="form-control">
+                                    <option selected={userDetails?.proffession=="0"?userDetails.proffession=="0": proffession=="0"} value={"0"} >Please select</option>
+                                    <option selected={userDetails?.proffession=="1"?userDetails.proffession=="1": proffession=="1"} value={"1"}>Business analyst</option>
+                                    <option selected={userDetails?.proffession=="2"?userDetails.proffession=="2": proffession=="2"} value={"2"}>Project manager</option>
+                                    <option selected={userDetails?.proffession=="3"?userDetails.proffession=="3": proffession=="3"} value={"3"}>Software Developer</option>
+                                    <option selected={userDetails?.proffession=="4"?userDetails.proffession=="4": proffession=="4"} value={"4"}>Software Tester</option>
+                                    <option selected={userDetails?.proffession=="5"?userDetails.proffession=="5": proffession=="5"} value={"5"}>Business analyst</option>
                                   </select>
                                 </div>
                                 <div className="mb-3 col-md-4">
                                   <label className="form-label" htmlFor="skill">Skill level</label>
-                                  <select id="inputState" className="form-control">
-                                    <option value={0} selected>Please select</option>
-                                    <option value={1}>Intern</option>
-                                    <option value={1}>Junior</option>
-                                    <option value={1}>Intermediate</option>
-                                    <option value={1}>Senior</option>
-                                    <option value={1}>Lead</option>
+                                  <select onChange={(e)=>setSkillLevel(e.target.value)}  id="inputState" className="form-control">
+                                    <option selected={skillLevel=="0" || userDetails?.skillLevel=="0"} value={"0"}>Please select</option>
+                                    <option selected={skillLevel=="1" || userDetails?.skillLevel=="1"} value={"1"}>Intern</option>
+                                    <option selected={skillLevel=="2" || userDetails?.skillLevel=="2"}  value={"2"}>Junior</option>
+                                    <option selected={skillLevel=="3" || userDetails?.skillLevel=="3"}  value={"3"}>Intermediate</option>
+                                    <option selected={skillLevel=="4" || userDetails?.skillLevel=="4"}  value={"4"}>Senior</option>
+                                    <option selected={skillLevel=="5" || userDetails?.skillLevel=="5"}  value={"5"}>Lead</option>
                                   </select>
                                 </div>
                              
@@ -213,22 +305,48 @@ const createFormFiles=()=>{
                                   <label className="form-label" htmlFor="city">City</label>
                                   <input type="text" id="city"  onChange={(e) => setCity(e.target.value)}  defaultValue={userDetails?.city??""} className="form-control"  />
                                 </div>
+                            
                                 <div className="mb-3 col-md-4">
-                                  <label className="form-label" htmlFor="inputState">Province</label>
-                                  <select id="inputState" className="form-control">
-                                    <option selected>Nairobi</option>
-                                    <option>...</option>
+                                  <label className="form-label" htmlFor="country">Country</label>
+                                  <select  onChange={(e)=>setCountry(e.target.value)}  id="inputState" className="form-control">
+                                    <option value={"0"} selected={country=="0" || userDetails?.country =="0"}>South Africa</option>
+                                    <option selected={country=="1" || userDetails?.country=="1"} value={"1"}>Kenya</option>
+                                    <option selected={country=="2" || userDetails?.country=="2"} value={"2"}>Ghana</option>
+                                    <option selected={country=="3" || userDetails?.country=="2"} value={"3"}>Botswana</option>
+                                    <option selected={country=="4" || userDetails?.country =="4"} value={"4"}>Tanzania</option>
+                                    <option selected={country=="5" || userDetails?.country=="5"} value={"5"}>Other</option>                                    
                                   </select>
                                 </div>
                                 <div className="mb-3 col-md-4">
-                                  <label className="form-label" htmlFor="country">Country</label>
-                                  <select id="inputState" className="form-control">
-                                    <option selected>South Africa</option>
-                                    <option>Kenya</option>
-                                    <option>Ghana</option>
-                                    <option>Botswana</option>
-                                    <option>Tanzania</option>
-                                    <option>Other</option>                                    
+                                  <label className="form-label" htmlFor="inputState">Timezone</label>
+                                  <select  onChange={(e)=>setTimezone(e.target.value)}  id="inputState" className="form-control">
+                                    <option selected={timezone === "0" || userDetails?.timezone=="0"} >Please select</option>
+                                    <option selected={timezone === "GMT-11" || userDetails?.timezone=="GMT-11"} value="GMT-11">Coordinated Universal Time-11 (GMT-11)</option>
+                                    <option selected={timezone === "GMT-10"|| userDetails?.timezone=="GMT-10"} value="GMT-10">Hawaii-Aleutian Standard Time (GMT-10)</option>
+                                    <option selected={timezone === "GMT-9"|| userDetails?.timezone=="GMT-9"} value="GMT-9">Alaska Standard Time (GMT-9)</option>
+                                    <option selected={timezone === "GMT-8"|| userDetails?.timezone=="GMT-8"} value="GMT-8">Pacific Standard Time (GMT-8)</option>
+                                    <option selected={timezone === "GMT-7"|| userDetails?.timezone=="GMT-7"} value="GMT-7">Mountain Standard Time (GMT-7)</option>
+                                    <option selected={timezone === "GMT-6"|| userDetails?.timezone=="GMT-6"} value="GMT-6">Central Standard Time (GMT-6)</option>
+                                    <option selected={timezone === "GMT-5"|| userDetails?.timezone=="GMT-5"} value="GMT-5">Eastern Standard Time (GMT-5)</option>
+                                    <option selected={timezone === "GMT-4"|| userDetails?.timezone=="GMT-4"} value="GMT-4">Atlantic Standard Time (GMT-4)</option>
+                                    <option selected={timezone === "GMT-3"|| userDetails?.timezone=="GMT-3"} value="GMT-3">Greenwich Mean Time-3 (GMT-3)</option>
+                                    <option selected={timezone === "GMT-2"|| userDetails?.timezone=="GMT-2"} value="GMT-2">Coordinated Universal Time-2 (GMT-2)</option>
+                                    <option selected={timezone === "GMT-1"|| userDetails?.timezone=="GMT-1"} value="GMT-1">Central European Time-1 (GMT-1)</option>
+                                    <option selected={timezone === "GMT+0"|| userDetails?.timezone=="GMT+0"} value="GMT+0">Coordinated Universal Time (GMT+0)</option>
+                                    <option selected={timezone === "GMT+1"|| userDetails?.timezone=="GMT+1"} value="GMT+1">Central European Time (GMT+1)</option>
+                                    <option selected={timezone === "GMT+2"|| userDetails?.timezone=="GMT+2"} value="GMT+2">Eastern European Time (GMT+2)</option>
+                                    <option selected={timezone === "GMT+3"|| userDetails?.timezone=="GMT+3"} value="GMT+3">Moscow Standard Time (GMT+3)</option>
+                                    <option selected={timezone === "GMT+4"|| userDetails?.timezone=="GMT+4"} value="GMT+4">Gulf Standard Time (GMT+4)</option>
+                                    <option selected={timezone === "GMT+5"|| userDetails?.timezone=="GMT+5"} value="GMT+5">Pakistan Standard Time (GMT+5)</option>
+                                    <option selected={timezone === "GMT+6"|| userDetails?.timezone=="GMT+6"} value="GMT+6">Bangladesh Standard Time (GMT+6)</option>
+                                    <option selected={timezone === "GMT+7"|| userDetails?.timezone=="GMT+7"} value="GMT+7">Indochina Time (GMT+7)</option>
+                                    <option selected={timezone === "GMT+8"|| userDetails?.timezone=="GMT+8"} value="GMT+8">China Standard Time (GMT+8)</option>
+                                    <option selected={timezone === "GMT+9"|| userDetails?.timezone=="GMT+9"} value="GMT+9">Japan Standard Time (GMT+9)</option>
+                                    <option selected={timezone === "GMT+10"|| userDetails?.timezone=="GMT+10"} value="GMT+10">Eastern Australia Time (GMT+10)</option>
+                                    <option selected={timezone === "GMT+11"|| userDetails?.timezone=="GMT+11"} value="GMT+11">Solomon Standard Time (GMT+11)</option>
+                                    <option selected={timezone === "GMT+12"|| userDetails?.timezone=="GMT_+12"} value="GMT+12">New Zealand Time (GMT+12)</option>
+                                    <option selected={timezone === "GMT+13"|| userDetails?.timezone=="GMT+13"} value="GMT+13">Tonga Standard Time (GMT+13)</option>
+                                    <option selected={timezone === "GMT+14"|| userDetails?.timezone=="GMT+14"}value="GMT+14">Line Islands Time (GMT+14)</option>  
                                   </select>
                                 </div>
                               </div>
@@ -251,10 +369,19 @@ const createFormFiles=()=>{
                               <div className="row">
                                 <div className="mb-3 col-md-9">
                                   <label className="form-label" htmlFor="languages">Languages</label>
-                                  <input type="text" className="form-control" id="languages"  onChange={(e) => setLanguage(e.target.value)}  placeholder="Add language" />
+                                  <Select
+                                  defaultValue={getOptionsFromString(userDetails?.languages,languageOptions)}
+                                  onChange={handleEducationChange}
+                                  isMulti
+                                  name="colors"
+                                  options={languageOptions}
+                                  className="basic-multi-select"
+                                  classNamePrefix="select"
+                                />
+                              
                                 </div>
                                 <br/>
-                                <span className="peer">
+                                {/* <span className="peer">
                                 {
                                   languages.split(' ').map((lang,index)=>{
                                     return(
@@ -264,7 +391,7 @@ const createFormFiles=()=>{
                                     )
                                   })
                                 }
-                                 </span>
+                                 </span> */}
                                 {/* <span className="peer">
                                   <span className="badge rounded-pill  bg-info lh-0 p-10">PM</span>
                                   <span className="badge rounded-pill  bg-info lh-0 p-10">BPMN</span>
@@ -277,10 +404,20 @@ const createFormFiles=()=>{
                               <div className="row">
                                 <div className="mb-3 col-md-9">
                                   <label className="form-label" htmlFor="competencies">Competencies</label>
-                                  <input type="text" className="form-control" id="competencies"  onChange={(e) => setCompetencies(e.target.value)}  placeholder="Add language" />
+                                  <Select
+                                  defaultValue={getOptionsFromString(userDetails?.competencies,competencyOptions)}
+                                  onChange={handleCompetenciesChange}
+                                  isMulti
+                                  name="competencies"
+                                  options={competencyOptions
+                                }
+                                  className="basic-multi-select"
+                                  classNamePrefix="select"
+                                />
+                                  {/* <input type="text" className="form-control" id="competencies"  onChange={(e) => setCompetencies(e.target.value)}  placeholder="Add language" /> */}
                                 </div>
                                 <br/>
-                                <span className="peer">
+                                {/* <span className="peer">
                                 {
                                   competencies.split(' ').map((lang,index)=>{
                                     return(
@@ -290,7 +427,7 @@ const createFormFiles=()=>{
                                     )
                                   })
                                 }
-                                 </span>
+                                 </span> */}
                                 {/* <span className="peer">
                                   <span className="badge rounded-pill  bg-info lh-0 p-10">PM</span>
                                   <span className="badge rounded-pill  bg-info lh-0 p-10">BPMN</span>
@@ -303,13 +440,32 @@ const createFormFiles=()=>{
                               <div className="row">
                                 <div className="mb-3 col-md-9">
                                   <label className="form-label" htmlFor="inputPassword4">Skills</label>
-                                  <input type="text" onChange={(e)=>setSkills(e.target.value)} className="form-control" id="skills" placeholder="Add skills" />
+                                  <Select
+                                  // defaultValue={[colourOptions[2], colourOptions[3]]}
+                                  defaultValue={getOptionsFromString(userDetails?.skills,skillOptions)}
+                                  onChange={handleSkillsChange}
+                                  isMulti
+                                  name="skills"
+                                  options={[
+                                    { value: 'software', label: 'Software Development' },
+                                    { value: 'project', label: 'Project Management' },
+                                    { value: 'testing', label: 'Software Testing' },
+                                    { value: 'analyst', label: 'Business Analysis' },
+                                    { value: 'devops', label: 'Devops' },
+                                    { value: 'architecture', label: 'Software Architecture' }
+
+                                  ]
+                                }
+                                  className="basic-multi-select"
+                                  classNamePrefix="select"
+                                />
+                                  {/* <input type="text" onChange={(e)=>setSkills(e.target.value)} className="form-control" id="skills" placeholder="Add skills" /> */}
                                 </div>
                                 
                                 {/* <div class="mb-3"> */}
                                 <span className="peer">
                                   {
-                                    skills.split(' ').map((skill,index)=>{
+                                    skills?.split(' ')?.map((skill,index)=>{
                                       return(
                                         <span key={index} className="badge rounded-pill  bg-info lh-0 p-10">{skill}</span>
                                       )
@@ -323,57 +479,78 @@ const createFormFiles=()=>{
                               </div><br />
                               <div className="row">
                                
-                               <div className="mb-3 col-md-9">
-                                 <label className="form-label" htmlFor="education">High school</label>
+                               {/* <div className="mb-3 col-md-9">
+                                 <label className="form-label" htmlFor="education">University</label>
                                  <input type="text" className="form-control" id="education"  onChange={(e) => setEducation(e.target.value)}  defaultValue={userDetails?.education??""}/>
-                               </div><br /><br />
+                               </div><br /><br /> */}
                                <div className="mb-3  col-md-12">
                                  <div className="col-md-5 m-5 checkbox checkbox-circle checkbox-info peers ai-c" style={{float: 'left'}}>
-                                   <input type="checkbox" onChange={()=>setHasDegree(!hasDegree)} checked={hasDegree} defaultChecked={degreeDiploma!=="0"} id="inputCall2" name="inputCheckboxesCall" className="peer" />
+                                   <input type="checkbox" onChange={()=>setHasDegree(!hasDegree)} checked={hasDegree} defaultChecked={degreeType!=="0"} id="inputCall2" name="inputCheckboxesCall" className="peer" />
                                    <label htmlFor="inputCall2" className="form-label peers peer-greed js-sb ai-c">
                                      <span className="peer peer-greed">Degree/Diploma</span>
                                    </label><br /><br />
-                                   <select disabled={!hasDegree} id="inputState" className="form-control">
-                                     <option value={"0"}>Please select</option>
-                                     <option value={"1"}>Bachelor of Science in Computer Science</option>
-                                     <option value={"2"}>Bachelor of Science in Information Technology</option>
-                                     <option value={"3"}>Bachelor of Science in Software Engineering</option>
-                                     <option value={"4"}>Bachelor of Business Administration</option>
-                                     <option value={"5"}>Bachelor of Project Management</option>
-                                     <option value={"6"}>Diploma in Software Development</option>
-                                     <option value={"7"}>Diploma in Information Technology</option>
-                                     <option value={"8"}>Diploma in Web Development</option>
-                                     <option value={"9"}>Diploma in Project Management</option>
-                                     <option value={"10"}>Associate Degree in Computer Science</option>
-                                   </select><br />
+                                   <select onChange={(e)=>setDegreeType(e.target.value)} disabled={!hasDegree} id="inputState" className="form-control">
+                                     <option selected={degreeType=="0" || userDetails?.degreeType=="0"} value={"0"}>Please select</option>
+                                     <option selected={degreeType=="1" || userDetails?.degreeType=="1"} value={"1"}>Bachelor of Science in Computer Science</option>
+                                     <option selected={degreeType=="2" || userDetails?.degreeType=="2"} value={"2"}>Bachelor of Science in Information Technology</option>
+                                     <option selected={degreeType=="3" || userDetails?.degreeType=="3"} value={"3"}>Bachelor of Science in Software Engineering</option>
+                                     <option selected={degreeType=="4" || userDetails?.degreeType=="4"} value={"4"}>Bachelor of Business Administration</option>
+                                     <option selected={degreeType=="5" || userDetails?.degreeType=="5"} value={"5"}>Bachelor of Project Management</option>
+                                     <option selected={degreeType=="6" || userDetails?.degreeType=="6"} value={"6"}>Diploma in Software Development</option>
+                                     <option selected={degreeType=="7" || userDetails?.degreeType=="7"} value={"7"}>Diploma in Information Technology</option>
+                                     <option selected={degreeType=="8" || userDetails?.degreeType=="8"} value={"8"}>Diploma in Web Development</option>
+                                     <option selected={degreeType=="9" || userDetails?.degreeType=="9"} value={"9"}>Diploma in Project Management</option>
+                                     <option selected={degreeType=="10" || userDetails?.degreeType=="10"} value={"10"}>Associate Degree in Computer Science</option>
+                                   </select><br /><br/><br/>
+                                  
+                                   <input type="text" disabled={!hasDegree} className="form-control" id="degree-inst"  onChange={(e) => setDegreeInstitution(e.target.value)} placeholder="University/ Tertiary Institution" defaultValue={userDetails?.degreeInstitution??""}/>
+                                   <div style={{ marginTop: '5%'}}>
+                                    {/* <input type="checkbox" checked id="inputCall2" name="inputCheckboxesCall" class="peer"> */}
+                                    <a >
+                                      <input disabled={!hasDegree} type="file" id="cv" name="cv" onChange={saveCV} />
+                                      </a>
+                                  </div>
                                  </div>
+
                                  <div className="col-md-5 m-5 checkbox checkbox-circle checkbox-info peers ai-c" style={{float: 'left'}}>
-                                   <input type="checkbox"  onChange={()=>setHasMasters(!hasMasters)} checked={hasMasters} defaultChecked={masters!=="0"} id="masterscheck" name="inputCheckboxesCall" className="peer" />
+                                   <input type="checkbox"  onChange={()=>setHasMasters(!hasMasters)} checked={hasMasters} defaultChecked={mastersType!=="0"} id="masterscheck" name="inputCheckboxesCall" className="peer" />
                                    <label htmlFor="masterscheck" className="form-label peers peer-greed js-sb ai-c">
                                      <span className="peer peer-greed">Masters </span>
                                    </label><br /><br />
-                                   <select disabled={!hasMasters} id="inputState" className="form-control">
-                                     <option value={"0"} selected>Please select</option>
-                                     <option value={"1"}>Master of Science in Software Engineering</option>
-                                     <option value={"2"}>Master of Science in Computer Science</option>
-                                     <option value={"3"}>Master of Science in Information Technology</option>
-                                     <option value={"4"}>Master of Science in Project Management</option>
-                                     <option value={"5"}>Master of Science in Business Administration (MBA)</option>
-                                     <option value={"6"}>Master of Science in Management Information Systems (MS MIS)</option>
-                                     <option value={"7"}>Master of Science in Information Systems Management (MS ISM)</option>
-                                     <option value={"8"}>Master of Science in Business Analytics (MS BA)</option>
-                                     <option value={"9"}>Master of Science in Data Science</option>
-                                     <option value={"10"}>Master of Science in Finance (MSF)</option>
-                                     <option value={"11"}>Master of Science in Marketing</option>
-                                     <option value={"12"}>Master of Science in Entrepreneurship and Innovation</option>
-                                     <option value={"13"}>Master of Science in Operations Management</option>
-                                   </select><br />
+                                   <select onChange={(e)=>setMastersType(e.target.value)}  disabled={!hasMasters} id="inputState" className="form-control">
+                                     <option  value={"0"} >Please select</option>
+                                     <option selected={mastersType=="1" || userDetails?.mastersInstitution=="1"} value={"1"}>Master of Science in Software Engineering</option>
+                                     <option selected={mastersType=="2" || userDetails?.mastersInstitution=="2" } value={"2"}>Master of Science in Computer Science</option>
+                                     <option selected={mastersType=="3" || userDetails?.mastersInstitution=="3"} value={"3"}>Master of Science in Information Technology</option>
+                                     <option selected={mastersType=="4" || userDetails?.mastersInstitution=="4"} value={"4"}>Master of Science in Project Management</option>
+                                     <option selected={mastersType=="5" || userDetails?.mastersInstitution=="5"} value={"5"}>Master of Science in Business Administration (MBA)</option>
+                                     <option selected={mastersType=="6" || userDetails?.mastersInstitution=="6"} value={"6"}>Master of Science in Management Information Systems (MS MIS)</option>
+                                     <option selected={mastersType=="7" || userDetails?.mastersInstitution=="7"} value={"7"}>Master of Science in Information Systems Management (MS ISM)</option>
+                                     <option selected={mastersType=="8" || userDetails?.mastersInstitution=="8"} value={"8"}>Master of Science in Business Analytics (MS BA)</option>
+                                     <option selected={mastersType=="9" || userDetails?.mastersInstitution=="9"} value={"9"}>Master of Science in Data Science</option>
+                                     <option selected={mastersType=="10" || userDetails?.mastersInstitution=="10"} value={"10"}>Master of Science in Finance (MSF)</option>
+                                     <option selected={mastersType=="11" || userDetails?.mastersInstitution=="11"} value={"11"}>Master of Science in Marketing</option>
+                                     <option selected={mastersType=="12" || userDetails?.mastersInstitution=="12"} value={"12"}>Master of Science in Entrepreneurship and Innovation</option>
+                                     <option selected={mastersType=="13" || userDetails?.mastersInstitution=="13"} value={"13"}>Master of Science in Operations Management</option>
+                                   </select><br /><br/><br/>
+                                     
+                                   <input type="text" disabled={!hasMasters} className="form-control" id="education"  onChange={(e) => setMastersInstitution(e.target.value)} 
+                                   placeholder="University" defaultValue={userDetails?.mastersInstitution??""}/>
+                                   <div style={{ marginTop: '5%'}}>
+                                    {/* <input type="checkbox" checked id="inputCall2" name="inputCheckboxesCall" class="peer"> */}
+                                    <a >
+                                      <input disabled={!hasMasters}  type="file" id="cv" name="cv" onChange={saveCV} />
+                                      </a>
+                                  </div>
+                                 </div>
+                                 <div className="col-md-5 m-5 checkbox checkbox-circle checkbox-info peers ai-c" style={{float: 'left'}}>
+                                 
                                  </div>
                                </div>
                              </div><br />
                               <div className="row">
                                 <div className="col-md-9">
-                                  <h6 className="form-label" style={{float: 'left'}}>Documents</h6>
+                                  <h6 className="form-label" style={{float: 'left'}}> Documents</h6>
                                 </div>
                                 <div className="mb-3 ">
                                  
@@ -386,22 +563,8 @@ const createFormFiles=()=>{
                                       <input type="file" id="cv" name="cv" onChange={saveCV} />
                                     {cvUrl!=="" || allUserDetails?.cv && <a target="_blank" href={cvUrl==""?allUserDetails?.cv:cvUrl}>View</a>}
                                   </div><br />
-                                  <div style={{ marginLeft: '10px'}}>
-                                    {/* <input type="checkbox" checked id="inputCall2" name="inputCheckboxesCall" class="peer"> */}
-                                    <a ><label htmlFor="" className="form-label peers peer-greed js-sb ai-c">
-                                        <i className="ti-files" /><span className="peer peer-greed" style={{marginLeft: '5px'}}>  Degree</span>
-                                      </label>
-                                      <input type="file" id="cv" name="cv" onChange={saveCV} />
-                                      </a>
-                                  </div><br />
-                                  <div style={{ marginLeft: '10px'}}>
-                                    {/* <input type="checkbox" checked id="inputCall2" name="inputCheckboxesCall" class="peer"> */}
-                                    <a ><label htmlFor="" className="form-label peers peer-greed js-sb ai-c">
-                                        <i className="ti-files" /><span className="peer peer-greed" style={{marginLeft: '5px'}}>   Masters</span>
-                                      </label>
-                                      <input type="file" id="cv" name="cv" onChange={saveCV} />
-                                      </a>
-                                  </div>
+                               
+                              
                                 </div>
                               </div><br />
                               {/* <br/>
