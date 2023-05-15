@@ -34,5 +34,7 @@ export interface IPersonnelRequestModel extends IPersonnel{
 export interface IPersonnelResponseModel extends IPersonnel{
     data:IPersonnel,
     cv:string,
+    masters:string,
+    degree:string,
     message?:string
 }

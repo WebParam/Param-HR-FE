@@ -3,8 +3,10 @@ import { IPersonnelResponseModel } from 'src/interfaces/personnel';
 import { IUserRequestModel, IUserResponseModel } from '../interfaces/user';
 import { Api } from '../lib/restapi/endpoints';
 import {useNavigate} from "react-router-dom"
-
+import Select from 'react-select';
 import React, { useState, useEffect } from 'react';
+import { getProfessionTextById, getSkillLevelById,skills,languages,competencies  } from '../lib/data/professions';
+import { toLower } from 'lodash';
 
 function Personnel() {
 
@@ -24,7 +26,10 @@ function Personnel() {
     toggleStatusDropdown(false);
   }
 
+  const [competencyFlter, setCompetencyFilter] = useState<string>("");
+  const [languageFilter, setLanguageFilter] = useState<string>("");
   const [skillsFilter, setSkillsFilter] = useState<string>("");
+
   const [experienceFilter, setExperienceFilter] = useState<string>("");
   const [companyFilter, setCompanyFilter] = useState<string>("");
   const [positionFilter, setPositionFilter] = useState<string>("");
@@ -34,60 +39,85 @@ function Personnel() {
   const [startDateFilter, setStartDateFilter] = useState<string>("");
   const [endDateFilter, setEndDateFilter] = useState<string>("");
 
+  function checkContainment(str1:string, str2:string) {
+    const list1 = str1.split(",");
+    const list2 = str2.split(",");
+    const containsAll = list1.every(item => list2.includes(item));
+    return containsAll;
+  }
 
+  const handleCompetencyChange = (selectedOptions:any) => {
+    const selectedValuesString = scaffold(selectedOptions);
+    setCompetencyFilter(selectedValuesString);
+
+    const filtered = filteredPersonnel.filter((person) => {
+      return checkContainment(selectedValuesString, person.data.competencies);
+    });
+    setFilteredPersonnel(filtered)
+  };
+
+  const handleSkillsChange = (selectedOptions:any) => {
+    const selectedValuesString = scaffold(selectedOptions);
+    setSkillsFilter(selectedValuesString);
+   
+    const filtered = filteredPersonnel.filter((person) => {
+      
+      return checkContainment(selectedValuesString, person.data.skills);
+    });
+    setFilteredPersonnel(filtered)
+  };
+
+  const handleLanguageChange = (selectedOptions:any) => {
+    const selectedValuesString = scaffold(selectedOptions);
+    setLanguageFilter(selectedValuesString);
+    console.log("Selected",selectedOptions.map((option:any) => toLower(option.label)).join(','));
+    const sel = selectedOptions.map((option:any) => toLower(option.label)).join(',');
+
+    const filtered = filteredPersonnel.filter((person) => {
+      console.log("Languages",person.data.languages)
+      return checkContainment(selectedValuesString, person.data.languages);
+    });
+    setFilteredPersonnel(filtered)
+  };
+
+
+  const scaffold = (options:any) => {
+    const values = options?.map((option:any) => option.value);
+    return values.join(',');
+  }
+  
+
+
+
+  
 function filter(){
-  personnel.filter((person) => {
-    if(skillsFilter!=""){
+ setFilteredPersonnel( personnel.filter((person) => {
+   
+  if(skillsFilter!=""){
       if(person.competencies?.includes(skillsFilter)){
         return true;
       }
-    }
+    }   
+
     if(experienceFilter!=""){
-      if(person.skills?.includes(experienceFilter)){
+      if(person.data.skills?.includes(experienceFilter)){
         return true;
       }
     }
-    // if(companyFilter!=""){
-    //   if(person.company?.includes(companyFilter)){
-    //     return true;
-    //   }
-    // }
+    
     if(positionFilter!=""){
-      if(person.position?.includes(positionFilter)){
+      if(person.data?.proffession?.includes(positionFilter)){
         return true;
       }
     }
-    // if(statusFilter!=""){
-    //   if(person.status?.includes(statusFilter)){
-    //     return true;
-    //   }
-    // }
-    // if(minPriceFilter!=""){
-    //   if(person.rate?.includes(minPriceFilter)){
-    //     return true;
-    //   }
-    // }
-    // if(maxPriceFilter!=""){
-    //   if(person.maxPrice?.includes(maxPriceFilter)){
-    //     return true;
-    //   }
-    // }
-    // if(startDateFilter!=""){
-    //   if(person.startDate?.includes(startDateFilter)){
-    //     return true;
-    //   }
-    // }
-    // if(endDateFilter!=""){
-    //   if(person.endDate?.includes(endDateFilter)){
-    //     return true;
-    //   }
-    // }
+   
     return false;
 
 
   })
-
+ );
 }
+
   
   const navigate = useNavigate();
 
@@ -123,6 +153,7 @@ function filter(){
       };
 
   const [personnel, setPersonnel] = useState<IPersonnelResponseModel[]>([]);
+
   console.log("Personnel",personnel)
 
 
@@ -156,7 +187,7 @@ function filter(){
                   <input type="text" className="form-control" placeholder="Maximum price" id="maxPrice" />
                 </div>
                 <div className="dropdown" style={{float: 'left', margin: '10px', marginLeft: '5%'}}>
-                  <button onClick={()=>{clearOtherDropdowns(); toggleSkillsDropdown(!skillsDropdown)}} className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  {/* <button onClick={()=>{clearOtherDropdowns(); toggleSkillsDropdown(!skillsDropdown)}} className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Skills
                   </button>
                   <div style={{display:skillsDropdown==true?"block":"none"}} className="dropdown-menu" aria-labelledby="dropdownMenuButton">
@@ -165,7 +196,8 @@ function filter(){
                     <a className="dropdown-item" href="#">JS</a>
                     <a className="dropdown-item" href="#">PM</a>
                     <a className="dropdown-item" href="#">Python</a>
-                  </div>
+                  </div> */}
+               
                 </div>
                 <div className="dropdown" style={{float: 'left', margin: '10px'}}>
                   <button onClick={()=>{clearOtherDropdowns(); toggleCompanyDropdown(!companyDropdown)}}  className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -185,11 +217,11 @@ function filter(){
                     Position
                   </button>
                   <div  style={{display:positionDropdown==true?"block":"none"}} className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <a className="dropdown-item" href="#">Engineer</a>
-                    <a className="dropdown-item" href="#">Product Manager</a>
-                    <a className="dropdown-item" href="#">Business Analyst</a>
-                    <a className="dropdown-item" href="#">Architect</a>
-                    <a className="dropdown-item" href="#">QA</a>
+                    <a className="dropdown-item" onClick={()=>{setPositionFilter("0"); filter();}}>Business Analyst</a>
+                    <a className="dropdown-item" onClick={()=>{setPositionFilter("1"); filter();}}>Product manager</a>
+                    <a className="dropdown-item" onClick={()=>{setPositionFilter("2"); filter();}}>Software developer</a>
+                    <a className="dropdown-item" onClick={()=>{setPositionFilter("3"); filter();}}>Software tester</a>
+                    <a className="dropdown-item" onClick={()=>{setPositionFilter("4"); filter();}}>Business analyst</a>
                   </div>
                 </div>
                 <div className="dropdown" style={{float: 'left', margin: '10px'}}>
@@ -212,6 +244,7 @@ function filter(){
                     <a className="dropdown-item" href="#">Allocated</a>
                   </div>
                 </div>
+                
                 <br />
                 <div className="modal fade" id="exampleModal" tabIndex={-1} aria-labelledby="exampleModalLabel" aria-hidden="true">
                   <div className="modal-dialog">
@@ -349,12 +382,51 @@ function filter(){
                   </div>
                 </div>
                 <br /><br />
+                <div className="input-group" style={{width: '30%', float: 'left',margin: '10px', marginBottom:"15px"}}>
+                <Select
+                  // defaultValue={skills[0]}
+                  onChange={handleSkillsChange}
+                  isMulti
+                  name="colors"
+               
+                  options={skills}
+                  className="basic-multi-select"
+                  classNamePrefix="select"
+                />  
+                </div>
+                <div className="input-group" style={{width: '30%', float: 'left',margin: '10px', marginBottom:"15px"}}>
+                <Select
+                  // defaultValue={competencies[0]}
+                  onChange={handleCompetencyChange}
+                  isMulti
+                  name="colors"
+                  options={competencies}
+                  className="basic-multi-select"
+                  classNamePrefix="select"
+                />  
+                </div>
+                <div className="input-group" style={{width: '25%', float: 'left',margin: '10px', marginBottom:"15px"}}>
+                <Select
+                  // defaultValue={languages[0]}
+                  onChange={handleLanguageChange}
+                  isMulti
+                  name="colors"
+                  options={languages}
+                  className="basic-multi-select"
+                  classNamePrefix="select"
+                />  
+                </div>
+                <br /><br />          
                 <table id="dataTable" className="table table-striped table-bordered" cellSpacing={0} width="100%">
                   <thead>
                     <tr>
                       <th>Name</th>
                       <th>Position</th>
                       <th>Experience</th>
+                      <th>Competencies</th>
+                      <th>Languages</th>
+                      <th>Skills</th>
+                     
                       <th>Office</th>
                       <th>Status</th>
                       <th>Project end date</th>
@@ -364,8 +436,12 @@ function filter(){
                   <tfoot>
                     <tr>
                       <th>Name</th>
-                      <th>Position</th>
+                      <th>Profession</th>
                       <th>Experience</th>
+                      <th>Competencies</th>
+                      <th>Languages</th>
+                      <th>Skills</th>
+                     
                       <th>Office</th>
                       <th>Age</th>
                       <th>Start date/ End date</th>
@@ -374,13 +450,59 @@ function filter(){
                   </tfoot>
                   <tbody>
 
-                    {personnel.length>0 && personnel.map(person => 
+                    {filteredPersonnel.length>0 && filteredPersonnel.map(person => 
                        
                         <tr onClick={()=>{handleSelect(person)}}>
                         <td><a>{person.data.user?.name} {person.data.user?.surname}</a></td>
-                        <td>{person.data.position}</td>
-                        <td>{person.data.skillLevel}</td>
+                        <td>{getProfessionTextById(person.data.proffession)}</td>
+                        <td>{getSkillLevelById(person.data.skillLevel)}</td>     
+                        <td>
+                        <span className="peer">
+                                  {
+                                    person.data.competencies?.split(',')?.map((skill,index)=>{
+                                      return(
+                                        <span key={index} className="badge rounded-pill  bg-info lh-0 p-10">{skill}</span>
+                                      )
+                                    })
+                                  }
+                                  {/* <span className="badge rounded-pill  bg-info lh-0 p-10">PM</span>
+                                  <span className="badge rounded-pill  bg-info lh-0 p-10">BPMN</span>
+                                  <span className="badge rounded-pill  bgc-pink-500 lh-0 p-10">Scrum Master</span> */}  
+                                </span>
+                        
+                        </td>
+                        <td>
+                        <span className="peer">
+                                  {
+                                    person.data.skills?.split(',')?.map((skill,index)=>{
+                                      return(
+                                        <span key={index} className="badge rounded-pill  bg-info lh-0 p-10">{skill}</span>
+                                      )
+                                    })
+                                  }
+                                  {/* <span className="badge rounded-pill  bg-info lh-0 p-10">PM</span>
+                                  <span className="badge rounded-pill  bg-info lh-0 p-10">BPMN</span>
+                                  <span className="badge rounded-pill  bgc-pink-500 lh-0 p-10">Scrum Master</span> */}
+                                </span>
+                        
+                        </td>
+                       
                         <td>{person.data.city}, {person.data.country}</td>
+                        <td>
+                        <span className="peer">
+                                  {
+                                    person.data.languages?.split(',')?.map((languages,index)=>{
+                                      return(
+                                        <span key={index} className="badge rounded-pill  bg-info lh-0 p-10">{languages}</span>
+                                      )
+                                    })
+                                  }
+                                  {/* <span className="badge rounded-pill  bg-info lh-0 p-10">PM</span>
+                                  <span className="badge rounded-pill  bg-info lh-0 p-10">BPMN</span>
+                                  <span className="badge rounded-pill  bgc-pink-500 lh-0 p-10">Scrum Master</span> */}
+                                </span>
+                        
+                        </td>
                         <td>n/a</td>
                         <td>n/a</td>
                         <td>{person.data.rate} /hour</td>

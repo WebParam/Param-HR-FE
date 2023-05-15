@@ -6,6 +6,7 @@ const axios = require("axios").default;
 
 import Select from 'react-select';
 import Cookies from 'universal-cookie';
+import moment from 'moment'
 
 export default function PersonnelDetail() {
   const location = useLocation();
@@ -30,6 +31,7 @@ export default function PersonnelDetail() {
   const [skills, setSkills] = useState<string>("");
   const [userId, setUserId] = useState<string>("");
   const [proffession, setProfession] = useState<string>("");  
+
   const [hasDegree, setHasDegree] = useState<boolean>(false);  
   const [degree, setDegree] = useState<Blob|undefined>();
   const [degreeUrl, setDegreeUrl] = useState<string>("");
@@ -51,7 +53,8 @@ export default function PersonnelDetail() {
 
   const cookies = new Cookies();
   const loggedInUser = cookies.get('param-hr-user');
-  const _loggedInUserId = loggedInUser?.data.id;
+  console.log("allUserDetails",loggedInUser);
+  const _loggedInUserId = loggedInUser?.id;
 
 
 
@@ -78,9 +81,9 @@ const createFormFiles=()=>{
   formData.append("contacts", contacts!=""?contacts:userDetails?.user.contacts);
 
 //  
-  formData.append("degreeInstitution", degreeInstitution!=""?degreeInstitution:userDetails?.degreeInstitution);
+  formData.append("degreeInstitution", hasDegree? degreeInstitution!=""?degreeInstitution:userDetails?.degreeInstitution:"");
   formData.append("degreeType", degreeType!=""?degreeType:userDetails?.degreeType);
-  formData.append("mastersInstitution", mastersInstitution!=""?mastersInstitution:userDetails?.mastersInstitution);
+  formData.append("mastersInstitution", hasMasters ? mastersInstitution!=""?mastersInstitution:userDetails?.mastersInstitution:"");
   formData.append("mastersType", mastersType!=""?mastersType:userDetails?.mastersType);
 
   formData.append("languages", languages!=""?languages:userDetails?.languages);
@@ -118,6 +121,16 @@ const createFormFiles=()=>{
   const saveCV=(e:any)=>{
  
     setCV(e.target.files[0]);
+   console.log(cv);
+  }
+  const saveMasters=(e:any)=>{
+ 
+    setMasters(e.target.files[0]);
+   console.log(cv);
+  }
+  const saveDegree=(e:any)=>{
+ 
+    setDegree(e.target.files[0]);
    console.log(cv);
   }
 
@@ -202,6 +215,7 @@ const createFormFiles=()=>{
       { value: 'bpmn', label: 'BPMN' },
     ]
 
+    console.log("userDSDSDSetails", moment( userDetails?.birthday).format('YYYY/MM/DD'));
 
     
   return (
@@ -259,7 +273,7 @@ const createFormFiles=()=>{
                                       <div className="input-group-text bgc-white bd bdwR-0">
                                         <i className="ti-calendar" />
                                       </div>
-                                      <input type="date" className="form-control bdc-grey-200 start-date"  onChange={(e) => setBirthday(e.target.value)}  defaultValue={userDetails?.birthday??""} data-provide="datepicker" />
+                                      <input type="date" className="form-control bdc-grey-200 start-date"  onChange={(e) => setBirthday(e.target.value)}  defaultValue={ moment( userDetails?.birthday).format('YYYY/MM/DD') } data-provide="datepicker" />
                                     </div>
                                   </div>
                                 </div>
@@ -507,8 +521,10 @@ const createFormFiles=()=>{
                                    <div style={{ marginTop: '5%'}}>
                                     {/* <input type="checkbox" checked id="inputCall2" name="inputCheckboxesCall" class="peer"> */}
                                     <a >
-                                      <input disabled={!hasDegree} type="file" id="cv" name="cv" onChange={saveCV} />
+                                      <input disabled={!hasDegree} type="file" id="degree" name="degree" onChange={saveDegree} />
+
                                       </a>
+                                      {degreeUrl!=="" || allUserDetails?.degree && <a target="_blank" href={degreeUrl==""?allUserDetails?.degree:degreeUrl}>View</a>}
                                   </div>
                                  </div>
 
@@ -519,28 +535,29 @@ const createFormFiles=()=>{
                                    </label><br /><br />
                                    <select onChange={(e)=>setMastersType(e.target.value)}  disabled={!hasMasters} id="inputState" className="form-control">
                                      <option  value={"0"} >Please select</option>
-                                     <option selected={mastersType=="1" || userDetails?.mastersInstitution=="1"} value={"1"}>Master of Science in Software Engineering</option>
-                                     <option selected={mastersType=="2" || userDetails?.mastersInstitution=="2" } value={"2"}>Master of Science in Computer Science</option>
-                                     <option selected={mastersType=="3" || userDetails?.mastersInstitution=="3"} value={"3"}>Master of Science in Information Technology</option>
-                                     <option selected={mastersType=="4" || userDetails?.mastersInstitution=="4"} value={"4"}>Master of Science in Project Management</option>
-                                     <option selected={mastersType=="5" || userDetails?.mastersInstitution=="5"} value={"5"}>Master of Science in Business Administration (MBA)</option>
-                                     <option selected={mastersType=="6" || userDetails?.mastersInstitution=="6"} value={"6"}>Master of Science in Management Information Systems (MS MIS)</option>
-                                     <option selected={mastersType=="7" || userDetails?.mastersInstitution=="7"} value={"7"}>Master of Science in Information Systems Management (MS ISM)</option>
-                                     <option selected={mastersType=="8" || userDetails?.mastersInstitution=="8"} value={"8"}>Master of Science in Business Analytics (MS BA)</option>
-                                     <option selected={mastersType=="9" || userDetails?.mastersInstitution=="9"} value={"9"}>Master of Science in Data Science</option>
-                                     <option selected={mastersType=="10" || userDetails?.mastersInstitution=="10"} value={"10"}>Master of Science in Finance (MSF)</option>
-                                     <option selected={mastersType=="11" || userDetails?.mastersInstitution=="11"} value={"11"}>Master of Science in Marketing</option>
-                                     <option selected={mastersType=="12" || userDetails?.mastersInstitution=="12"} value={"12"}>Master of Science in Entrepreneurship and Innovation</option>
-                                     <option selected={mastersType=="13" || userDetails?.mastersInstitution=="13"} value={"13"}>Master of Science in Operations Management</option>
+                                     <option selected={mastersType=="1" || userDetails?.mastersType=="1"} value={"1"}>Master of Science in Software Engineering</option>
+                                     <option selected={mastersType=="2" || userDetails?.mastersType=="2" } value={"2"}>Master of Science in Computer Science</option>
+                                     <option selected={mastersType=="3" || userDetails?.mastersType=="3"} value={"3"}>Master of Science in Information Technology</option>
+                                     <option selected={mastersType=="4" || userDetails?.mastersType=="4"} value={"4"}>Master of Science in Project Management</option>
+                                     <option selected={mastersType=="5" || userDetails?.mastersType=="5"} value={"5"}>Master of Science in Business Administration (MBA)</option>
+                                     <option selected={mastersType=="6" || userDetails?.mastersType=="6"} value={"6"}>Master of Science in Management Information Systems (MS MIS)</option>
+                                     <option selected={mastersType=="7" || userDetails?.mastersType=="7"} value={"7"}>Master of Science in Information Systems Management (MS ISM)</option>
+                                     <option selected={mastersType=="8" || userDetails?.mastersType=="8"} value={"8"}>Master of Science in Business Analytics (MS BA)</option>
+                                     <option selected={mastersType=="9" || userDetails?.mastersType=="9"} value={"9"}>Master of Science in Data Science</option>
+                                     <option selected={mastersType=="10" || userDetails?.mastersType=="10"} value={"10"}>Master of Science in Finance (MSF)</option>
+                                     <option selected={mastersType=="11" || userDetails?.mastersType=="11"} value={"11"}>Master of Science in Marketing</option>
+                                     <option selected={mastersType=="12" || userDetails?.mastersType=="12"} value={"12"}>Master of Science in Entrepreneurship and Innovation</option>
+                                     <option selected={mastersType=="13" || userDetails?.mastersType=="13"} value={"13"}>Master of Science in Operations Management</option>
                                    </select><br /><br/><br/>
                                      
-                                   <input type="text" disabled={!hasMasters} className="form-control" id="education"  onChange={(e) => setMastersInstitution(e.target.value)} 
+                                   <input type="text" disabled={!hasMasters} className="form-control" id="masters"  onChange={(e) => setMastersInstitution(e.target.value)} 
                                    placeholder="University" defaultValue={userDetails?.mastersInstitution??""}/>
                                    <div style={{ marginTop: '5%'}}>
                                     {/* <input type="checkbox" checked id="inputCall2" name="inputCheckboxesCall" class="peer"> */}
                                     <a >
-                                      <input disabled={!hasMasters}  type="file" id="cv" name="cv" onChange={saveCV} />
+                                      <input disabled={!hasMasters}  type="file" id="masters" name="masters" onChange={saveMasters} />
                                       </a>
+                                      {mastersUrl!=="" || allUserDetails?.masters && <a target="_blank" href={mastersUrl==""?allUserDetails?.masters:mastersUrl}>View</a>}
                                   </div>
                                  </div>
                                  <div className="col-md-5 m-5 checkbox checkbox-circle checkbox-info peers ai-c" style={{float: 'left'}}>

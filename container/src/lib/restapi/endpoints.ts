@@ -3,7 +3,7 @@ import { IUserLoginModel, IUserRegisterModel, IUserRequestModel, IUserResponseMo
 import { IResponseObject } from "./response";
 import { IPersonnelResponseModel } from "src/interfaces/personnel";
 
-const url = "https://localhost:7247";
+const url = "https://param-hr-be-dev.azurewebsites.net";
 
 
 export const Api = {

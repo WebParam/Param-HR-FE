@@ -22,7 +22,7 @@ const navigate = useNavigate();
 
 
 
-
+// console.log("cooloes", cookies.get('param-hr-user').data.data)
 
 async function LoginUser (){
  
@@ -37,7 +37,8 @@ async function LoginUser (){
     alert(user.error);
     return;
   }else{
-    cookies.set('param-hr-user', user.data, { path: '/' });
+
+    cookies.set('param-hr-user', user?.data as any, { path: '/' });
     // refresh
   
     navigate("/dashboard");
