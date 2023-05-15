@@ -13,6 +13,10 @@
     animation: App-logo-spin infinite 20s linear;
   }
 }
+.rounded-pill {
+  border-radius: var(--bs-border-radius-pill) !important;
+  margin: 1px !important;
+}
 
 .App-header {
   background-color: #282c34;
@@ -37,3 +41,5 @@
     transform: rotate(360deg);
   }
 }
+
+

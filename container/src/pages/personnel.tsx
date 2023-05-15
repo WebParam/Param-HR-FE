@@ -2,7 +2,7 @@
 import { IPersonnelResponseModel } from 'src/interfaces/personnel';
 import { IUserRequestModel, IUserResponseModel } from '../interfaces/user';
 import { Api } from '../lib/restapi/endpoints';
-import {useNavigate} from "react-router-dom"
+import {Link, useNavigate} from "react-router-dom"
 import Select from 'react-select';
 import React, { useState, useEffect } from 'react';
 import { getProfessionTextById, getSkillLevelById,skills,languages,competencies  } from '../lib/data/professions';
@@ -162,11 +162,15 @@ function filter(){
    <>
       <div id="mainContent">
         <div className="container-fluid">
-          <h4 className="c-grey-900 mT-10 mB-30">Personnel</h4>
+          {/* <h4 className="c-grey-900 mT-10 mB-30">Personnel</h4> */}
+       
           <div className="row">
             <div className="col-md-12">
               <div className="bgc-white bd bdrs-3 p-20 mB-20">
+              <div className="row" style={{float:"right", marginRight:"10px"}}><Link className="btn btn-primary btn-color" to="/personnel-detail">Add new</Link></div>
+          
                 <h4 className="c-grey-900 mB-20">All personnel</h4>
+              
                 <div className="input-group" style={{width: '15%', float: 'left', marginTop: '10px'}}>
                   <div className="input-group-text bgc-white bd bdwR-0">
                     <i className="ti-calendar" />
@@ -415,6 +419,7 @@ function filter(){
                   className="basic-multi-select"
                   classNamePrefix="select"
                 />  
+                  
                 </div>
                 <br /><br />          
                 <table id="dataTable" className="table table-striped table-bordered" cellSpacing={0} width="100%">

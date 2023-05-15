@@ -5,11 +5,12 @@ const Layout = () => {
   return (
     <>
      <div className="App">
-     <link href="https://cdn.jsdelivr.net/npm/@icon/themify-icons@1.0.1-alpha.3/themify-icons.min.css" rel="stylesheet"></link>
+     <link rel="stylesheet" href="https://unpkg.com/@icon/themify-icons/themify-icons.css"/>
+     {/* <link href="https://cdn.jsdelivr.net/npm/@icon/themify-icons@1.0.1-alpha.3/themify-icons.min.css" rel="stylesheet"></link> */}
       <div>
         {/* <!-- #Left Sidebar ==================== --> */}
         <Sidebar/>
-
+s
         {/* <!-- #Main ============================ --> */}
         <div className="page-container">
           {/* <!-- ### $Topbar ### --> */}

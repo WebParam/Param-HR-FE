@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { useLocation } from "react-router-dom";
 import { IPersonnel, IPersonnelResponseModel } from 'src/interfaces/personnel';
 const axios = require("axios").default;
-
+import { FaBeer } from "react-icons/fa";
 import Select from 'react-select';
 import Cookies from 'universal-cookie';
 import moment from 'moment'
@@ -307,7 +307,7 @@ const createFormFiles=()=>{
                              
                               </div>
                               <div className="mb-3">
-                                <label className="form-label" htmlFor="workAddress">Work Address</label>
+                                <label className="form-label" htmlFor="workAddress">Work Address <FaBeer /></label>
                                 <input type="text" className="form-control"  onChange={(e) => setWorkaddress(e.target.value)}  defaultValue={userDetails?.workAddress??""} id="workAddress" />
                               </div>
                               <div className="mb-3">
@@ -521,10 +521,10 @@ const createFormFiles=()=>{
                                    <div style={{ marginTop: '5%'}}>
                                     {/* <input type="checkbox" checked id="inputCall2" name="inputCheckboxesCall" class="peer"> */}
                                     <a >
-                                      <input disabled={!hasDegree} type="file" id="degree" name="degree" onChange={saveDegree} />
+                                      <input className="form-control" disabled={!hasDegree} type="file" id="degree" name="degree" onChange={saveDegree} />
 
                                       </a>
-                                      {degreeUrl!=="" || allUserDetails?.degree && <a target="_blank" href={degreeUrl==""?allUserDetails?.degree:degreeUrl}>View</a>}
+                                      {degreeUrl!=="" || allUserDetails?.degree && <a target="_blank"  style={{textDecoration: "underline", color: "cornflowerblue"}} href={degreeUrl==""?allUserDetails?.degree:degreeUrl}>View degree</a>}
                                   </div>
                                  </div>
 
@@ -555,9 +555,9 @@ const createFormFiles=()=>{
                                    <div style={{ marginTop: '5%'}}>
                                     {/* <input type="checkbox" checked id="inputCall2" name="inputCheckboxesCall" class="peer"> */}
                                     <a >
-                                      <input disabled={!hasMasters}  type="file" id="masters" name="masters" onChange={saveMasters} />
+                                      <input className="form-control" disabled={!hasMasters}  type="file" id="masters" name="masters" onChange={saveMasters} />
                                       </a>
-                                      {mastersUrl!=="" || allUserDetails?.masters && <a target="_blank" href={mastersUrl==""?allUserDetails?.masters:mastersUrl}>View</a>}
+                                      {mastersUrl!=="" || allUserDetails?.masters && <a target="_blank"  style={{textDecoration: "underline", color: "cornflowerblue"}} href={mastersUrl==""?allUserDetails?.masters:mastersUrl}>View masters</a>}
                                   </div>
                                  </div>
                                  <div className="col-md-5 m-5 checkbox checkbox-circle checkbox-info peers ai-c" style={{float: 'left'}}>
@@ -577,8 +577,9 @@ const createFormFiles=()=>{
                                       <label htmlFor="" className="form-label peers peer-greed js-sb ai-c">
                                         <i className="ti-files" /><span className="peer peer-greed" style={{marginLeft: '5px'}}>   CV</span>
                                       </label>
-                                      <input type="file" id="cv" name="cv" onChange={saveCV} />
-                                    {cvUrl!=="" || allUserDetails?.cv && <a target="_blank" href={cvUrl==""?allUserDetails?.cv:cvUrl}>View</a>}
+                                      <input className="form-control" type="file" id="cv" name="cv" onChange={saveCV} />
+                                    {cvUrl!=="" || allUserDetails?.cv && <a target="_blank"  style={{textDecoration: "underline", color: "cornflowerblue"}} 
+                                    href={cvUrl==""?allUserDetails?.cv:cvUrl}>View CV</a>}
                                   </div><br />
                                
                               
@@ -595,7 +596,7 @@ const createFormFiles=()=>{
                       </div>
                   </>
           </div>
-          <div className="row">
+          {/* <div className="row">
             <div className="col-md-6 mt-2">
               <div className="bgc-white p-20 bd">
                 <h6 className="c-grey-900">Project allocations</h6>
@@ -636,7 +637,7 @@ const createFormFiles=()=>{
             <div className="col-md-6">
               <div className="bgc-white p-20 bd">
                 <h6 className="c-grey-900">Check availability</h6>
-                {/* <div class="mT-30"> */}
+         
                 <div className="mb-3 col-md-4" style={{float: 'left'}}>
                   <label className="form-label fw-500">Start date</label>
                   <div className="timepicker-input input-icon mb-3">
@@ -673,14 +674,14 @@ const createFormFiles=()=>{
                         <span className="peer peer-greed">Flexi time</span>
                       </label>
                     </div>
-                    {/* <button type="submit" class="btn btn-primary btn-color">Check availability</button>  */}
+                  
                   </div><br />
                 </div>
                 <div className="mb-3 col-md-6">
                   <button type="submit" className="btn btn-primary btn-color">Check availability</button> 
                 </div>
                 <h6 className="c-grey-900">Schedule meeting</h6>
-                {/* <div class="mT-30"> */}
+              
                 <div className="mb-3 col-md-4" style={{float: 'left'}}>
                   <label className="form-label fw-500">Meeting date</label>
                   <div className="timepicker-input input-icon mb-3">
@@ -715,8 +716,7 @@ const createFormFiles=()=>{
                         <option>1 hour</option>
                       </select>
                     </div>
-                    {/* <button type="submit" class="btn btn-primary btn-color">Check availability</button>  */}
-                  </div><br />
+                     </div><br />
                   <div className="checkbox checkbox-circle checkbox-info peers ai-c">
                     <input type="checkbox" defaultChecked id="inputCall2" name="inputCheckboxesCall" className="peer" />
                     <label htmlFor="inputCall2" className="form-label peers peer-greed js-sb ai-c">
@@ -728,7 +728,7 @@ const createFormFiles=()=>{
                   <button type="submit" className="btn btn-primary btn-color">Request meeting</button> 
                 </div>
               </div>
-              {/* </div> */}
+            
             </div>
             <div className="col-md-6 mt-2">
               <div className="bd bgc-white">
@@ -737,9 +737,9 @@ const createFormFiles=()=>{
                     <h6 className="lh-1">Chat</h6>
                   </div>
                   <div className="layer w-100">
-                    {/* Chat Box */}
+                 
                     <div className="bgc-grey-200 p-20 gapY-15">
-                      {/* Chat Conversation */}
+                     
                       <div className="peers fxw-nw">
                         <div className="peer mR-20">
                           <img className="w-2r bdrs-50p" src="https://randomuser.me/api/portraits/men/11.jpg" alt="" />
@@ -779,7 +779,7 @@ const createFormFiles=()=>{
                           </div>
                         </div>
                       </div>
-                      {/* Chat Conversation */}
+                     
                       <div className="peers fxw-nw ai-fe">
                         <div className="peer ord-1 mL-20">
                           <img className="w-2r bdrs-50p" src="https://randomuser.me/api/portraits/men/12.jpg" alt="" />
@@ -810,7 +810,7 @@ const createFormFiles=()=>{
                         </div>
                       </div>
                     </div>
-                    {/* Chat Send */}
+                    
                     <div className="p-20 bdT bgc-white">
                       <div className="pos-r col-md-9 fl-l mr-1">
                         <input type="text" className="form-control bdrs-10em m-0" placeholder="Say something..." />
@@ -842,12 +842,12 @@ const createFormFiles=()=>{
                     <div className="masonry-item col-md-12">
                       <h6 className="c-grey-900">   <span className="badge rounded-pill fl-r bgc-deep-purple-500 lh-0 p-10">Completed: 22/10/2022</span></h6><br />
                       <div className="mT-30">
-                        {/* <form> */}
+                       
                         <div className="row">
                           <div className="col-md-12">
                             <div className="bgc-white bd bdrs-3 p-20 mB-20">
                               <h4 className="c-grey-900 mB-20">Project team</h4>
-                              {/* <p>Using the most basic table markup, here’s how <code class="highlighter-rouge">.table</code>-based tables look in Bootstrap. <strong>All table styles are inherited in Bootstrap 5</strong>, meaning any nested tables will be styled in the same manner as the parent.</p> */}
+                             
                               <table className="table">
                                 <thead>
                                   <tr>
@@ -913,9 +913,7 @@ const createFormFiles=()=>{
                             </div>
                           </div>
                         </div>
-                        {/* <br/>
-                          <button type="submit" class="btn btn-primary btn-color">Update</button> */}
-                        {/* </form> */}
+
                       </div>
                     </div>
                   </div>
@@ -926,7 +924,7 @@ const createFormFiles=()=>{
                 </div>
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>      
   )

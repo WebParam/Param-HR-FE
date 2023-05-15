@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-
+import { FaArrowCircleUp, FaBriefcase, FaCalendar, FaCubes, FaHome, FaUser, FaUserAlt } from "react-icons/fa";
 function Sidebar() {
   return (
     <div className="sidebar">
@@ -39,7 +39,8 @@ function Sidebar() {
           {/* <a className="sidebar-link" href="super-admin.html"> */}
           <Link className="sidebar-link" to="dashboard">
             <span className="icon-holder">
-              <i className="c-blue-500 ti-home"></i>
+              <i className="c-blue-500"><FaHome/></i>
+              {/* <FaHome/> */}
             </span>
             <span className="title">Home</span>
           </Link>
@@ -48,39 +49,28 @@ function Sidebar() {
         <Link className="dropdown-toggle" to="personnel">
            {/* <a className="dropdown-toggle" href="javascript:void(0);"> */}
             <span className="icon-holder">
-              <i className="c-orange-500 ti-user"></i>
+              <i className="c-orange-500"><FaUser/></i>
             </span>
             <span className="title">Personnel</span>
-            <span className="arrow">
+            {/* <span className="arrow">
               <i className="ti-angle-right"></i>
-            </span>
+            </span> */}
           {/* </a> */}
           </Link>
-          <ul className="dropdown-menu">
+          {/* <ul className="dropdown-menu">
             <li>
               <a className='sidebar-link' href="personnel.html">Search</a>
             </li>
             <li>
               <a className='sidebar-link' href="manage-personnel.html">Manage</a>
             </li>
-          </ul>
+          </ul> */}
         </li>
-        <li>     
-        <Link className="dropdown-toggle" to="personnel-detail">
-           {/* <a className="dropdown-toggle" href="javascript:void(0);"> */}
-            <span className="icon-holder">
-              <i className="c-orange-500 ti-user"></i>
-            </span>
-            <span className="title">Personnel Detail</span>
-            <span className="arrow">
-              <i className="ti-angle-right"></i>
-            </span>
-          {/* </a> */}
-          </Link></li>
+       
         <li className="nav-item dropdown">
           <a className="dropdown-toggle" href="javascript:void(0);">
             <span className="icon-holder">
-              <i className="c-orange-500 ti-book"></i>
+              <i className="c-orange-500"><FaBriefcase/></i>
             </span>
             <span className="title">Partners</span>
             <span className="arrow">
@@ -102,7 +92,7 @@ function Sidebar() {
         <li className="nav-item dropdown">
           <a className="dropdown-toggle" href="javascript:void(0);">
             <span className="icon-holder">
-              <i className="c-orange-500 ti-calendar"></i>
+              <i className="c-orange-500"> <FaCalendar/></i>
             </span>
             <span className="title">Projects</span>
             <span className="arrow">
@@ -124,7 +114,7 @@ function Sidebar() {
         <li className="nav-item">
           <a className='sidebar-link' href="chat.html">
             <span className="icon-holder">
-              <i className="c-deep-purple-500 ti-comment-alt"></i>
+              <i className="c-deep-purple-500"><FaArrowCircleUp/></i>
             </span>
             <span className="title">Channels</span>
           </a>
@@ -132,7 +122,7 @@ function Sidebar() {
         <li className="nav-item dropdown">
           <a className="dropdown-toggle" href="javascript:void(0);">
             <span className="icon-holder">
-              <i className="c-orange-500 ti-bar-chart"></i>
+              <i className="c-orange-500 "><FaCubes/></i>
             </span>
             <span className="title">Reports</span>
             <span className="arrow">
@@ -157,7 +147,7 @@ function Sidebar() {
         <li className="nav-item">
           <a className='sidebar-link' href="forms.html">
             <span className="icon-holder">
-              <i className="c-light-blue-500 ti-pencil"></i>
+              <i className="c-light-blue-500"> <FaUserAlt/> </i>
             </span>
             <span className="title">Profile</span>
           </a>
@@ -165,7 +155,7 @@ function Sidebar() {
         <li className="nav-item dropdown">
           <a className="sidebar-link" href="ui.html">
             <span className="icon-holder">
-                <i className="c-pink-500 ti-settings"></i>
+                <i className="c-pink-500"></i>
               </span>
             <span className="title">Settings</span>
           </a>
