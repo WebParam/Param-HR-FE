@@ -11,13 +11,6 @@ import { toLower } from 'lodash';
 function Personnel() {
 
 
-  const [filteredPersonnel, setFilteredPersonnel] = useState<IPersonnelResponseModel[]>([]);
-  const [skillsDropdown, toggleSkillsDropdown] = useState<boolean>(false);
-  const [experienceDropdown, toggleExperienceDropdown] = useState<boolean>(false);
-  const [companyDropdown, toggleCompanyDropdown] = useState<boolean>(false);
-  const [positionDropdown, togglePositionDropdown] = useState<boolean>(false);
-  const [statusDropdown, toggleStatusDropdown] = useState<boolean>(false);
-
   const [filters, setFilters] = useState({ "position": '0', "experience": '0' });
 
   const handleSelectChange = (event:any, name:string) => {
@@ -26,14 +19,6 @@ function Personnel() {
     setFilters({ ...filters, [name]: value });
   };
 
-
-  function clearOtherDropdowns(){
-    toggleSkillsDropdown(false);
-    toggleExperienceDropdown(false);
-    toggleCompanyDropdown(false);
-    togglePositionDropdown(false);
-    toggleStatusDropdown(false);
-  }
 
   const [competencyFlter, setCompetencyFilter] = useState<string>("");
   const [languageFilter, setLanguageFilter] = useState<string>("");
@@ -59,35 +44,19 @@ function Personnel() {
   const handleCompetencyChange = (selectedOptions:any) => {
     const selectedValuesString = scaffold(selectedOptions);
     setCompetencyFilter(selectedValuesString);
-
-    const filtered = filteredPersonnel.filter((person) => {
-      return checkContainment(selectedValuesString, person.data.competencies);
-    });
-    setFilteredPersonnel(filtered)
   };
 
   const handleSkillsChange = (selectedOptions:any) => {
     const selectedValuesString = scaffold(selectedOptions);
     setSkillsFilter(selectedValuesString);
-   
-    const filtered = filteredPersonnel.filter((person) => {
-      
-      return checkContainment(selectedValuesString, person.data.skills);
-    });
-    setFilteredPersonnel(filtered)
+
   };
 
   const handleLanguageChange = (selectedOptions:any) => {
+    
     const selectedValuesString = scaffold(selectedOptions);
     setLanguageFilter(selectedValuesString);
-    console.log("Selected",selectedOptions.map((option:any) => toLower(option.label)).join(','));
-    const sel = selectedOptions.map((option:any) => toLower(option.label)).join(',');
 
-    const filtered = filteredPersonnel.filter((person) => {
-      console.log("Languages",person.data.languages)
-      return checkContainment(selectedValuesString, person.data.languages);
-    });
-    setFilteredPersonnel(filtered)
   };
 
 
@@ -96,63 +65,42 @@ function Personnel() {
     return values.join(',');
   }
   
+  // const customStyles = {
+  //   option: (defaultStyles:any, state:any) => ({
+  //     ...defaultStyles,
+  //     width: "100%",
+  //     // backgroundColor: state.isSelected ? "#a0a0a0" : "#212529",
+  //   }),
 
+  //   control: (defaultStyles:any) => ({
+  //     ...defaultStyles,
+  //     width: "100%"
+  //   }),
+  //   singleValue: (defaultStyles:any) => ({ ...defaultStyles, color: "#fff" }),
+  // };
   
   const filteredList = personnel.filter((item:any) => {
-    // console.log("filters-pos",filters.position);
-    // console.log("filters-exp",filters.experience);
-    console.log("filters-pos",filters.position, item);
-    console.log("filters-exp",filters.experience, item.skillLevel);
+    console.log("filters-lang",languageFilter, item.data.languages);
     return (
 
    
       (filters.position == '0' || item.data.proffession ==filters.position) &&
-      (filters.experience == '0' || item.data.skillLevel == filters.experience)
+      (filters.experience == '0' || item.data.skillLevel == filters.experience) &&
+      (competencyFlter == "" || checkContainment(competencyFlter, item.data.competencies)) &&
+      (languageFilter == "" || checkContainment(languageFilter, item.data.languages)) &&
+      (skillsFilter == "" || checkContainment(skillsFilter, item.data.skills))
     );
   });
 
 
-
-  
-function filter( position:string, experience: string){
- setFilteredPersonnel( personnel.filter((person) => {
-
-  if(experience!="0" && position!="0"){
-    setExperienceFilter(experience); 
-    setPositionFilter(position);
-    return person.data?.skillLevel == experience && person.data?.proffession == position;
-  }
-
-  if(position!="0"){
-    setPositionFilter(position); 
-    return person.data?.proffession == position;
-  }
-  
-  if(experience!="0"){  
-    setExperienceFilter(experience); 
-    return person.data?.skillLevel == experience;
-  }
-   
-    return false;
-
-  })
- );
-}
-
   
   const navigate = useNavigate();
 
-  async function AddPersonnel(){
-    var payload = {id:"0",userid:"0"} as IUserRequestModel;
-     const data = await Api.POST_CreatePersonnel(payload);
-     console.log("Response",data)
-    }
-  
     async function ListAllPersonnel(){
        const data = await Api.GET_AllPersonnel();
        console.log("Response",data)
        setPersonnel(data.data??[]);
-      setFilteredPersonnel(data.data??[]);
+    
       }
 
       useEffect(() => {
@@ -249,7 +197,7 @@ function filter( position:string, experience: string){
                     <a className="dropdown-item" onClick={()=>{setPositionFilter("4"); filter();}}>Business analyst</a>
                   </div> */}
                      <select onChange={(e)=>handleSelectChange(e,"position")} id="inputState" className="form-control">
-                                    <option selected={positionFilter=="0"} value={"0"} >Profession</option>
+                                    <option selected={positionFilter=="0"} value={"0"} >Select Profession</option>
                                     <option selected={positionFilter=="1"} value={"1"}>Business analyst</option>
                                     <option selected={positionFilter=="2"} value={"2"}>Project manager</option>
                                     <option selected={positionFilter=="3"} value={"3"}>Software Developer</option>
@@ -259,7 +207,7 @@ function filter( position:string, experience: string){
                 <div className="dropdown" style={{float: 'left', margin: '10px'}}>
              
                      <select onChange={(e)=>handleSelectChange(e, "experience")} id="inputState" className="form-control">
-                        <option selected={experienceFilter=="0"} value={"0"} >Experience</option>
+                        <option selected={experienceFilter=="0"} value={"0"} >Select Experience</option>
                         <option selected={experienceFilter=="1"} value={"1"}>Intern</option>
                         <option selected={experienceFilter=="2"} value={"2"}>Junior</option>
                         <option selected={experienceFilter=="3"} value={"3"}>Intermediate</option>
@@ -415,15 +363,15 @@ function filter( position:string, experience: string){
                 </div>
                 <br /><br />
                 <div className="input-group" style={{width: '30%', float: 'left',margin: '10px', marginBottom:"15px"}}>
+             
                 <Select
-                  // defaultValue={skills[0]}
                   onChange={handleSkillsChange}
                   isMulti
-                  name="colors"
-               
+                  name="skills"           
                   options={skills}
                   className="basic-multi-select"
                   classNamePrefix="select"
+                  placeholder={<div>Filter by skill set</div>}
                 />  
                 </div>
                 <div className="input-group" style={{width: '30%', float: 'left',margin: '10px', marginBottom:"15px"}}>
@@ -431,10 +379,12 @@ function filter( position:string, experience: string){
                   // defaultValue={competencies[0]}
                   onChange={handleCompetencyChange}
                   isMulti
-                  name="colors"
+                  name="competencies"
+                  // styles={customStyles}
                   options={competencies}
                   className="basic-multi-select"
                   classNamePrefix="select"
+                  placeholder={<div>Filter by competencies</div>}
                 />  
                 </div>
                 <div className="input-group" style={{width: '25%', float: 'left',margin: '10px', marginBottom:"15px"}}>
@@ -442,10 +392,14 @@ function filter( position:string, experience: string){
                   // defaultValue={languages[0]}
                   onChange={handleLanguageChange}
                   isMulti
-                  name="colors"
-                  options={languages}
+                  name="language"
+                  options={[  {value:"english",label:"English"},
+                  {value:"french",label:"French"},
+                  {value:"swahili",label:"Swahili"},
+                  {value:"portugese",label:"Portugese"}]}
                   className="basic-multi-select"
                   classNamePrefix="select"
+                  placeholder={<div>Filter by language</div>}
                 />  
                   
                 </div>
