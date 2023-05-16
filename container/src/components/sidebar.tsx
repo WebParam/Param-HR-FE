@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { FaArrowCircleUp, FaBriefcase, FaCalendar, FaCubes, FaHome, FaUser, FaUserAlt } from "react-icons/fa";
+import { FaArrowCircleUp, FaBriefcase, FaCalendar, FaCog, FaCubes, FaHome, FaPowerOff, FaUser, FaUserAlt } from "react-icons/fa";
 function Sidebar() {
   return (
     <div className="sidebar">
@@ -155,7 +155,7 @@ function Sidebar() {
         <li className="nav-item dropdown">
           <a className="sidebar-link" href="ui.html">
             <span className="icon-holder">
-                <i className="c-pink-500"></i>
+                <i className="c-pink-500"><FaCog/> </i>
               </span>
             <span className="title">Settings</span>
           </a>
@@ -163,7 +163,7 @@ function Sidebar() {
         <li className="nav-item dropdown">
           <a className="sidebar-link" href="#">
             <span className="icon-holder">
-                <i className="c-pink-500 ti-power-off"></i>
+                <i className="c-pink-500 "><FaPowerOff/></i>
               </span>
             <span className="title">Logout</span>
           </a>

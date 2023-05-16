@@ -238,7 +238,7 @@ function Personnel() {
                           <div className="bgc-white p-20 bd">
                             <h6 className="c-grey-900">Senior project manager</h6>
                             <div className="peer mR-15">
-                              <img className="w-3r bdrs-50p" src="https://randomuser.me/api/portraits/men/1.jpg" alt="" />
+                              <img className="w-3r bdrs-50p" src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="" />
                             </div>
                             <div className="mT-30">
                               <form>

@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { IPersonnel, IPersonnelResponseModel } from 'src/interfaces/personnel';
 const axios = require("axios").default;
 
@@ -103,6 +103,15 @@ const createFormFiles=()=>{
   const config = {     
       headers: { 'content-type': 'multipart/form-data' }
   }
+  
+  const navigate = useNavigate();
+  const handleComplete = () => {
+    
+    navigate('/personnel', {
+      state: undefined
+    });
+  };
+
 
   axios.post("https://localhost:7247/Personnel/AddPersonnel", formData, config)
       .then((response:any) => {
@@ -112,6 +121,7 @@ const createFormFiles=()=>{
           setcvUrl(response.data.cv)
           setMastersUrl(response.data.masters);
           setDegreeUrl(response.data.degree);
+          handleComplete();
           
       })
       .catch((error:any) => {
@@ -236,9 +246,9 @@ const createFormFiles=()=>{
                             <h6  className="c-grey-900">{getProfessionTextById(userDetails?.proffession)??""}</h6>
                           </div>
                             <div className="peer ">
-                              <img className="w-6r bdrs-50p" src="https://randomuser.me/api/portraits/women/30.jpg" alt="" />
+                              <img className="w-6r bdrs-50p" src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="" />
                               <br/><br/>
-                              <input type="file" className="form-control w-6r" id="exampleInputPassword1"/>
+                              {/* <input type="file" className="form-control w-6r" id="exampleInputPassword1"/> */}
                               
                             </div>
                             

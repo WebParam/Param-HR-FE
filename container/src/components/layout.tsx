@@ -1,11 +1,12 @@
 import { Outlet, Link } from "react-router-dom";
 import Sidebar from "./sidebar";
 import React from 'react';
+import { FaPowerOff } from "react-icons/fa";
 const Layout = () => {
   return (
     <>
      <div className="App">
-     <link rel="stylesheet" href="https://unpkg.com/@icon/themify-icons/themify-icons.css"/>
+     <link rel="stylesheet" href="https://unpkg.com/themify@1.0.0/_themify.scss"/>
      {/* <link href="https://cdn.jsdelivr.net/npm/@icon/themify-icons@1.0.1-alpha.3/themify-icons.min.css" rel="stylesheet"></link> */}
       <div>
         {/* <!-- #Left Sidebar ==================== --> */}
@@ -225,7 +226,7 @@ s
                     <li role="separator" className="divider"></li>
                     <li>
                       <a href="" className="d-b td-n pY-5 bgcH-grey-100 c-grey-700">
-                        <i className="ti-power-off mR-10"></i>
+                        <i className="mR-10"><FaPowerOff/></i>
                         <span>Logout</span>
                       </a>
                     </li>
@@ -242,7 +243,7 @@ s
 
       {/* <!-- ### $App Screen Footer ### --> */}
           <footer className="bdT ta-c p-30 lh-0 fsz-sm c-grey-600">
-            <span>Copyright © 2021 Designed by <a href="https://colorlib.com" target='_blank' title="Colorlib">Colorlib</a>. All rights reserved.</span>
+          <span>Copyright © 2023 ParamSolutions. All rights reserved.</span>
           </footer>
         </div>
       </div>
