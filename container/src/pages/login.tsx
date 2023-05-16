@@ -41,7 +41,9 @@ async function LoginUser (){
     cookies.set('param-hr-user', user?.data as any, { path: '/' });
     // refresh
   
-    navigate("/dashboard");
+    // navigate("/personnel");
+    window.location.href = '#/personnel';  
+    window.location.reload();
   }
  
 

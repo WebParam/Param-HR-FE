@@ -1,6 +1,14 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { FaArrowCircleUp, FaBriefcase, FaCalendar, FaCog, FaCubes, FaHome, FaPowerOff, FaUser, FaUserAlt } from "react-icons/fa";
+import Cookies from 'universal-cookie';
+
+function logout(){
+  const cookies = new Cookies();
+   cookies.remove('param-hr-user');
+  
+  window.location.href = '/';
+}
 function Sidebar() {
   return (
     <div className="sidebar">
@@ -161,7 +169,7 @@ function Sidebar() {
           </a>
         </li>
         <li className="nav-item dropdown">
-          <a className="sidebar-link" href="#">
+          <a className="sidebar-link"  onClick={()=>{logout();}}>
             <span className="icon-holder">
                 <i className="c-pink-500 "><FaPowerOff/></i>
               </span>
