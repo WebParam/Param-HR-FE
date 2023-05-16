@@ -1,5 +1,5 @@
 
-import { IPersonnelResponseModel } from 'src/interfaces/personnel';
+import { IPersonnel, IPersonnelResponseModel } from 'src/interfaces/personnel';
 import { IUserRequestModel, IUserResponseModel } from '../interfaces/user';
 import { Api } from '../lib/restapi/endpoints';
 import {Link, useNavigate} from "react-router-dom"
@@ -18,6 +18,15 @@ function Personnel() {
   const [positionDropdown, togglePositionDropdown] = useState<boolean>(false);
   const [statusDropdown, toggleStatusDropdown] = useState<boolean>(false);
 
+  const [filters, setFilters] = useState({ "position": '0', "experience": '0' });
+
+  const handleSelectChange = (event:any, name:string) => {
+   
+    const { value } = event.target;
+    setFilters({ ...filters, [name]: value });
+  };
+
+
   function clearOtherDropdowns(){
     toggleSkillsDropdown(false);
     toggleExperienceDropdown(false);
@@ -30,15 +39,16 @@ function Personnel() {
   const [languageFilter, setLanguageFilter] = useState<string>("");
   const [skillsFilter, setSkillsFilter] = useState<string>("");
 
-  const [experienceFilter, setExperienceFilter] = useState<string>("");
+  const [experienceFilter, setExperienceFilter] = useState<string>("0");
   const [companyFilter, setCompanyFilter] = useState<string>("");
-  const [positionFilter, setPositionFilter] = useState<string>("");
+  const [positionFilter, setPositionFilter] = useState<string>("0");
   const [statusFilter, setStatusFilter] = useState<string>("");
   const [minPriceFilter, setMinPriceFilter] = useState<string>("");
   const [maxPriceFilter, setMaxPriceFilter] = useState<string>("");
   const [startDateFilter, setStartDateFilter] = useState<string>("");
   const [endDateFilter, setEndDateFilter] = useState<string>("");
-
+  const [personnel, setPersonnel] = useState<IPersonnelResponseModel[]>([]);
+  
   function checkContainment(str1:string, str2:string) {
     const list1 = str1.split(",");
     const list2 = str2.split(",");
@@ -87,32 +97,43 @@ function Personnel() {
   }
   
 
+  
+  const filteredList = personnel.filter((item:any) => {
+    // console.log("filters-pos",filters.position);
+    // console.log("filters-exp",filters.experience);
+    console.log("filters-pos",filters.position, item);
+    console.log("filters-exp",filters.experience, item.skillLevel);
+    return (
+
+   
+      (filters.position == '0' || item.data.proffession ==filters.position) &&
+      (filters.experience == '0' || item.data.skillLevel == filters.experience)
+    );
+  });
+
 
 
   
-function filter(){
+function filter( position:string, experience: string){
  setFilteredPersonnel( personnel.filter((person) => {
-   
-  if(skillsFilter!=""){
-      if(person.competencies?.includes(skillsFilter)){
-        return true;
-      }
-    }   
 
-    if(experienceFilter!=""){
-      if(person.data.skills?.includes(experienceFilter)){
-        return true;
-      }
-    }
-    
-    if(positionFilter!=""){
-      if(person.data?.proffession?.includes(positionFilter)){
-        return true;
-      }
-    }
+  if(experience!="0" && position!="0"){
+    setExperienceFilter(experience); 
+    setPositionFilter(position);
+    return person.data?.skillLevel == experience && person.data?.proffession == position;
+  }
+
+  if(position!="0"){
+    setPositionFilter(position); 
+    return person.data?.proffession == position;
+  }
+  
+  if(experience!="0"){  
+    setExperienceFilter(experience); 
+    return person.data?.skillLevel == experience;
+  }
    
     return false;
-
 
   })
  );
@@ -152,10 +173,10 @@ function filter(){
         });
       };
 
-  const [personnel, setPersonnel] = useState<IPersonnelResponseModel[]>([]);
 
-  console.log("Personnel",personnel)
 
+  console.log("fu",filteredList)
+  console.log("fil",filters);
 
 
   return (
@@ -203,7 +224,7 @@ function filter(){
                   </div> */}
                
                 </div>
-                <div className="dropdown" style={{float: 'left', margin: '10px'}}>
+                {/* <div className="dropdown" style={{float: 'left', margin: '10px'}}>
                   <button onClick={()=>{clearOtherDropdowns(); toggleCompanyDropdown(!companyDropdown)}}  className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Company
                   </button>
@@ -215,9 +236,9 @@ function filter(){
                     <a className="dropdown-item" href="#">Furai Software</a>
                     <a className="dropdown-item" href="#">IQ</a>
                   </div>
-                </div>
+                </div> */}
                 <div className="dropdown" style={{float: 'left', margin: '10px'}}>
-                  <button onClick={()=>{clearOtherDropdowns(); togglePositionDropdown(!positionDropdown)}} className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  {/* <button onClick={()=>{clearOtherDropdowns(); togglePositionDropdown(!positionDropdown)}} className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Position
                   </button>
                   <div  style={{display:positionDropdown==true?"block":"none"}} className="dropdown-menu" aria-labelledby="dropdownMenuButton">
@@ -226,20 +247,27 @@ function filter(){
                     <a className="dropdown-item" onClick={()=>{setPositionFilter("2"); filter();}}>Software developer</a>
                     <a className="dropdown-item" onClick={()=>{setPositionFilter("3"); filter();}}>Software tester</a>
                     <a className="dropdown-item" onClick={()=>{setPositionFilter("4"); filter();}}>Business analyst</a>
-                  </div>
+                  </div> */}
+                     <select onChange={(e)=>handleSelectChange(e,"position")} id="inputState" className="form-control">
+                                    <option selected={positionFilter=="0"} value={"0"} >Profession</option>
+                                    <option selected={positionFilter=="1"} value={"1"}>Business analyst</option>
+                                    <option selected={positionFilter=="2"} value={"2"}>Project manager</option>
+                                    <option selected={positionFilter=="3"} value={"3"}>Software Developer</option>
+                                    <option selected={positionFilter=="4"} value={"4"}>Software Tester</option>
+                                  </select>
                 </div>
                 <div className="dropdown" style={{float: 'left', margin: '10px'}}>
-                  <button onClick={()=>{clearOtherDropdowns(); toggleExperienceDropdown(!experienceDropdown)}} className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Experience
-                  </button>
-                  <div  style={{display:experienceDropdown==true?"block":"none"}} className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <a className="dropdown-item" href="#">Junior</a>
-                    <a className="dropdown-item" href="#">Senior</a>
-                    <a className="dropdown-item" href="#">Team lead</a>
-                    <a className="dropdown-item" href="#">Manager</a>
-                  </div>
+             
+                     <select onChange={(e)=>handleSelectChange(e, "experience")} id="inputState" className="form-control">
+                        <option selected={experienceFilter=="0"} value={"0"} >Experience</option>
+                        <option selected={experienceFilter=="1"} value={"1"}>Intern</option>
+                        <option selected={experienceFilter=="2"} value={"2"}>Junior</option>
+                        <option selected={experienceFilter=="3"} value={"3"}>Intermediate</option>
+                        <option selected={experienceFilter=="4"} value={"4"}>Senior</option>
+                        <option selected={experienceFilter=="5"} value={"5"}>Lead</option>
+                      </select>
                 </div>
-                <div className="dropdown" style={{float: 'left', margin: '10px'}}>
+                {/* <div className="dropdown" style={{float: 'left', margin: '10px'}}>
                   <button onClick={()=>{clearOtherDropdowns(); toggleStatusDropdown(!statusDropdown)}} className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Status
                   </button>
@@ -247,7 +275,7 @@ function filter(){
                     <a className="dropdown-item" href="#">Bench</a>
                     <a className="dropdown-item" href="#">Allocated</a>
                   </div>
-                </div>
+                </div> */}
                 
                 <br />
                 <div className="modal fade" id="exampleModal" tabIndex={-1} aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -455,7 +483,7 @@ function filter(){
                   </tfoot>
                   <tbody>
 
-                    {filteredPersonnel.length>0 && filteredPersonnel.map(person => 
+                    {filteredList.length>0 && filteredList.map(person => 
                        
                         <tr onClick={()=>{handleSelect(person)}}>
                         <td><a>{person.data.user?.name} {person.data.user?.surname}</a></td>

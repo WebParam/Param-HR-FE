@@ -3,10 +3,12 @@ import React, { useState } from 'react';
 import { useLocation } from "react-router-dom";
 import { IPersonnel, IPersonnelResponseModel } from 'src/interfaces/personnel';
 const axios = require("axios").default;
-import { FaBeer } from "react-icons/fa";
+
 import Select from 'react-select';
 import Cookies from 'universal-cookie';
 import moment from 'moment'
+import { FaFile } from 'react-icons/fa';
+import { getProfessionTextById } from '../lib/data/professions';
 
 export default function PersonnelDetail() {
   const location = useLocation();
@@ -231,7 +233,7 @@ const createFormFiles=()=>{
                           
                           <div className="col-md-8" style={{float: "right", marginTop:"2%"}}>
                           <h4 style={{fontSize:"1.5em"}} className="c-grey-900 mB-20">{userDetails?.user?.name} {userDetails?.user?.surname}</h4>
-                            <h6  className="c-grey-900">{userDetails?.proffession??""}</h6>
+                            <h6  className="c-grey-900">{getProfessionTextById(userDetails?.proffession)??""}</h6>
                           </div>
                             <div className="peer ">
                               <img className="w-6r bdrs-50p" src="https://randomuser.me/api/portraits/women/30.jpg" alt="" />
@@ -290,7 +292,6 @@ const createFormFiles=()=>{
                                     <option selected={userDetails?.proffession=="2"?userDetails.proffession=="2": proffession=="2"} value={"2"}>Project manager</option>
                                     <option selected={userDetails?.proffession=="3"?userDetails.proffession=="3": proffession=="3"} value={"3"}>Software Developer</option>
                                     <option selected={userDetails?.proffession=="4"?userDetails.proffession=="4": proffession=="4"} value={"4"}>Software Tester</option>
-                                    <option selected={userDetails?.proffession=="5"?userDetails.proffession=="5": proffession=="5"} value={"5"}>Business analyst</option>
                                   </select>
                                 </div>
                                 <div className="mb-3 col-md-4">
@@ -307,7 +308,7 @@ const createFormFiles=()=>{
                              
                               </div>
                               <div className="mb-3">
-                                <label className="form-label" htmlFor="workAddress">Work Address <FaBeer /></label>
+                                <label className="form-label" htmlFor="workAddress">Work Address </label>
                                 <input type="text" className="form-control"  onChange={(e) => setWorkaddress(e.target.value)}  defaultValue={userDetails?.workAddress??""} id="workAddress" />
                               </div>
                               <div className="mb-3">
@@ -575,7 +576,7 @@ const createFormFiles=()=>{
                                     {/* <input type="checkbox" checked id="inputCall2" name="inputCheckboxesCall" class="peer"> */}
                                   
                                       <label htmlFor="" className="form-label peers peer-greed js-sb ai-c">
-                                        <i className="ti-files" /><span className="peer peer-greed" style={{marginLeft: '5px'}}>   CV</span>
+                                        <FaFile/> <span className="peer peer-greed" style={{marginLeft: '5px'}}>   CV</span>
                                       </label>
                                       <input className="form-control" type="file" id="cv" name="cv" onChange={saveCV} />
                                     {cvUrl!=="" || allUserDetails?.cv && <a target="_blank"  style={{textDecoration: "underline", color: "cornflowerblue"}} 

@@ -3,8 +3,7 @@ export const professions = [
   { "value":1,"text":"Business analyst"},
   { "value":2,"text":"Project manager"},
   { "value":3,"text":"Software Developer"},
-  { "value":4,"text":"Software Tester"},
-  { "value":5,"text":"Business analyst"}
+  { "value":4,"text":"Software Tester"}
 ]
 
 export function getProfessionTextById(id:string){
