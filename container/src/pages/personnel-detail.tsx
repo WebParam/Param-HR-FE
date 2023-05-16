@@ -13,6 +13,7 @@ import { getProfessionTextById } from '../lib/data/professions';
 export default function PersonnelDetail() {
   const location = useLocation();
 
+  const navigate = useNavigate();
  
   const [name, setName] = useState<string>("");
   const [surname, setSurname] = useState<string>("");
@@ -104,7 +105,6 @@ const createFormFiles=()=>{
       headers: { 'content-type': 'multipart/form-data' }
   }
   
-  const navigate = useNavigate();
   const handleComplete = () => {
     
     navigate('/personnel', {
@@ -386,7 +386,7 @@ const createFormFiles=()=>{
                       </div>
                       <div className="col-md-5">
                         <div className="bgc-white p-20 bd">
-                          <h6 style={{fontSize:"1.5em"}} className="c-grey-900">Skills &amp; Qualifications</h6>
+                          <h6 style={{fontSize:"1.5em", marginTop:"2%"}} className="c-grey-900">Skills &amp; Qualifications</h6>
                           <div className="mT-30">
                             <form>
                          

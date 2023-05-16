@@ -9,6 +9,7 @@ import Personnel from "./pages/personnel";
 import PersonnelDetail from "./pages/personnel-detail";
 import Login from "./pages/login";
 import Cookies from 'universal-cookie';
+import { FaBell, FaMailBulk } from "react-icons/fa";
 
 const cookies = new Cookies();
 const isLoggedIn = cookies.get('param-hr-user') ;
@@ -46,8 +47,8 @@ const App = () => (
             <ul className="nav-right">
               <li className="notifications dropdown">
                 <span className="counter bgc-red">3</span>
-                <a href="" className="dropdown-toggle no-after" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                  <i className="ti-bell"></i>
+                <a href="" style={{ paddingTop: "20px"}} className="dropdown-toggle no-after" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                  <i className=""><FaBell/></i>
                 </a>
 
                 <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1"> 
@@ -119,8 +120,8 @@ const App = () => (
               </li>
               <li className="notifications dropdown">
                 <span className="counter bgc-blue">3</span>
-                <a href="" className="dropdown-toggle no-after" data-bs-toggle="dropdown">
-                  <i className="ti-email"></i>
+                <a href="" style={{ paddingTop: "20px"}} className="dropdown-toggle no-after" data-bs-toggle="dropdown">
+                  <i className=""><FaMailBulk/></i>
                 </a>
 
                 <ul className="dropdown-menu">
@@ -208,10 +209,10 @@ const App = () => (
               <li className="dropdown">
                 <a href="" className="dropdown-toggle no-after peers fxw-nw ai-c lh-1" data-bs-toggle="dropdown">
                   <div className="peer mR-10">
-                    <img className="w-2r bdrs-50p" src="https://randomuser.me/api/portraits/men/10.jpg" alt=""/>
+                    <img className="w-2r bdrs-50p" src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt=""/>
                   </div>
                   <div className="peer">
-                    <span className="fsz-sm c-grey-900">John Doe</span>
+                    <span className="fsz-sm c-grey-900">{isLoggedIn.name}</span>
                   </div>
                 </a>
                 <ul className="dropdown-menu fsz-sm">

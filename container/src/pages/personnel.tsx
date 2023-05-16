@@ -154,10 +154,10 @@ function Personnel() {
                 </div>     
                 
                 <div className="input-group" style={{width: '10%', float: 'left', marginTop: '10px', marginLeft: '15px'}}>
-                  <input type="text" className="form-control" placeholder="Minimum price" id="minPrice" />
+                  <input type="text" className="form-control" placeholder="Min price" id="minPrice" />
                 </div>
                 <div className="input-group" style={{width: '10%', float: 'left', marginTop: '10px', marginLeft: '5px'}}>
-                  <input type="text" className="form-control" placeholder="Maximum price" id="maxPrice" />
+                  <input type="text" className="form-control" placeholder="Max price" id="maxPrice" />
                 </div>
                 <div className="dropdown" style={{float: 'left', margin: '10px', marginLeft: '5%'}}>
                   {/* <button onClick={()=>{clearOtherDropdowns(); toggleSkillsDropdown(!skillsDropdown)}} className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
