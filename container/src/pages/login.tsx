@@ -111,7 +111,7 @@ setToggleRegister(false);
                   <a><button onClick={()=>LoginUser()} className="btn btn-primary btn-color" style={{backgroundColor: "rgb(38, 63, 34)",
 border: "none",
 borderRadius:" 0px",
-marginLeft:"80%",
+marginLeft:"50%",
 paddingLeft: "35%",
 paddingRight: "35%",
 width: "160px"}}>Login</button></a>
