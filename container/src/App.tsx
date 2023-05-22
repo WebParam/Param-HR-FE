@@ -24,7 +24,7 @@ const App = () => (
      {isLoggedIn && <Sidebar/>}
 
       {/* <!-- #Main ============================ --> */}
-      <div className="page-container">
+      <div className={isLoggedIn ? 'page-container' :''}>
         {/* <!-- ### $Topbar ### --> */}
         {isLoggedIn &&     <div className="header navbar">
           <div className="header-container">
@@ -249,7 +249,7 @@ const App = () => (
         }
 
         {/* <!-- ### $App Screen Content ### --> */}
-        <main className='main-content bgc-grey-100'>
+      <main  className={isLoggedIn ? "main-content bgc-grey-100":""}>
     <Routes>
       <Route
         path="/"
@@ -283,9 +283,10 @@ const App = () => (
     </main>
 
         {/* <!-- ### $App Screen Footer ### --> */}
-        <footer className="bdT ta-c p-30 lh-0 fsz-sm c-grey-600">
+        {isLoggedIn &&  <footer className="bdT ta-c p-30 lh-0 fsz-sm c-grey-600">
           <span>Copyright © 2023 ParamSolutions. All rights reserved.</span>
         </footer>
+        }
       </div>
     </div>
   </div>

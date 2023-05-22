@@ -2,16 +2,21 @@ import { Outlet, Link } from "react-router-dom";
 import Sidebar from "./sidebar";
 import React from 'react';
 import { FaPowerOff } from "react-icons/fa";
+import Cookies from "universal-cookie";
+
+const cookies = new Cookies();
+const isLoggedIn = cookies.get('param-hr-user') ;
+
 const Layout = () => {
   return (
     <>
      <div className="App">
      <link rel="stylesheet" href="https://unpkg.com/themify@1.0.0/_themify.scss"/>
      {/* <link href="https://cdn.jsdelivr.net/npm/@icon/themify-icons@1.0.1-alpha.3/themify-icons.min.css" rel="stylesheet"></link> */}
-      <div>
+    {isLoggedIn &&  <div>
         {/* <!-- #Left Sidebar ==================== --> */}
         <Sidebar/>
-s
+
         {/* <!-- #Main ============================ --> */}
         <div className="page-container">
           {/* <!-- ### $Topbar ### --> */}
@@ -247,6 +252,7 @@ s
           </footer>
         </div>
       </div>
+    }
     </div>
     </>
   )

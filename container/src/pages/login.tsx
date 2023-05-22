@@ -3,6 +3,7 @@ import { Api } from '../lib/restapi/endpoints';
 import Cookies from 'universal-cookie';
 import { IUserLoginModel, IUserRegisterModel } from 'src/interfaces/user';
 import { useNavigate } from "react-router-dom";
+// import img from "../static/images/logo.png"
 
 function Login() {
   
@@ -20,7 +21,7 @@ const isLoggedIn = cookies.get('param-hr-user') ;
 const [toggleRegister, setToggleRegister]  = useState<boolean>(false); 
 const navigate = useNavigate();
 
-
+// console.log("DSD",img)
 
 // console.log("cooloes", cookies.get('param-hr-user').data.data)
 
@@ -77,43 +78,67 @@ setToggleRegister(false);
 
   return (
    <>
-      <div id='mainContent'>
+      <div id='mainContente'>
       { !toggleRegister &&<>
       <div className="peers ai-s fxw-nw h-100vh">
-      <div className="d-n@sm- peer peer-greed h-100 pos-r bgr-n bgpX-c bgpY-c bgsz-cv" style={{backgroundImage: "url('assets/static/images/bg.jpg')"}}>
+      <div className="d-n@sm- peer peer-greed h-100 pos-r bgr-n bgpX-c bgpY-c bgsz-cv" style={{backgroundImage: "url('https://paramsolutions.dev/images/param-banner.svg')",
+    backgroundColor:"#263F22", backgroundSize:"80%"}}>
         <div className="pos-a centerXY">
-          <div className="bgc-white bdrs-50p pos-r" style={{width: "120px",height: "120px"}}>
+          <div className="bdrs-50p pos-r" style={{width: "120px",height: "120px"}}>
             <img className="pos-a centerXY" src="assets/static/images/logo.png" alt=""/>
           </div>
         </div>
       </div>
       <div className="col-12 col-md-4 peer pX-40 pY-80 h-100 bgc-white scrollable pos-r" style={{minWidth: "320px", textAlign:"left"}}>
-        <h4 className="fw-300 c-grey-900 mB-40">Login</h4>
+        <h4 style={{fontSize:"25pt"}} className="fw-300 c-grey-900 mB-40">Login</h4>
         {/* <form> */}
           <div className="mb-3">
             <label className="text-normal text-dark form-label">Username</label>
-            <input type="email"  onChange={(e) => setEmail(e.target.value)} className="form-control" placeholder=""/>
+            <input type="email" style={{width:"80%"}} onChange={(e) => setEmail(e.target.value)} className="form-control" placeholder=""/>
           </div>
           <div className="mb-3">
             <label className="text-normal text-dark form-label">Password</label>
-            <input type="password"  onChange={(e) => setPassword(e.target.value)} className="form-control" placeholder="*******"/>
+            <input type="password" style={{width:"80%"}} onChange={(e) => setPassword(e.target.value)} className="form-control" placeholder="*******"/>
           </div>
           <div className="">
             <div className="peers ai-c jc-sb fxw-nw">
-              <div className="peer">
+              <div className="peer" style={{paddingTop: "5%"}}>
                 <div className="checkbox checkbox-circle checkbox-info peers ai-c">
                   <input type="checkbox" id="inputCall1" name="inputCheckboxesCall" className="peer"/>
                   <label className=" peers peer-greed js-sb ai-c form-label">
                     <span className="peer peer-greed">Remember Me</span>
                   </label>
+                  <a><button onClick={()=>LoginUser()} className="btn btn-primary btn-color" style={{backgroundColor: "rgb(38, 63, 34)",
+border: "none",
+borderRadius:" 0px",
+marginLeft:"100%",
+paddingLeft: "35%",
+paddingRight: "35%",
+width: "160px"}}>Login</button></a>
                 </div>
               </div>
-              <div className="peer">
-                <a><button onClick={()=>LoginUser()} className="btn btn-primary btn-color">Login</button></a>
+             
+            </div>
+          </div>
+          <div className="">
+            <div className="peers ai-c jc-sb fxw-nw">
+             
+              <div className="peer" style={{paddingTop: "5%", paddingLeft:"5%"}}>
+   
+                
               </div>
-              <div className="peer">
-                <a onClick={()=>setToggleRegister(true)} className="btn btn-primary btn-color">Register</a>
-              </div>
+              <br/>
+              {/* <div className="peer"> */}
+                {/* <a onClick={()=>setToggleRegister(true)} className="">Register</a> */}
+              {/* </div> */}
+            </div>
+          </div>
+          <div className="">
+            <div className="peers ai-c jc-sb fxw-nw" style={{paddingTop: "15%", paddingLeft:"5%"}}>
+             
+              {/* <div className="peer"> */}
+                <a onClick={()=>setToggleRegister(true)} className="">Dont have an account? Register here</a>
+              {/* </div> */}
             </div>
           </div>
         {/* </form> */}
@@ -123,9 +148,10 @@ setToggleRegister(false);
 
 { toggleRegister &&<>
     <div className="peers ai-s fxw-nw h-100vh">
-      <div className="peer peer-greed h-100 pos-r bgr-n bgpX-c bgpY-c bgsz-cv" style={{backgroundImage: "url('assets/static/images/bg.jpg')"}}>
+      <div className="peer peer-greed h-100 pos-r bgr-n bgpX-c bgpY-c bgsz-cv" style={{backgroundImage: "url('https://paramsolutions.dev/images/param-banner.svg')",
+    backgroundColor:"#263F22",backgroundSize:"80%"}}>
         <div className="pos-a centerXY">
-          <div className="bgc-white bdrs-50p pos-r" style={{width: "120px", height: "120px"}}>
+          <div className=" bdrs-50p pos-r" style={{width: "120px", height: "120px"}}>
             <img className="pos-a centerXY" src="assets/static/images/logo.png" alt=""/>
           </div>
         </div>
