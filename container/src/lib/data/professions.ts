@@ -81,3 +81,17 @@ export const languages =[
   {value:"3",label:"Swahili"},
   {value:"4",label:"Portugese"},
 ]
+
+export const countries =[
+  {value:"0",label:"South Africa"},
+  {value:"1",label:"Kenya"},
+  {value:"2",label:"Ghana"},
+  {value:"3",label:"Botswana"},
+  {value:"4",label:"Tanzania"},
+  {value:"5",label:"Other"},
+]
+
+
+export function getCountryById(id:string){
+  return countries.find(p => p.value.toString() == id)?.label;
+}

@@ -5,7 +5,7 @@ import { Api } from '../lib/restapi/endpoints';
 import {Link, useNavigate} from "react-router-dom"
 import Select from 'react-select';
 import React, { useState, useEffect } from 'react';
-import { getProfessionTextById, getSkillLevelById,skills,languages,competencies  } from '../lib/data/professions';
+import { getProfessionTextById, getSkillLevelById,skills,languages,competencies, getCountryById  } from '../lib/data/professions';
 import { toLower } from 'lodash';
 
 function Personnel() {
@@ -123,9 +123,7 @@ function Personnel() {
 
 
 
-  console.log("fu",filteredList)
-  console.log("fil",filters);
-
+console.log("RRRRRR", personnel);
 
   return (
    <>
@@ -417,10 +415,10 @@ width: "160px"}} className="btn btn-primary btn-color" to="/personnel-detail">Ad
                       <th>Position</th>
                       <th>Experience</th>
                       <th>Competencies</th>
-                      <th>Languages</th>
                       <th>Skills</th>
+                      <th>Location</th>
                      
-                      <th>Office</th>
+                      <th>Languages</th>
                       <th>Status</th>
                       <th>Project end date</th>
                       <th>Rate</th>
@@ -428,24 +426,24 @@ width: "160px"}} className="btn btn-primary btn-color" to="/personnel-detail">Ad
                   </thead>
                   <tfoot>
                     <tr>
-                      <th>Name</th>
-                      <th>Profession</th>
+                    <th>Name</th>
+                      <th>Position</th>
                       <th>Experience</th>
                       <th>Competencies</th>
-                      <th>Languages</th>
                       <th>Skills</th>
+                      <th>Location</th>
                      
-                      <th>Office</th>
-                      <th>Age</th>
-                      <th>Start date/ End date</th>
-                      <th>Salary</th>
+                      <th>Languages</th>
+                      <th>Status</th>
+                      <th>Project end date</th>
+                      <th>Rate</th>
                     </tr>
                   </tfoot>
                   <tbody>
 
                     {filteredList.length>0 && filteredList.map(person => 
                        
-                        <tr onClick={()=>{handleSelect(person)}}>
+                        <tr style={{cursor:"pointer"}} onClick={()=>{handleSelect(person)}}>
                         <td><a>{person.data.user?.name} {person.data.user?.surname}</a></td>
                         <td>{getProfessionTextById(person.data.proffession)}</td>
                         <td>{getSkillLevelById(person.data.skillLevel)}</td>     
@@ -480,7 +478,7 @@ width: "160px"}} className="btn btn-primary btn-color" to="/personnel-detail">Ad
                         
                         </td>
                        
-                        <td>{person.data.city}, {person.data.country}</td>
+                        <td>{person.data.city}, {getCountryById(person.data.country)}</td>
                         <td>
                         <span className="peer">
                                   {

@@ -26,7 +26,7 @@ export default function PersonnelDetail() {
   const [homeAddress, setHomeAddress] = useState<string>("");
   const [city, setCity] = useState<string>("");
   const [timezone, setTimezone] = useState<string>("");
-  const [country, setCountry] = useState<string>("");  
+  const [country, setCountry] = useState<string>("0");  
   const [languages, setLanguage] = useState<string>("");
   const [contacts, setContacts] = useState<string>("");
   const [id, setId] = useState<string>(""); 
@@ -227,7 +227,7 @@ const createFormFiles=()=>{
       { value: 'bpmn', label: 'BPMN' },
     ]
 
-    console.log("userDSDSDSetails", moment( userDetails?.birthday).format('YYYY/MM/DD'));
+    console.log("country", country);
 
     
   return (
@@ -337,7 +337,7 @@ const createFormFiles=()=>{
                                     <option value={"0"} selected={country=="0" || userDetails?.country =="0"}>South Africa</option>
                                     <option selected={country=="1" || userDetails?.country=="1"} value={"1"}>Kenya</option>
                                     <option selected={country=="2" || userDetails?.country=="2"} value={"2"}>Ghana</option>
-                                    <option selected={country=="3" || userDetails?.country=="2"} value={"3"}>Botswana</option>
+                                    <option selected={country=="3" || userDetails?.country=="3"} value={"3"}>Botswana</option>
                                     <option selected={country=="4" || userDetails?.country =="4"} value={"4"}>Tanzania</option>
                                     <option selected={country=="5" || userDetails?.country=="5"} value={"5"}>Other</option>                                    
                                   </select>
@@ -359,7 +359,7 @@ const createFormFiles=()=>{
                                     <option selected={timezone === "GMT-1"|| userDetails?.timezone=="GMT-1"} value="GMT-1">Central European Time-1 (GMT-1)</option>
                                     <option selected={timezone === "GMT+0"|| userDetails?.timezone=="GMT+0"} value="GMT+0">Coordinated Universal Time (GMT+0)</option>
                                     <option selected={timezone === "GMT+1"|| userDetails?.timezone=="GMT+1"} value="GMT+1">Central European Time (GMT+1)</option>
-                                    <option selected={timezone === "GMT+2"|| userDetails?.timezone=="GMT+2"} value="GMT+2">Eastern European Time (GMT+2)</option>
+                                    <option selected={timezone === "GMT+2"|| userDetails?.timezone=="GMT+2"} value="GMT+2">Central African Time (GMT+2)</option>
                                     <option selected={timezone === "GMT+3"|| userDetails?.timezone=="GMT+3"} value="GMT+3">Moscow Standard Time (GMT+3)</option>
                                     <option selected={timezone === "GMT+4"|| userDetails?.timezone=="GMT+4"} value="GMT+4">Gulf Standard Time (GMT+4)</option>
                                     <option selected={timezone === "GMT+5"|| userDetails?.timezone=="GMT+5"} value="GMT+5">Pakistan Standard Time (GMT+5)</option>
@@ -510,7 +510,7 @@ const createFormFiles=()=>{
                                </div><br /><br /> */}
                                <div className="mb-3  col-md-12">
                                  <div className="col-md-5 m-5 checkbox checkbox-circle checkbox-info peers ai-c" style={{float: 'left'}}>
-                                   <input type="checkbox" onChange={()=>setHasDegree(!hasDegree)} checked={hasDegree} defaultChecked={degreeType!=="0"} id="inputCall2" name="inputCheckboxesCall" className="peer" />
+                                   <input type="checkbox" onChange={()=>setHasDegree(!hasDegree)} checked={hasDegree}  id="inputCall2" name="inputCheckboxesCall" className="peer" />
                                    <label htmlFor="inputCall2" className="form-label peers peer-greed js-sb ai-c">
                                      <span className="peer peer-greed">Degree/Diploma</span>
                                    </label><br /><br />
