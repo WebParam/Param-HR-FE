@@ -113,7 +113,7 @@ const createFormFiles=()=>{
   };
 
 
-  axios.post("https://localhost:7247/Personnel/AddPersonnel", formData, config)
+  axios.post("https://param-hr-be-dev.azurewebsites.net/Personnel/AddPersonnel", formData, config)
       .then((response:any) => {
           console.log("response", response);
           setId(response.data.data.id);
@@ -489,13 +489,13 @@ const createFormFiles=()=>{
                                 
                                 {/* <div class="mb-3"> */}
                                 <span className="peer">
-                                  {
+                                  {/* {
                                     skills?.split(' ')?.map((skill,index)=>{
                                       return(
                                         <span key={index} className="badge rounded-pill  bg-info lh-0 p-10">{skill}</span>
                                       )
                                     })
-                                  }
+                                  } */}
                                   {/* <span className="badge rounded-pill  bg-info lh-0 p-10">PM</span>
                                   <span className="badge rounded-pill  bg-info lh-0 p-10">BPMN</span>
                                   <span className="badge rounded-pill  bgc-pink-500 lh-0 p-10">Scrum Master</span> */}

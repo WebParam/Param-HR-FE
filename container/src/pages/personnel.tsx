@@ -136,9 +136,15 @@ function Personnel() {
           <div className="row">
             <div className="col-md-12">
               <div className="bgc-white bd bdrs-3 p-20 mB-20">
-              <div className="row" style={{float:"right", marginRight:"10px"}}><Link className="btn btn-primary btn-color" to="/personnel-detail">Add new</Link></div>
+              <div className="row" style={{float:"right", marginRight:"10px"}}><Link style={{backgroundColor: "rgb(38, 63, 34)",
+border: "none",
+borderRadius:" 0px",
+// marginLeft:"50%",
+paddingLeft: "15%",
+paddingRight: "15%",
+width: "160px"}} className="btn btn-primary btn-color" to="/personnel-detail">Add new</Link></div>
           
-                <h4 className="c-grey-900 mB-20">All personnel</h4>
+                <h4  style={{fontSize:"25pt"}} className="c-grey-900 mB-20">Personnel</h4>
               
                 <div className="input-group" style={{width: '15%', float: 'left', marginTop: '10px'}}>
                   <div className="input-group-text bgc-white bd bdwR-0">
@@ -448,7 +454,7 @@ function Personnel() {
                                   {
                                     person.data.competencies?.split(',')?.map((skill,index)=>{
                                       return(
-                                        <span key={index} className="badge rounded-pill  bg-info lh-0 p-10">{skill}</span>
+                                        <span key={index}  style={{backgroundColor: "rgb(38, 63, 34) !important"}} className="badge rounded-pill  bg-info lh-0 p-10">{skill}</span>
                                       )
                                     })
                                   }
@@ -463,7 +469,7 @@ function Personnel() {
                                   {
                                     person.data.skills?.split(',')?.map((skill,index)=>{
                                       return(
-                                        <span key={index} className="badge rounded-pill  bg-info lh-0 p-10">{skill}</span>
+                                        <span key={index}   style={{backgroundColor: "rgb(38, 63, 34) !important"}}  className="badge rounded-pill  bg-info lh-0 p-10">{skill}</span>
                                       )
                                     })
                                   }
@@ -480,7 +486,7 @@ function Personnel() {
                                   {
                                     person.data.languages?.split(',')?.map((languages,index)=>{
                                       return(
-                                        <span key={index} className="badge rounded-pill  bg-info lh-0 p-10">{languages}</span>
+                                        <span key={index}  style={{backgroundColor: "rgb(38, 63, 34) !important"}}  className="badge rounded-pill  bg-info lh-0 p-10">{languages}</span>
                                       )
                                     })
                                   }
