@@ -467,7 +467,7 @@ width: "160px"}} className="btn btn-primary btn-color" to="/personnel-detail">Ad
                                   {
                                     person.data.skills?.split(',')?.map((skill,index)=>{
                                       return(
-                                        <span key={index}   style={{backgroundColor: "rgb(38, 63, 34) !important"}}  className="badge rounded-pill  bg-info lh-0 p-10">{skill}</span>
+                                        <span key={index}   style={{backgroundColor: "green !important"}}  className="badge rounded-pill  bg-info lh-0 p-10">{skill}</span>
                                       )
                                     })
                                   }

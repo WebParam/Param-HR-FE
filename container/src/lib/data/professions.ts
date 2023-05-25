@@ -95,3 +95,8 @@ export const countries =[
 export function getCountryById(id:string){
   return countries.find(p => p.value.toString() == id)?.label;
 }
+
+export interface IPartner{
+
+}
+

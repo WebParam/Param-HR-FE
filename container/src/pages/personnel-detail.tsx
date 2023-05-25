@@ -528,14 +528,14 @@ const createFormFiles=()=>{
                                      <option selected={degreeType=="10" || userDetails?.degreeType=="10"} value={"10"}>Associate Degree in Computer Science</option>
                                    </select><br /><br/><br/>
                                   
-                                   <input type="text" disabled={!hasDegree} className="form-control" id="degree-inst"  onChange={(e) => setDegreeInstitution(e.target.value)} placeholder="University/ Tertiary Institution" defaultValue={userDetails?.degreeInstitution??""}/>
-                                   <div style={{ marginTop: '5%'}}>
+                                   <input type="text" style={{ marginTop: '5%'}} disabled={!hasDegree} className="form-control" id="degree-inst"  onChange={(e) => setDegreeInstitution(e.target.value)} placeholder="University/ Tertiary Institution" defaultValue={userDetails?.degreeInstitution??""}/>
+                                   <div >
                                     {/* <input type="checkbox" checked id="inputCall2" name="inputCheckboxesCall" class="peer"> */}
                                     <a >
-                                      <input className="form-control" disabled={!hasDegree} type="file" id="degree" name="degree" onChange={saveDegree} />
+                                      <input style={{ marginTop: '5%', marginBottom:"2%"}} className="form-control"  disabled={!hasDegree} type="file" id="degree" name="degree" onChange={saveDegree} />
 
                                       </a>
-                                      {degreeUrl!=="" || allUserDetails?.degree && <a target="_blank"  style={{textDecoration: "underline", color: "cornflowerblue"}} href={degreeUrl==""?allUserDetails?.degree:degreeUrl}>View degree</a>}
+                                      {degreeUrl!=="" || allUserDetails?.degree && <a target="_blank"  style={{textDecoration: "underline", color: "cornflowerblue"}} href={degreeUrl==""?allUserDetails?.degree:degreeUrl}><FaFile style={{float:"left", marginTop:"2%"}}/> View </a>}
                                   </div>
                                  </div>
 
@@ -561,14 +561,14 @@ const createFormFiles=()=>{
                                      <option selected={mastersType=="13" || userDetails?.mastersType=="13"} value={"13"}>Master of Science in Operations Management</option>
                                    </select><br /><br/><br/>
                                      
-                                   <input type="text" disabled={!hasMasters} className="form-control" id="masters"  onChange={(e) => setMastersInstitution(e.target.value)} 
+                                   <input type="text" style={{ marginTop: '5%'}} disabled={!hasMasters} className="form-control" id="masters"  onChange={(e) => setMastersInstitution(e.target.value)} 
                                    placeholder="University" defaultValue={userDetails?.mastersInstitution??""}/>
                                    <div style={{ marginTop: '5%'}}>
                                     {/* <input type="checkbox" checked id="inputCall2" name="inputCheckboxesCall" class="peer"> */}
-                                    <a >
-                                      <input className="form-control" disabled={!hasMasters}  type="file" id="masters" name="masters" onChange={saveMasters} />
+                                    <a>
+                                      <input className="form-control" disabled={!hasMasters}  style={{ marginBottom:"2%"}} type="file" id="masters" name="masters" onChange={saveMasters} />
                                       </a>
-                                      {mastersUrl!=="" || allUserDetails?.masters && <a target="_blank"  style={{textDecoration: "underline", color: "cornflowerblue"}} href={mastersUrl==""?allUserDetails?.masters:mastersUrl}>View masters</a>}
+                                      {mastersUrl!=="" || allUserDetails?.masters && <a target="_blank"  style={{textDecoration: "underline", color: "cornflowerblue"}} href={mastersUrl==""?allUserDetails?.masters:mastersUrl}><FaFile style={{float:"left", marginTop:"2%"}}/> View</a>}
                                   </div>
                                  </div>
                                  <div className="col-md-5 m-5 checkbox checkbox-circle checkbox-info peers ai-c" style={{float: 'left'}}>
@@ -582,15 +582,15 @@ const createFormFiles=()=>{
                                 </div>
                                 <div className="mb-3 ">
                                  
-                                  <div style={{ marginLeft: '10px'}}>
+                                  <div className='mb-3 col-md-9' style={{ marginLeft: '10px'}}>
                                     {/* <input type="checkbox" checked id="inputCall2" name="inputCheckboxesCall" class="peer"> */}
                                   
                                       <label htmlFor="" className="form-label peers peer-greed js-sb ai-c">
-                                        <FaFile/> <span className="peer peer-greed" style={{marginLeft: '5px'}}>   CV</span>
+                                      <span className="peer peer-greed" style={{marginLeft: '5px', marginBottom:"2%"}}>   CV</span>
                                       </label>
-                                      <input className="form-control" type="file" id="cv" name="cv" onChange={saveCV} />
-                                    {cvUrl!=="" || allUserDetails?.cv && <a target="_blank"  style={{textDecoration: "underline", color: "cornflowerblue"}} 
-                                    href={cvUrl==""?allUserDetails?.cv:cvUrl}>View CV</a>}
+                                      <input style={{marginBottom:"2%"}} className="form-control" type="file" id="cv" name="cv" onChange={saveCV} />
+                                    {cvUrl!=="" || allUserDetails?.cv && <a target="_blank"  style={{marginTop:"2%", textDecoration: "underline", color: "cornflowerblue"}} 
+                                    href={cvUrl==""?allUserDetails?.cv:cvUrl}><FaFile style={{float:"left", marginTop:"1%"}}/> View</a>}
                                   </div><br />
                                
                               
