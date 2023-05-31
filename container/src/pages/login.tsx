@@ -161,30 +161,39 @@ width: "160px"}}>Login</button></a>
         {/* <form> */}
           <div className="mb-3">
             <label className="form-label text-normal text-dark">Name</label>
-            <input type="text" className="form-control" onChange={(e) => setRName(e.target.value)} defaultValue={r_name}/>
+            <input  style={{width:"80%"}} type="text" className="form-control" onChange={(e) => setRName(e.target.value)} defaultValue={r_name}/>
           </div>
           <div className="mb-3">
             <label className="form-label text-normal text-dark">Surname</label>
-            <input type="text" className="form-control" onChange={(e) => setRSurname(e.target.value)} defaultValue={r_surname}/>
+            <input  style={{width:"80%"}} type="text" className="form-control" onChange={(e) => setRSurname(e.target.value)} defaultValue={r_surname}/>
           </div>
           <div className="mb-3">
             <label className="form-label text-normal text-dark">Email Address</label>
-            <input type="email" className="form-control" onChange={(e) => setREmail(e.target.value)} defaultValue={r_email}/>
+            <input  style={{width:"80%"}} type="email" className="form-control" onChange={(e) => setREmail(e.target.value)} defaultValue={r_email}/>
           </div>
           <div className="mb-3">
             <label className="form-label text-normal text-dark">Password</label>
-            <input type="password" className="form-control" onChange={(e) => setRPassword(e.target.value)} />
+            <input  style={{width:"80%"}} type="password" className="form-control" onChange={(e) => setRPassword(e.target.value)} />
           </div>
           <div className="mb-3">
             <label className="form-label text-normal text-dark">Confirm Password</label>
-            <input type="password" className="form-control" placeholder="Password"/>
+            <input  style={{width:"80%"}} type="password" className="form-control" placeholder=""/>
           </div>
-          <div className="mb-3">
-            <button onClick={()=>RegisterUser()} className="btn btn-primary btn-color">Register</button>
+          <div className="mb-3" style={{marginTop:"5%"}}>
+            <button onClick={()=>RegisterUser()} className="btn btn-primary btn-color" style={{backgroundColor: "rgb(38, 63, 34)",
+            border: "none",
+            borderRadius:" 0px",
+            marginLeft:"50%",
+
+            textAlign: "center",
+            width: "160px"}}>Register</button>
           </div>
-          <div className="peer">
-                <a onClick={()=>setToggleRegister(false)} className="btn btn-primary btn-color">Login</a>
+          <div className="">
+            <div className="peers ai-c jc-sb fxw-nw" style={{paddingTop: "15%", paddingLeft:"5%"}}>
+             
+                <a  onClick={()=>setToggleRegister(false)} className="">Already have an account? Login here</a>
               </div>
+          </div>
         {/* </form> */}
       </div>
     </div>
