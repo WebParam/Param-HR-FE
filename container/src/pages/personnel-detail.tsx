@@ -9,6 +9,7 @@ import Cookies from 'universal-cookie';
 import moment from 'moment'
 import { FaFile } from 'react-icons/fa';
 import { getProfessionTextById } from '../lib/data/professions';
+import { ToastContainer, toast } from 'react-toastify';
 
 export default function PersonnelDetail() {
   const location = useLocation();
@@ -62,7 +63,8 @@ export default function PersonnelDetail() {
 
 
 
-const createFormFiles=()=>{
+const createFormFiles= async()=>{
+ 
   const formData = new FormData();
   formData.append("name", name!=""?name:userDetails?.user.name);
   formData.append("userId",userDetails?.userid??userId);
@@ -105,13 +107,18 @@ const createFormFiles=()=>{
       headers: { 'content-type': 'multipart/form-data' }
   }
   
-  const handleComplete = () => {
-    
-    navigate('/personnel', {
-      state: undefined
-    });
-  };
 
+
+  const _id = toast.loading("Saving..", {
+    position: "top-center",
+    autoClose: 5000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: "light",
+    });
 
   axios.post("https://param-hr-be-dev.azurewebsites.net/Personnel/AddPersonnel", formData, config)
       .then((response:any) => {
@@ -121,15 +128,26 @@ const createFormFiles=()=>{
           setcvUrl(response.data.cv)
           setMastersUrl(response.data.masters);
           setDegreeUrl(response.data.degree);
+          toast.update(_id, { render: "Saved successfully", type: "success", isLoading: false });
           handleComplete();
+          
           
       })
       .catch((error:any) => {
+        toast.update(_id, { render: "All is good", type: "success", isLoading: false });
           console.log(error);
       });
 
   }
 
+
+  
+  const handleComplete = () => {
+   
+    navigate('/personnel', {
+      state: undefined
+    });
+  };
   const saveCV=(e:any)=>{
  
     setCV(e.target.files[0]);
@@ -228,10 +246,12 @@ const createFormFiles=()=>{
     ]
 
     console.log("country", country);
-
+   
     
   return (
+    
       <div id="mainContent" style={{textAlign:"left"}}>
+         <ToastContainer />
         <div className="container-fluid">
           <h4 className="c-grey-900 mT-10 mB-30">Personnel</h4>
           <div className="row bgc-white bd bdrs-3 p-20 mB-20">

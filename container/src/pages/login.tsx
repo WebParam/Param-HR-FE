@@ -1,8 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Api } from '../lib/restapi/endpoints';
 import Cookies from 'universal-cookie';
 import { IUserLoginModel, IUserRegisterModel } from 'src/interfaces/user';
 import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 // import img from "../static/images/logo.png"
 
 function Login() {
@@ -25,6 +28,9 @@ const navigate = useNavigate();
 
 // console.log("cooloes", cookies.get('param-hr-user').data.data)
 
+
+const delay = (ms:any) => new Promise(res => setTimeout(res, ms));
+
 async function LoginUser (){
  
   var request ={
@@ -35,14 +41,13 @@ async function LoginUser (){
   
   const user = await Api.POST_Login(request);
   if(user.error){
-    alert(user.error);
+    alert("Error logging in");
     return;
   }else{
 
     cookies.set('param-hr-user', user?.data as any, { path: '/' });
-    // refresh
-  
-    // navigate("/personnel");
+    toast(`Succesfully logged in as: ${isLoggedIn.name}`);
+
     window.location.href = '#/personnel';  
     window.location.reload();
   }
@@ -50,7 +55,34 @@ async function LoginUser (){
 
 }
 
+async function Redirect(){
+  toast(`Succesfully logged in as: ${isLoggedIn.name}, redirecting...`, {
+    position: "top-center",
+    autoClose: 5000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: "light",
+    });
+  await delay(2000);
+
+  window.location.href = '#/personnel';  
+  window.location.reload();
+}
+
+if(isLoggedIn){ 
+ Redirect();
+
+}
+
+
 async function RegisterUser (){
+
+  useEffect(() => {  
+
+    });
 
   var request ={
     email:r_email,
@@ -78,6 +110,7 @@ setToggleRegister(false);
 
   return (
    <>
+      <ToastContainer />
       <div id='mainContente'>
       { !toggleRegister &&<>
       <div className="peers ai-s fxw-nw h-100vh">
@@ -109,12 +142,14 @@ setToggleRegister(false);
                     <span className="peer peer-greed">Remember Me</span>
                   </label>
                   <a><button onClick={()=>LoginUser()} className="btn btn-primary btn-color" style={{backgroundColor: "rgb(38, 63, 34)",
-border: "none",
-borderRadius:" 0px",
-marginLeft:"50%",
-paddingLeft: "35%",
-paddingRight: "35%",
-width: "160px"}}>Login</button></a>
+                      border: "none",
+                      borderRadius:" 0px",
+                      marginLeft:"50%",
+                      paddingLeft: "35%",
+                      paddingRight: "35%",
+                      width: "160px"}}>Login</button>
+                    </a>
+
                 </div>
               </div>
              
