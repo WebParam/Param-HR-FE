@@ -33,6 +33,18 @@ const delay = (ms:any) => new Promise(res => setTimeout(res, ms));
 
 async function LoginUser (){
  
+  const _id = toast.loading("Logging in..", {
+    position: "top-center",
+    autoClose: 2000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: false,
+    draggable: true,
+    progress: undefined,
+    theme: "light",
+    });
+
+
   var request ={
     email:email,
     password:password
@@ -40,19 +52,20 @@ async function LoginUser (){
 
   
   const user = await Api.POST_Login(request);
-  if(user.error){
-    alert("Error logging in");
+  console.log("USER",user);
+  if(user.error!=false){
+    toast.update(_id, { render: "Cannot log user in with supplied credentials", type: "error", isLoading: false });
+    // alert("Error logging in");
     return;
   }else{
 
     cookies.set('param-hr-user', user?.data as any, { path: '/' });
-    toast(`Succesfully logged in as: ${isLoggedIn.name}`);
+    toast.update(_id, { render: "Logged in successfully", type: "success", isLoading: false });
+    // toast(`Succesfully logged in as: ${user?.data?.name}`);
 
     window.location.href = '#/personnel';  
     window.location.reload();
   }
- 
-
 }
 
 async function Redirect(){
@@ -80,9 +93,17 @@ if(isLoggedIn){
 
 async function RegisterUser (){
 
-  useEffect(() => {  
-
+  const _id = toast.loading("Registering user..", {
+    position: "top-center",
+    autoClose: 2000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: false,
+    draggable: true,
+    progress: undefined,
+    theme: "light",
     });
+
 
   var request ={
     email:r_email,
@@ -97,13 +118,14 @@ async function RegisterUser (){
   
   const user = await Api.POST_Register(request);
   console.log("new",user);
-  if(user.status!=200){
-    alert(user.data);
+  if(user.error!=false){
+    toast.update(_id, { render: "Cannot register user in with supplied information", type: "error", isLoading: false });
     return;
   }
   else{
+    toast.update(_id, { render: "Succesfully registered new user, please login", type: "success", isLoading: false });
     // cookies.set('param-hr-user', user.data, { path: '/' });
-setToggleRegister(false);  
+  setToggleRegister(false);  
 }
  
 }
