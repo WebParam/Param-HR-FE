@@ -412,7 +412,7 @@ const createFormFiles= async()=>{
                          
                               <br />
                               <div className="row">
-                                <div className="mb-3 col-md-9">
+                                <div className="mb-3 col-md-12">
                                   <label className="form-label" htmlFor="languages">Languages</label>
                                   <Select
                                   defaultValue={getOptionsFromString(userDetails?.languages,languageOptions)}
@@ -447,7 +447,7 @@ const createFormFiles= async()=>{
                               <br />
 
                               <div className="row">
-                                <div className="mb-3 col-md-9">
+                                <div className="mb-3 col-md-12">
                                   <label className="form-label" htmlFor="competencies">Competencies</label>
                                   <Select
                                   defaultValue={getOptionsFromString(userDetails?.competencies,competencyOptions)}
@@ -483,7 +483,7 @@ const createFormFiles= async()=>{
                               <br />
                               
                               <div className="row">
-                                <div className="mb-3 col-md-9">
+                                <div className="mb-3 col-md-12">
                                   <label className="form-label" htmlFor="inputPassword4">Skills</label>
                                   <Select
                                   // defaultValue={[colourOptions[2], colourOptions[3]]}

@@ -35,7 +35,7 @@ async function LoginUser (){
  
   const _id = toast.loading("Logging in..", {
     position: "top-center",
-    autoClose: 2000,
+    autoClose: 1000,
     hideProgressBar: false,
     closeOnClick: true,
     pauseOnHover: false,
