@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from "react-router-dom";
 import { IPersonnel, IPersonnelResponseModel } from 'src/interfaces/personnel';
 const axios = require("axios").default;
@@ -11,6 +11,7 @@ import { FaFile } from 'react-icons/fa';
 import { getProfessionTextById } from '../lib/data/professions';
 import { ToastContainer, toast } from 'react-toastify';
 
+
 export default function PersonnelDetail() {
   const location = useLocation();
 
@@ -21,7 +22,7 @@ export default function PersonnelDetail() {
   const [nickname, setNickname] = useState<string>("");
   const [birthday, setBirthday] = useState<string>("");
   const [rate, setRate] = useState<string>("");
-  const [skillLevel, setSkillLevel] = useState<string>("0");  
+  const [skillLevel, setSkillLevel] = useState<string>("");  
   const [email, setEmail] = useState<string>("");
   const [workAddress, setWorkaddress] = useState<string>("");
   const [homeAddress, setHomeAddress] = useState<string>("");
@@ -48,6 +49,26 @@ export default function PersonnelDetail() {
   const [mastersUrl, setMastersUrl] = useState<string>("");
   const [mastersInstitution, setMastersInstitution] = useState<string>("");
 
+  const [disabled, setDisabled] = useState<boolean>(false);//disabling the button
+
+  const [NameError , setNameError ] = useState<boolean>(false);
+  const [SurnameError , setSurnameError ] = useState<boolean>(false);
+  const [EmailError , setEmailError ] = useState<boolean>(false);
+  const [BirthdayError , setBirthdayError] = useState<boolean>(false);
+  const [SkillLevelError , setSkillLevelError ] = useState<boolean>(false);
+  const [WorkAddressError , setWorkAddressError ] = useState<boolean>(false);
+  const [HomeAddressError , setHomeAddressError ] = useState<boolean>(false);
+  const [CityError , setCityError ] = useState<boolean>(false);
+  const [TimezoneError , setTimezoneError ] = useState<boolean>(false);
+  const [CountryError , setCountryError ] = useState<boolean>(false);
+  const [LanguagesError , setLanguagesError] = useState<boolean>(false);
+  const [CompetenciesError , setCompetenciesError] = useState<boolean>(false);
+  const [SkillsError , setSkillsError ] = useState<boolean>(false);
+  const [RateError , setRateError ] = useState<boolean>(false);
+  const [ContactError , setContactError ] = useState<boolean>(false);
+  const [PhoneError , setPhoneError ] = useState<boolean>(false);
+  const [ProffesionError , setProffesionError ] = useState<boolean>(false);
+
 
   const [cv, setCV] = useState<Blob|undefined>();
   const [cvUrl, setcvUrl] = useState<string>("");
@@ -62,6 +83,105 @@ export default function PersonnelDetail() {
 
 
 
+  const HandleValidation = () => {
+    if(name === "" ||  surname === ""  || birthday === "" || rate === ""
+    || email === ""  || workAddress === "" || homeAddress === "" || city === "" ||
+    timezone === "" || country === "" || languages === "" || contacts === "" || proffession === "" 
+    || skillLevel === ""){
+
+
+      
+      if(skillLevel === ""){
+        setDisabled(true);
+        setSkillLevelError(true)
+        window.scrollTo(0, 0); 
+      }
+
+      if(name === ""){
+        setDisabled(true);
+        setNameError(true)
+        window.scrollTo(0, 0); 
+      }
+      if(proffession === ""){
+        setDisabled(true);
+        setProffesionError(true)
+        window.scrollTo(0, 0); 
+      }
+
+      if(surname === ""){
+        setDisabled(true);
+        setSurnameError(true)
+        window.scrollTo(0, 0); 
+      }
+
+      if(birthday === ""){
+        setDisabled(true);
+        setBirthdayError(true)
+        window.scrollTo(0, 0); 
+      }
+
+      if(rate === ""){
+        setDisabled(true);
+        setRateError(true)
+        window.scrollTo(0, 0); 
+      }
+
+      if(email === ""){
+        setDisabled(true);
+        setEmailError(true)
+        window.scrollTo(0, 0); 
+      }
+
+      if(workAddress === ""){
+        setDisabled(true);
+        setWorkAddressError(true)
+        window.scrollTo(0, 0); 
+      }
+
+      if(homeAddress === ""){
+        setDisabled(true);
+        setHomeAddressError(true)
+        window.scrollTo(0, 0); 
+      }
+
+      if(city === ""){
+        setDisabled(true);
+        setCityError(true)
+        window.scrollTo(0, 0); 
+      }
+
+      if(timezone === ""){
+        setDisabled(true);
+        setTimezoneError(true)
+        window.scrollTo(0, 0); 
+      }
+
+      if(country === ""){
+        setDisabled(true);
+        setCountryError(true)
+        window.scrollTo(0, 0); 
+      }
+
+      if(languages === ""){
+        setDisabled(true);
+        setLanguagesError(true)
+        window.scrollTo(0, 0); 
+      }
+
+      
+      if(contacts === ""){
+        setDisabled(true);
+        setContactError(true)
+        window.scrollTo(0, 0); 
+
+      }else if(!isFinite(Number(contacts)) || contacts.length != 10){
+
+        setPhoneError(true);
+        setDisabled(true);
+        window.scrollTo(0, 0); 
+    }
+  }  
+  }
 
 const createFormFiles= async()=>{
  
@@ -279,11 +399,11 @@ const createFormFiles= async()=>{
                             <form>
                               <div className="row">
                                 <div className="mb-3 col-md-6">
-                                  <label className="form-label" htmlFor="name">Name</label>
+                                  <label className="form-label" htmlFor="name">Name</label> {NameError ? <span style={{ color: 'red' , marginLeft : "0.5em", fontWeight : 600 }}>*required field</span> : null}
                                   <input type="text" defaultValue={userDetails?.user?.name??""} onChange={(e) => setName(e.target.value)} className="form-control" id="name" />
                                 </div>
                                 <div className="mb-3 col-md-6">
-                                  <label className="form-label" htmlFor="surname">Surname</label>
+                                  <label className="form-label" htmlFor="surname">Surname</label>  {SurnameError ? <span style={{ color: 'red' , marginLeft : "0.5em", fontWeight : 600 }}>*required field</span> : null}
                                   <input type="text" defaultValue={userDetails?.user?.surname??""} onChange={(e) => setSurname(e.target.value)}  className="form-control" id="surname"  />
                                 </div>
                                 <div className="mb-3 col-md-6">
@@ -291,15 +411,16 @@ const createFormFiles= async()=>{
                                   <input type="text" defaultValue={userDetails?.nickname??""} onChange={(e) => setNickname(e.target.value)}  className="form-control" id="nickname" />
                                 </div>
                                 <div className="mb-3 col-md-6">
-                                  <label className="form-label" htmlFor="email">Email</label>
+                                  <label className="form-label" htmlFor="email">Email</label> {EmailError ? <span style={{ color: 'red' , marginLeft : "0.5em", fontWeight : 600 }}>*required field</span> : null}
                                   <input type="email" defaultValue={userDetails?.user?.email??""} onChange={(e) => setEmail(e.target.value)}  className="form-control" id="email" />
                                 </div>
                                 <div className="mb-3 col-md-6">
-                                  <label className="form-label" htmlFor="rate">Phone</label>
+                                  <label className="form-label" htmlFor="rate">Phone</label>{ContactError ? <span style={{ color: 'red' , marginLeft : "0.5em", fontWeight : 600 }}>*required field</span> : null}
+                                  {PhoneError ? <span style={{ color: 'red' , marginLeft : "0.5em", fontWeight : 600 }}>*invalid phone number </span> : null}
                                   <input type="text" defaultValue={userDetails?.user?.contacts??""} onChange={(e) => setContacts(e.target.value)}  className="form-control" id="contact"  />
                                 </div>
                                 <div className="mb-3 col-md-6">
-                                  <label className="form-label fw-500">Birthdate</label>
+                                  <label className="form-label fw-500">Birthdate</label>{BirthdayError ? <span style={{ color: 'red' , marginLeft : "0.5em", fontWeight : 600 }}>*required field</span> : null}
                                   <div className="timepicker-input input-icon mb-3">
                                     <div className="input-group">
                                       <div className="input-group-text bgc-white bd bdwR-0">
@@ -310,12 +431,12 @@ const createFormFiles= async()=>{
                                   </div>
                                 </div>
                                 <div className="mb-3 col-md-4">
-                                  <label className="form-label" htmlFor="rate">Rate</label>
+                                  <label className="form-label" htmlFor="rate">Rate</label>{RateError ? <span style={{ color: 'red' , marginLeft : "0.5em", fontWeight : 600 }}>*required field</span> : null}
                                   <input type="text" defaultValue={userDetails?.rate??""} onChange={(e) => setRate(e.target.value)}  className="form-control" id="rate"  />
                                 </div>
                                 
                                 <div className="mb-3 col-md-4">
-                                  <label className="form-label" htmlFor="skill">Proffession</label>
+                                  <label className="form-label" htmlFor="skill">Proffession</label>{ProffesionError ? <span style={{ color: 'red' , marginLeft : "0.5em", fontWeight : 600 }}>*required field</span> : null}
                                   <select onChange={(e)=>setProfession(e.target.value)} id="inputState" className="form-control">
                                     <option selected={userDetails?.proffession=="0"?userDetails.proffession=="0": proffession=="0"} value={"0"} >Please select</option>
                                     <option selected={userDetails?.proffession=="1"?userDetails.proffession=="1": proffession=="1"} value={"1"}>Business analyst</option>
@@ -325,7 +446,7 @@ const createFormFiles= async()=>{
                                   </select>
                                 </div>
                                 <div className="mb-3 col-md-4">
-                                  <label className="form-label" htmlFor="skill">Skill level</label>
+                                  <label className="form-label" htmlFor="skill">Skill level</label>{SkillLevelError ? <span style={{ color: 'red' , marginLeft : "0.5em", fontWeight : 600 }}>*required field</span> : null}
                                   <select onChange={(e)=>setSkillLevel(e.target.value)}  id="inputState" className="form-control">
                                     <option selected={skillLevel=="0" || userDetails?.skillLevel=="0"} value={"0"}>Please select</option>
                                     <option selected={skillLevel=="1" || userDetails?.skillLevel=="1"} value={"1"}>Intern</option>
@@ -338,21 +459,22 @@ const createFormFiles= async()=>{
                              
                               </div>
                               <div className="mb-3">
-                                <label className="form-label" htmlFor="workAddress">Work Address </label>
+                                <label className="form-label" htmlFor="workAddress">Work Address </label>{WorkAddressError ? <span style={{ color: 'red' , marginLeft : "0.5em", fontWeight : 600 }}>*required field</span> : null}
                                 <input type="text" className="form-control"  onChange={(e) => setWorkaddress(e.target.value)}  defaultValue={userDetails?.workAddress??""} id="workAddress" />
                               </div>
                               <div className="mb-3">
-                                <label className="form-label" htmlFor="homeAddress">Home Address</label>
+                                <label className="form-label" htmlFor="homeAddress">Home Address</label>{HomeAddressError ? <span style={{ color: 'red' , marginLeft : "0.5em", fontWeight : 600 }}>*required field</span> : null}
                                 <input type="text" className="form-control"  onChange={(e) => setHomeAddress(e.target.value)}  defaultValue={userDetails?.homeAddress??""} id="homeAddress" />
                               </div>
                               <div className="row">
                                 <div className="mb-3 col-md-4">
-                                  <label className="form-label" htmlFor="city">City</label>
+                                  <label className="form-label" htmlFor="city">City</label>{CityError ? <span style={{ color: 'red' , marginLeft : "0.5em", fontWeight : 600 }}>*required field</span> : null}
                                   <input type="text" id="city"  onChange={(e) => setCity(e.target.value)}  defaultValue={userDetails?.city??""} className="form-control"  />
                                 </div>
                             
                                 <div className="mb-3 col-md-4">
                                   <label className="form-label" htmlFor="country">Country</label>
+                                  {CountryError ?  <span style={{ color: 'red' , marginLeft : "0.5em", fontWeight : 600 , position : "absolute"}}>*required field</span> : null}
                                   <select  onChange={(e)=>setCountry(e.target.value)}  id="inputState" className="form-control">
                                     <option value={"0"} selected={country=="0" || userDetails?.country =="0"}>South Africa</option>
                                     <option selected={country=="1" || userDetails?.country=="1"} value={"1"}>Kenya</option>
@@ -363,7 +485,7 @@ const createFormFiles= async()=>{
                                   </select>
                                 </div>
                                 <div className="mb-3 col-md-4">
-                                  <label className="form-label" htmlFor="inputState">Timezone</label>
+                                  <label className="form-label" htmlFor="inputState">Timezone</label>{TimezoneError ? <span style={{ color: 'red' , marginLeft : "0.5em", fontWeight : 600 }}>*required field</span> : null}
                                   <select  onChange={(e)=>setTimezone(e.target.value)}  id="inputState" className="form-control">
                                     <option selected={timezone === "0" || userDetails?.timezone=="0"} >Please select</option>
                                     <option selected={timezone === "GMT-11" || userDetails?.timezone=="GMT-11"} value="GMT-11">Coordinated Universal Time-11 (GMT-11)</option>
@@ -413,7 +535,7 @@ const createFormFiles= async()=>{
                               <br />
                               <div className="row">
                                 <div className="mb-3 col-md-12">
-                                  <label className="form-label" htmlFor="languages">Languages</label>
+                                  <label className="form-label" htmlFor="languages">Languages</label>{LanguagesError ? <span style={{ color: 'red' , marginLeft : "0.5em", fontWeight : 600 }}>*required field</span> : null}
                                   <Select
                                   defaultValue={getOptionsFromString(userDetails?.languages,languageOptions)}
                                   onChange={handleEducationChange}
@@ -448,7 +570,7 @@ const createFormFiles= async()=>{
 
                               <div className="row">
                                 <div className="mb-3 col-md-12">
-                                  <label className="form-label" htmlFor="competencies">Competencies</label>
+                                  <label className="form-label" htmlFor="competencies">Competencies</label>{CompetenciesError ? <span style={{ color: 'red' , marginLeft : "0.5em", fontWeight : 600 }}>*required field</span> : null}
                                   <Select
                                   defaultValue={getOptionsFromString(userDetails?.competencies,competencyOptions)}
                                   onChange={handleCompetenciesChange}
@@ -484,7 +606,7 @@ const createFormFiles= async()=>{
                               
                               <div className="row">
                                 <div className="mb-3 col-md-12">
-                                  <label className="form-label" htmlFor="inputPassword4">Skills</label>
+                                  <label className="form-label" htmlFor="inputPassword4">Skills</label>{SkillsError ? <span style={{ color: 'red' , marginLeft : "0.5em", fontWeight : 600 }}>*required field</span> : null}
                                   <Select
                                   // defaultValue={[colourOptions[2], colourOptions[3]]}
                                   defaultValue={getOptionsFromString(userDetails?.skills,skillOptions)}
@@ -619,8 +741,9 @@ const createFormFiles= async()=>{
                               {/* <br/>
                                 <button type="submit" class="btn btn-primary btn-color">Update</button> */}
                                 <div className="mb-3">
-                                <button type="button" onClick={()=>createFormFiles()} className="btn btn-primary btn-color">Save changes</button>
+                                <button disabled = {disabled} type="button" onMouseEnter={HandleValidation} onClick={()=>createFormFiles()} className="btn btn-primary btn-color">Save changes</button>
                               </div><br />
+                          
                             </form>
                           </div>
                         </div>
