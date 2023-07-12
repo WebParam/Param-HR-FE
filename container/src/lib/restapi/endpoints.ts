@@ -6,6 +6,7 @@ import { IPersonnelResponseModel } from "src/interfaces/personnel";
 const url = "https://param-hr-be-dev.azurewebsites.net";
 
 
+
 export const Api = {
   Base: url,
   GET_AllPersonnel: async():Promise<IResponseObject<IPersonnelResponseModel[]>> => {
