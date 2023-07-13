@@ -9,9 +9,10 @@ import Personnel from "./pages/personnel";
 import PersonnelDetail from "./pages/personnel-detail";
 import Login from "./pages/login";
 import Email from './pages/ForgotPassword/Email';
-import VerificationCode from './pages/ForgotPassword/VerificationCode';
+import VerificationCode from './pages/ForgotPassword/SendOtp';
 import Cookies from 'universal-cookie';
 import { FaBell, FaMailBulk } from "react-icons/fa";
+import NewPassword from "./pages/ForgotPassword/NewPassword";
 
 const cookies = new Cookies();
 const isLoggedIn = cookies.get('param-hr-user') ;
@@ -291,9 +292,16 @@ const App = () => (
       />
       
       <Route
-        path="otp"
+        path="SendOtp"
         element={
           <VerificationCode
+          />
+        }
+      />
+           <Route
+        path="newpassword"
+        element={
+          <NewPassword
           />
         }
       />

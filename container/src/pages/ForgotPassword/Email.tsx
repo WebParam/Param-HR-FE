@@ -7,7 +7,12 @@ import 'react-toastify/dist/ReactToastify.css';
 function Email() {
 
     const sendOTP = () => {
-        window.location.href = '#/otp';  
+        window.location.href = '#/SendOtp';  
+        window.location.reload();
+      }
+
+      const SignIn = () => {
+        window.location.href = '#/';  
         window.location.reload();
       }
       
@@ -30,7 +35,7 @@ function Email() {
         <h4 style={{fontSize:"25pt"}} className="fw-300 c-grey-900 mB-40">Forgot Password</h4>
         {/* <form> */}
           <div className="mb-3">
-            <label className="text-center text-dark form-label ml-70">Enter email address</label>
+            <label className="text-center text-dark form-label">Enter email address</label>
             <input type="email" style={{width:"80%"}} className="form-control" placeholder=""/>
           </div>
         
@@ -44,7 +49,7 @@ function Email() {
                   <a><button onClick ={sendOTP}  className="btn btn-primary btn-color" style={{backgroundColor: "rgb(38, 63, 34)",
                       border: "none",
                       borderRadius:" 0px",
-                      marginLeft:"35%",
+                      marginLeft:"50%",
                       paddingLeft: "35%",
                       paddingRight: "35%",
                       width: "160px"}}>Send</button>
@@ -58,7 +63,14 @@ function Email() {
 
        
          
-        
+          <div className="">
+            <div className="peers ai-c jc-sb fxw-nw" style={{paddingTop: "15%", paddingLeft:"5%"}}>
+             
+              {/* <div className="peer"> */}
+                <a onClick={SignIn} className="">Already have an account? Login here</a>
+              {/* </div> */}
+            </div>
+          </div>
     
       </div>
     </div>

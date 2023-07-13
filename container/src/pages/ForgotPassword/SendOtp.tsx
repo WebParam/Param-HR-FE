@@ -3,9 +3,14 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { BasicOTPComponent } from '../components/basic-otp';
 
-function VerificationCode() {
+function SendOtp() {
   const [otp, setOTP] = useState("");
 
+  const ChangePassword = () => {
+    window.location.href = '#/newpassword';  
+    window.location.reload();
+  }
+  
 
   return (
    <>
@@ -34,7 +39,7 @@ function VerificationCode() {
                 }}
                 />
                
-                  <a><button  className="btn btn-primary btn-color" style={{backgroundColor: "rgb(38, 63, 34)",
+                  <a><button onClick = {ChangePassword}  className="btn btn-primary btn-color" style={{backgroundColor: "rgb(38, 63, 34)",
                       border: "none",
                       borderRadius:" 0px",
                       marginRight:"7%",
@@ -60,4 +65,4 @@ function VerificationCode() {
   );
 }
 
-    export default VerificationCode;
+    export default SendOtp;
