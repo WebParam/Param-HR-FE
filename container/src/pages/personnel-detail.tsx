@@ -181,7 +181,10 @@ export default function PersonnelDetail() {
         window.scrollTo(0, 0); 
     }
   }  
+  setDisabled(false);
   }
+
+
 
 const createFormFiles= async()=>{
  
@@ -741,7 +744,7 @@ const createFormFiles= async()=>{
                               {/* <br/>
                                 <button type="submit" class="btn btn-primary btn-color">Update</button> */}
                                 <div className="mb-3">
-                                <button disabled = {disabled} type="button" onMouseEnter={HandleValidation} onClick={()=>createFormFiles()} className="btn btn-primary btn-color">Save changes</button>
+                                <button disabled = {disabled} type="button" onMouseLeave={() => setDisabled(false)} onMouseEnter={HandleValidation} onClick={()=>createFormFiles()} className="btn btn-primary btn-color">Save changes</button>
                               </div><br />
                           
                             </form>

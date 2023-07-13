@@ -90,9 +90,7 @@ if(isLoggedIn){
 
 }
 
-
-async function RegisterUser (){
-
+async function RegisterUser() {
   const _id = toast.loading("Registering user..", {
     position: "top-center",
     autoClose: 2000,
@@ -102,32 +100,62 @@ async function RegisterUser (){
     draggable: true,
     progress: undefined,
     theme: "light",
+  });
+
+  // Email validation
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(r_email)) {
+    toast.update(_id, {
+      render: "Invalid email address",
+      type: "error",
+      isLoading: false,
     });
-
-
-  var request ={
-    email:r_email,
-    password:r_password,
-    name:r_name,
-    surname:r_surname,
-    contacts : r_contacts
-
-
-  } as IUserRegisterModel
-
-  
-  const user = await Api.POST_Register(request);
-  console.log("new",user);
-  if(user.error!=false){
-    toast.update(_id, { render: "Cannot register user in with supplied information", type: "error", isLoading: false });
     return;
   }
-  else{
-    toast.update(_id, { render: "Succesfully registered new user, please login", type: "success", isLoading: false });
+
+  // Password validation
+  const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+  if (!passwordRegex.test(r_password)) {
+    toast.update(_id, {
+      render:
+        "Password must contain at least 8 characters, including uppercase and lowercase letters, numbers, and special characters",
+      type: "error",
+      isLoading: false,
+    });
+    return;
+  }
+
+  var request = {
+    email: r_email,
+    password: r_password,
+    name: r_name,
+    surname: r_surname,
+    contacts: r_contacts,
+  } as IUserRegisterModel;
+
+  const user = await Api.POST_Register(request);
+  console.log("new", user);
+  if (user.error != false) {
+    toast.update(_id, {
+      render: "Cannot register user with the supplied information",
+      type: "error",
+      isLoading: false,
+    });
+    return;
+  } else {
+    toast.update(_id, {
+      render: "Successfully registered new user. Please login.",
+      type: "success",
+      isLoading: false,
+    });
     // cookies.set('param-hr-user', user.data, { path: '/' });
-  setToggleRegister(false);  
+    setToggleRegister(false);
+  }
 }
- 
+
+const ForgotPassword = () => {
+  window.location.href = '#/forgotPasswordEMail';  
+  window.location.reload();
 }
 
   return (
@@ -163,6 +191,7 @@ async function RegisterUser (){
                   <label className=" peers peer-greed js-sb ai-c form-label">
                     <span className="peer peer-greed">Remember Me</span>
                   </label>
+               
                   <a><button onClick={()=>LoginUser()} className="btn btn-primary btn-color" style={{backgroundColor: "rgb(38, 63, 34)",
                       border: "none",
                       borderRadius:" 0px",
@@ -176,6 +205,12 @@ async function RegisterUser (){
               </div>
              
             </div>
+          </div>
+
+          <div style = {{marginLeft : "5%"}}>
+          <label  className=" peers peer-greed js-sb ai-c form-label">
+                    <p onClick = {ForgotPassword}  className="peer peer-greed" >Forgot Password?</p>
+                  </label>
           </div>
           <div className="">
             <div className="peers ai-c jc-sb fxw-nw">

@@ -8,6 +8,8 @@ import Dashboard from "./pages/dashboard";
 import Personnel from "./pages/personnel";
 import PersonnelDetail from "./pages/personnel-detail";
 import Login from "./pages/login";
+import Email from './pages/ForgotPassword/Email';
+import VerificationCode from './pages/ForgotPassword/VerificationCode';
 import Cookies from 'universal-cookie';
 import { FaBell, FaMailBulk } from "react-icons/fa";
 
@@ -276,6 +278,22 @@ const App = () => (
         path="dashboard"
         element={
           <Dashboard
+          />
+        }
+      />
+
+      <Route
+        path="forgotPasswordEMail"
+        element={
+          <Email
+          />
+        }
+      />
+      
+      <Route
+        path="otp"
+        element={
+          <VerificationCode
           />
         }
       />
