@@ -5,11 +5,11 @@ export interface IProject{
 
 }
 
-export interface IProjectLoginRequestModel extends IProject{
+export interface IProjectRequestModel extends IProject{
     
 
 }
 
-export interface IProjectLoginResponseModel extends IProject{
+export interface IProjectResponseModel extends IProject{
     project:IProject
 }
