@@ -81,7 +81,9 @@ export default function PersonnelDetail() {
   console.log("allUserDetails",loggedInUser);
   const _loggedInUserId = loggedInUser?.id;
 
-
+  const disableBtn = () => {
+    setDisabled(false);
+  }
 
   const HandleValidation = () => {
     if(name === "" ||  surname === ""  || birthday === "" || rate === ""
@@ -181,7 +183,7 @@ export default function PersonnelDetail() {
         window.scrollTo(0, 0); 
     }
   }  
-  setDisabled(false);
+  disableBtn();
   }
 
 
@@ -744,7 +746,7 @@ const createFormFiles= async()=>{
                               {/* <br/>
                                 <button type="submit" class="btn btn-primary btn-color">Update</button> */}
                                 <div className="mb-3">
-                                <button disabled = {disabled} type="button" onMouseLeave={() => setDisabled(false)} onMouseEnter={HandleValidation} onClick={()=>createFormFiles()} className="btn btn-primary btn-color">Save changes</button>
+                                <button disabled = {disabled} type="button" onMouseOut={() => setDisabled(false)} onMouseEnter={HandleValidation} onClick={()=>createFormFiles()} className="btn btn-primary btn-color">Save changes</button>
                               </div><br />
                           
                             </form>

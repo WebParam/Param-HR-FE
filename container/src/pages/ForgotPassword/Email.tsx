@@ -1,15 +1,56 @@
 import React, { useEffect, useState } from 'react';
-import { ToastContainer } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 // import img from "../static/images/logo.png"
 
 function Email() {
+  const [r_email, setREmail] = useState<string>("");
+  const [disable, setDisable] = useState<boolean>(true);
 
-    const sendOTP = () => {
-        window.location.href = '#/SendOtp';  
+  const submitHandler = () => {
+    const _id = toast.loading("Logging in..", {//loader
+      position: "top-center",
+      autoClose: 1000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: false,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+      });
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(r_email)) {
+      toast.update(_id, {
+        render: "Invalid email address",
+        type: "error",
+        isLoading: false,
+      });
+      setInterval(() => {
         window.location.reload();
-      }
+      },1000)
+    }else{
+      window.location.href = '#/SendOtp';  
+      window.location.reload();
+    }
+  }
+
+  const emailHandler = (e:any) => {
+
+    if(r_email.length <= 0){
+      setDisable(true)
+      setREmail(e.target.value);
+    }else{
+      setDisable(false)
+     
+    setREmail(e.target.value);
+    }
+  
+}
+   
+
+
+   
 
       const SignIn = () => {
         window.location.href = '#/';  
@@ -36,17 +77,18 @@ function Email() {
         {/* <form> */}
           <div className="mb-3">
             <label className="text-center text-dark form-label">Enter email address</label>
-            <input type="email" style={{width:"80%"}} className="form-control" placeholder=""/>
+            <input type="email"  onChange = {emailHandler} style={{width:"80%"}} className="form-control" placeholder=""/>
           </div>
         
           <div className="">
             <div className="peers ai-c jc-sb fxw-nw">
               <div className="peer" style={{paddingTop: "5%"}}>
                 <div className="checkbox checkbox-circle checkbox-info peers ai-c">
+             
                   <input type="checkbox" id="inputCall1" name="inputCheckboxesCall" className="peer"/>
                  
                
-                  <a><button onClick ={sendOTP}  className="btn btn-primary btn-color" style={{backgroundColor: "rgb(38, 63, 34)",
+                  <a><button onClick = {submitHandler} disabled = {disable}  className="btn btn-primary btn-color" style={{backgroundColor: "rgb(38, 63, 34)",
                       border: "none",
                       borderRadius:" 0px",
                       marginLeft:"50%",

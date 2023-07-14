@@ -24,48 +24,49 @@ const isLoggedIn = cookies.get('param-hr-user') ;
 const [toggleRegister, setToggleRegister]  = useState<boolean>(false); 
 const navigate = useNavigate();
 
-// console.log("DSD",img)
-
-// console.log("cooloes", cookies.get('param-hr-user').data.data)
-
+const [logged, setLogged] = useState<boolean>(true);
 
 const delay = (ms:any) => new Promise(res => setTimeout(res, ms));
 
 async function LoginUser (){
  
-  const _id = toast.loading("Logging in..", {
-    position: "top-center",
-    autoClose: 1000,
-    hideProgressBar: false,
-    closeOnClick: true,
-    pauseOnHover: false,
-    draggable: true,
-    progress: undefined,
-    theme: "light",
-    });
-
-
-  var request ={
-    email:email,
-    password:password
-  } as IUserLoginModel
-
+  if(logged){
+    setLogged(false);
+    const _id = toast.loading("Logging in..", {//loader
+      position: "top-center",
+      autoClose: 1000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: false,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+      });
   
-  const user = await Api.POST_Login(request);
-  console.log("USER",user);
-  if(user.error!=false){
-    toast.update(_id, { render: "Cannot log user in with supplied credentials", type: "error", isLoading: false });
-    // alert("Error logging in");
-    return;
-  }else{
-
-    cookies.set('param-hr-user', user?.data as any, { path: '/' });
-    toast.update(_id, { render: "Logged in successfully", type: "success", isLoading: false });
-    // toast(`Succesfully logged in as: ${user?.data?.name}`);
-
-    window.location.href = '#/personnel';  
-    window.location.reload();
+  
+    var request ={
+      email:email,
+      password:password
+    } as IUserLoginModel
+  
+    
+    const user = await Api.POST_Login(request);
+    console.log("USER",user);
+    if(user.error!=false){
+      toast.update(_id, { render: "Cannot log user in with supplied credentials", type: "error", isLoading: false });
+      // alert("Error logging in");
+      return;
+    }else{
+  
+      cookies.set('param-hr-user', user?.data as any, { path: '/' });
+      toast.update(_id, { render: "Logged in successfully", type: "success", isLoading: false });
+      // toast(`Succesfully logged in as: ${user?.data?.name}`);
+  
+      window.location.href = '#/personnel';  
+      window.location.reload();
+    }
   }
+ 
 }
 
 async function Redirect(){
@@ -114,7 +115,7 @@ async function RegisterUser() {
   }
 
   // Password validation
-  const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+  const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*]).{8,}$/;
   if (!passwordRegex.test(r_password)) {
     toast.update(_id, {
       render:

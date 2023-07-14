@@ -1,14 +1,66 @@
 import React, { useEffect, useState } from 'react';
-import { ToastContainer } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 function NewPassword() {
 
-    const VerifyOtp = () => {
-        window.location.href = '#/';  
+  const [password, setPassword] = useState<string>("");
+  const [ConfirmPassword, setConfirmPassword] = useState<string>("");
+  const [disable, setDisable] = useState<boolean>(true)
+
+  const onChangePassword = (e:any) => {
+    setPassword(e.target.value);
+    if(password == ""){
+      setDisable(true)
+    }else{
+      setDisable(false)
+    }
+  }
+  const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*]).{8,}$/;
+  const ChangePassword =()=>{
+    const _id = toast.loading("Logging in..", {//loader
+      position: "top-center",
+      autoClose: 1000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: false,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+      });
+    if (password != ConfirmPassword) {
+      toast.update(_id, {
+        render: "Passwords do not match",
+        type: "error",
+        isLoading: false,
+      });
+      setInterval(() => {
         window.location.reload();
-      }
+      },1000)
+    }else if(!passwordRegex.test(password)){
       
+        toast.update(_id, {
+          render:
+            "Password must contain at least 8 characters, including uppercase and lowercase letters, numbers, and special characters",
+          type: "error",
+          isLoading: false,
+        });
+        setInterval(() => {
+          window.location.reload();
+        },2000)
+    }else{
+      
+
+
+      window.location.href = '#/';  
+      window.location.reload();
+    
+    
+
+    }
+  }
+   
+  
 
   return (
    <>
@@ -29,11 +81,11 @@ function NewPassword() {
         {/* <form> */}
           <div className="mb-3">
             <label className="text-center text-dark form-label">Enter New Password</label>
-            <input type="password" style={{width:"80%"}} className="form-control" placeholder=""/>
+            <input type="password"  value = {password} onChange = {onChangePassword}  style={{width:"80%"}} className="form-control" placeholder=""/>
           </div>
           <div className="mb-3">
             <label className="text-center text-dark form-label">Confirm Password</label>
-            <input type="password" style={{width:"80%"}} className="form-control" placeholder=""/>
+            <input type="password" value = {ConfirmPassword} onChange = {(e) => setConfirmPassword(e.target.value)} style={{width:"80%"}} className="form-control" placeholder=""/>
           </div>
           <div className="">
             <div className="peers ai-c jc-sb fxw-nw">
@@ -42,7 +94,7 @@ function NewPassword() {
                   <input type="checkbox" id="inputCall1" name="inputCheckboxesCall" className="peer"/>
                  
                
-                  <a><button onClick ={VerifyOtp}  className="btn btn-primary btn-color" style={{backgroundColor: "rgb(38, 63, 34)",
+                  <a><button disabled ={disable}  onClick ={ChangePassword}  className="btn btn-primary btn-color" style={{backgroundColor: "rgb(38, 63, 34)",
                       border: "none",
                       borderRadius:" 0px",
                       marginLeft:"50%",
