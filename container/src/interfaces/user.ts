@@ -29,3 +29,16 @@ export interface IUserRegisterModel{
     contacts: string,
     password : string,
 }
+export interface IUserResetPasswordModel{
+   
+    email : string,
+ 
+}
+
+export interface IUserVerifyOtpModel{
+    otp:string,
+    email : string,
+    password : string
+}
+
+

@@ -1,10 +1,10 @@
 import { GET, POST } from "./client";
-import { IUserLoginModel, IUserRegisterModel, IUserRequestModel, IUserResponseModel } from "../../interfaces/user";
+import { IUserLoginModel, IUserRegisterModel, IUserRequestModel, IUserResetPasswordModel, IUserResponseModel, IUserVerifyOtpModel } from "../../interfaces/user";
 import { IResponseObject } from "./response";
 import { IPersonnelResponseModel } from "src/interfaces/personnel";
 import { IProjectPersonnelResponseModel } from "src/interfaces/project-personnel";
 
-const url = "https://param-hr-be-dev.azurewebsites.net";
+const url = "https://4d7a-154-117-172-210.ngrok-free.app/";
 
 
 
@@ -37,7 +37,19 @@ export const Api = {
     const response = await POST(`${url}/Users/AddUser`, payload);
     return response;
   },
+  POST_ResetPassword: async (
+    payload: IUserResetPasswordModel
+  ): Promise<IResponseObject<IUserResponseModel>> => {
+    const response = await POST(`${url}/Users/SendResetPasswordOtp`, payload);
+    return response;
+  },
 
+  POST_VerifyOtp: async (
+    payload: IUserVerifyOtpModel
+  ): Promise<IResponseObject<IUserResponseModel>> => {
+    const response = await POST(`${url}/Users/ResetPassword`, payload);
+    return response;
+  },
 
   //MOCK
 
