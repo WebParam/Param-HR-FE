@@ -26,6 +26,7 @@ const navigate = useNavigate();
 
 const [logged, setLogged] = useState<boolean>(true);
 
+
 const delay = (ms:any) => new Promise(res => setTimeout(res, ms));
 
 async function LoginUser (){
@@ -57,7 +58,6 @@ async function LoginUser (){
       // alert("Error logging in");
       return;
     }else{
-  
       cookies.set('param-hr-user', user?.data as any, { path: '/' });
       toast.update(_id, { render: "Logged in successfully", type: "success", isLoading: false });
       // toast(`Succesfully logged in as: ${user?.data?.name}`);
