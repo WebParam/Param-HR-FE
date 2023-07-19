@@ -39,8 +39,12 @@ function Email() {
     }
   };
 
-  const submitHandler = () => {
-    const _id = toast.loading("Logging in..", {
+
+
+  const ResendOtp = () => {};
+
+  const ChangePassword = async () => {
+    const _id = toast.loading("Verifying OTP...", {
       //loader
       position: "top-center",
       autoClose: 1000,
@@ -52,33 +56,27 @@ function Email() {
       theme: "light",
     });
 
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(r_email)) {
-      toast.update(_id, {
-        render: "Invalid email address",
-        type: "error",
-        isLoading: false,
-      });
-    } else {
-      // ResetPassword();
-      setOtpSent(true);
-    }
-  };
-
-  const ResendOtp = () => {};
-
-  const ChangePassword = async () => {
     const payload = {
       email: r_email,
       password: password,
       otp: otp,
     };
-    const response = await Api.POST_ResetPassword(payload);
+    const response = await Api.POST_VerifyOtp(payload);
     if (response.error) {
-      console.log(response.error);
+      toast.update(_id, {
+        render: "Invalid OTP",
+        type: "error",
+        isLoading: false,
+      });
+
     } else {
-      setOtpSent(true);
-      console.log("Password changed successfully");
+      toast.update(_id, {
+        render: "Password changed successfully. You may now login",
+        type: "error",
+        isLoading: false,
+      });
+      window.location.href = '#/';  
+
     }
   };
 
@@ -95,15 +93,38 @@ function Email() {
   };
 
   const SendOtp = async () => {
+    const _id = toast.loading("Sending OTP...", {
+      //loader
+      position: "top-center",
+      autoClose: 1000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: false,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
     const payload = {
       email: r_email,
     } as IUserResetPasswordModel; 
     const response = await Api.POST_ResetPassword(payload);
     if (response?.error) {
+
+      toast.update(_id, {
+        render: `Error sending OTP..}`,
+        type: "error",
+        isLoading: false,
+      });
+
       console.log(response.error);
     } else {
+      toast.update(_id, {
+        render: `OTP sent succesfully to ${r_email}.`,
+        type: "error",
+        isLoading: false,
+      });
       setOtpSent(true);
-      console.log("OTP sent successfully");
+
     }
   };
 
@@ -157,7 +178,7 @@ function Email() {
                 </h4>
                 <BasicOTPComponent onChange={sendOtp} />
                 <div style={{ marginTop: "25%" }}>
-                  <a>
+                  {/* <a>
                     <button
                       disabled={disable}
                       className="btn btn-primary btn-color"
@@ -173,7 +194,7 @@ function Email() {
                     >
                       Send
                     </button>
-                  </a>
+                  </a> */}
                   <a
                     onClick={() => {
                       window.location.reload();
