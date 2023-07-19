@@ -4,7 +4,7 @@ import { IResponseObject } from "./response";
 import { IPersonnelResponseModel } from "src/interfaces/personnel";
 import { IProjectPersonnelResponseModel } from "src/interfaces/project-personnel";
 
-const url = "https://4d7a-154-117-172-210.ngrok-free.app/";
+const url = "https://param-hr-portal-prod.azurewebsites.net";
 
 
 
