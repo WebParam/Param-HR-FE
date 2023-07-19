@@ -19,6 +19,7 @@ let header: any;
     Authorization:"Basic YWRtaW46cmpPdjJhU1omPXxuRDYpJQ==",
     "Access-Control-Allow-Origin": "*",
     "Access-Control-Allow-Headers": "X-Requested-With",
+    "ngrok-skip-browser-warning":"any"
   // };
 }
 

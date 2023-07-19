@@ -4,7 +4,12 @@ import { IResponseObject } from "./response";
 import { IPersonnelResponseModel } from "src/interfaces/personnel";
 import { IProjectPersonnelResponseModel } from "src/interfaces/project-personnel";
 
+<<<<<<< Updated upstream
 const url = "https://param-hr-portal-prod.azurewebsites.net";
+=======
+
+const url = "https://510c-154-117-172-210.ngrok-free.app";
+>>>>>>> Stashed changes
 
 
 
