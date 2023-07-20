@@ -13,6 +13,8 @@ import VerificationCode from './pages/ForgotPassword/SendOtp';
 import Cookies from 'universal-cookie';
 import { FaBell, FaMailBulk } from "react-icons/fa";
 import NewPassword from "./pages/ForgotPassword/NewPassword";
+import Project from "./pages/Project";
+import ProjectDetail from "./pages/Project-details";
 
 const cookies = new Cookies();
 const isLoggedIn = cookies.get('param-hr-user') ;
@@ -298,6 +300,13 @@ const App = () => (
           />
         }
       />
+          <Route
+        path="projects"
+        element={
+          <Project
+          />
+        }
+      />
            <Route
         path="newpassword"
         element={
@@ -305,6 +314,15 @@ const App = () => (
           />
         }
       />
+
+<Route
+        path="projectdetails"
+        element={
+          <ProjectDetail
+          />
+        }
+      />
+      
     </Routes>
     </main>
 

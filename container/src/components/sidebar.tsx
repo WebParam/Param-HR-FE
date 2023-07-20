@@ -102,7 +102,7 @@ function Sidebar() {
             <span className="icon-holder">
               <i className="c-orange-500"> <FaCalendar/></i>
             </span>
-            <span className="title">Projects</span>
+            <span onClick = {() => window.location.href = '#/projects' } className="title">Projects</span>
             <span className="arrow">
               <i className="ti-angle-right"></i>
             </span>

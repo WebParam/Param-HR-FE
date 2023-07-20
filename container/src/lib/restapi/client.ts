@@ -31,10 +31,7 @@ export async function GET(endPoint: string) {
     // }} );
     const result =  fetch(endPoint, {
       method: 'get',
-      headers: {
-        "Authorization":"Basic YWRtaW46cmpPdjJhU1omPXxuRDYpJQ=="
-        // 'Content-Type': 'application/x-www-form-urlencoded',
-      },
+      headers: header,
       // body: JSON.stringify(opts)
     }).then(function(response) {
       return response.json();

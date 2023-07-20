@@ -1,15 +1,12 @@
-import { GET, POST } from "./client";
+import { GET, POST, PUT } from "./client";
 import { IUserLoginModel, IUserRegisterModel, IUserRequestModel, IUserResetPasswordModel, IUserResponseModel, IUserVerifyOtpModel } from "../../interfaces/user";
 import { IResponseObject } from "./response";
 import { IPersonnelResponseModel } from "src/interfaces/personnel";
 import { IProjectPersonnelResponseModel } from "src/interfaces/project-personnel";
+import { IGetProjectByIdModel, IProject, IProjectResponseModel } from "src/interfaces/project";
 
-<<<<<<< Updated upstream
-const url = "https://param-hr-portal-prod.azurewebsites.net";
-=======
 
-const url = "https://510c-154-117-172-210.ngrok-free.app";
->>>>>>> Stashed changes
+const url = "https://8e9b-41-116-47-24.ngrok-free.app";
 
 
 
@@ -30,6 +27,7 @@ export const Api = {
     return response;
   },
 
+
   POST_Login: async (
     payload: IUserLoginModel
   ): Promise<IResponseObject<IUserResponseModel>> => {
@@ -42,6 +40,7 @@ export const Api = {
     const response = await POST(`${url}/Users/AddUser`, payload);
     return response;
   },
+
   POST_ResetPassword: async (
     payload: IUserResetPasswordModel
   ): Promise<IResponseObject<IUserResponseModel>> => {
@@ -58,14 +57,17 @@ export const Api = {
 
   //MOCK
 
-  GetAllProjects: async (payload: string): Promise<IResponseObject<IProjectPersonnelResponseModel[]>> => {
-    // const response = await GET(`${url}/personnel/${payload}`);
-    // return response;
-    return { error: false,
-    message: "",
-    data: [],
-    status:0
-    }
+  GET_GetAllProjects: async (): Promise<IResponseObject<IProjectResponseModel[]>> => {
+     const response = await GET(`${url}/Project/GetAllProjects/`);
+    return response;
+  
+  },
+
+  
+  GetProjectById: async (payload: IGetProjectByIdModel): Promise<IResponseObject<IProjectResponseModel[]>> => {
+    const response = await GET(`${url}/project/GetProjectById/${payload}`);
+    return response;
+    
   },
   
   GetAllPersonnelProjects: async (payload: string): Promise<IResponseObject<IProjectPersonnelResponseModel[]>> => {
@@ -76,7 +78,13 @@ export const Api = {
       data: [],
       status:0
       }
-  }
+  },
+  POST_AddProject: async (
+    payload: IProject
+  ): Promise<IResponseObject<IUserResponseModel>> => {
+    const response = await POST(`${url}/project/AddProject`, payload);
+    return response;
+  },
 
   //mockdata 
 
