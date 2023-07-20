@@ -114,7 +114,7 @@ export default function ProjectDetail() {
 
     axios
       .put(
-        "https://8e9b-41-116-47-24.ngrok-free.app/Project/UpdateProject",
+        "https://e797-41-114-56-148.ngrok-free.app/Project/UpdateProject",
         requestData,
         config
       )
@@ -163,6 +163,7 @@ export default function ProjectDetail() {
     const endDateObj = moment(endDate !== "" ? endDate : projectDetails?.enddate);
   
     const requestData = {
+      id : "",
       name: name ||"" ,
       userid: _loggedInUserId || "",
       description: description || "",

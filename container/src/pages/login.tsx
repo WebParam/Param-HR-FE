@@ -54,6 +54,7 @@ async function LoginUser (){
     const user = await Api.POST_Login(request);
     console.log("USER",user);
     if(user.error!=false){
+      setLogged(true);
       toast.update(_id, { render: "Cannot log user in with supplied credentials", type: "error", isLoading: false });
       // alert("Error logging in");
       return;
