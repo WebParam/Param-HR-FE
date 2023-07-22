@@ -8,6 +8,8 @@ import 'react-toastify/dist/ReactToastify.css';
 
 // import img from "../static/images/logo.png"
 
+
+
 function Login() {
   
 const [email, setEmail] = useState<string>("");
@@ -29,11 +31,14 @@ const [logged, setLogged] = useState<boolean>(true);
 
 const delay = (ms:any) => new Promise(res => setTimeout(res, ms));
 
+
+
 async function LoginUser (){
  
   if(logged){
+    
     setLogged(false);
-    const _id = toast.loading("Logging in..", {//loader
+    let _id = toast.loading("Logging in..", {//loader
       position: "top-center",
       autoClose: 1000,
       hideProgressBar: false,
@@ -49,7 +54,8 @@ async function LoginUser (){
       email:email,
       password:password
     } as IUserLoginModel
-  
+
+    
     
     const user = await Api.POST_Login(request);
     console.log("USER",user);
