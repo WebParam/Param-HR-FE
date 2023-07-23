@@ -6,7 +6,7 @@ import { IProjectPersonnelResponseModel } from "src/interfaces/project-personnel
 import { IGetProjectByIdModel, IProject, IProjectResponseModel } from "src/interfaces/project";
 
 
-const url = "https://e797-41-114-56-148.ngrok-free.app";
+const url = "https://param-hr-be-dev.azurewebsites.net";
 
 
 
