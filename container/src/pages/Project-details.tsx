@@ -114,7 +114,7 @@ export default function ProjectDetail() {
 
     axios
       .put(
-        "https://e797-41-114-56-148.ngrok-free.app/Project/UpdateProject",
+        "https://ff5b-41-114-97-76.ngrok-free.app/Project/UpdateProject",
         requestData,
         config
       )
