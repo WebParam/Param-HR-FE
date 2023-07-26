@@ -6,7 +6,7 @@ import { IProjectPersonnelResponseModel } from "src/interfaces/project-personnel
 import { IGetProjectByIdModel, IProject, IProjectResponseModel } from "src/interfaces/project";
 
 
-const url = "https://param-hr-be-dev.azurewebsites.net";
+export const url = "https://param-hr-portal-prod.azurewebsites.net";
 
 
 

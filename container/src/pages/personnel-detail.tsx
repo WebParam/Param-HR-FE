@@ -10,6 +10,7 @@ import moment from 'moment'
 import { FaFile } from 'react-icons/fa';
 import { getProfessionTextById } from '../lib/data/professions';
 import { ToastContainer, toast } from 'react-toastify';
+import { url } from '../lib/restapi/endpoints';
 
 
 export default function PersonnelDetail() {
@@ -245,7 +246,7 @@ const createFormFiles= async()=>{
     theme: "light",
     });
 
-  axios.post("https://param-hr-be-dev.azurewebsites.net/Personnel/AddPersonnel", formData, config)
+  axios.post(`${url}/Personnel/AddPersonnel`, formData, config)
       .then((response:any) => {
           console.log("response", response);
           setId(response.data.data.id);
