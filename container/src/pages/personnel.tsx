@@ -65,20 +65,7 @@ function Personnel() {
     return values.join(',');
   }
   
-  // const customStyles = {
-  //   option: (defaultStyles:any, state:any) => ({
-  //     ...defaultStyles,
-  //     width: "100%",
-  //     // backgroundColor: state.isSelected ? "#a0a0a0" : "#212529",
-  //   }),
 
-  //   control: (defaultStyles:any) => ({
-  //     ...defaultStyles,
-  //     width: "100%"
-  //   }),
-  //   singleValue: (defaultStyles:any) => ({ ...defaultStyles, color: "#fff" }),
-  // };
-  
   const filteredList = personnel.filter((item:any) => {
     console.log("filters-lang",languageFilter, item.data.languages);
     return (

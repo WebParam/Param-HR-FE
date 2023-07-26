@@ -23,7 +23,6 @@ export interface IPersonnel{
     degreeInstitution:string,
     degreeType:string,
     mastersType:string
-
 }
 
 export interface IPersonnelRequestModel extends IPersonnel{
@@ -37,4 +36,9 @@ export interface IPersonnelResponseModel extends IPersonnel{
     masters:string,
     degree:string,
     message?:string
+}
+
+
+export interface IDeletePersonnelRequestModel {
+      UserId: string; 
 }

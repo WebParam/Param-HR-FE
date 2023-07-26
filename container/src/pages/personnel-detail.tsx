@@ -1,7 +1,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from "react-router-dom";
-import { IPersonnel, IPersonnelResponseModel } from 'src/interfaces/personnel';
+import { IDeletePersonnelRequestModel, IPersonnel, IPersonnelResponseModel } from 'src/interfaces/personnel';
 const axios = require("axios").default;
 
 import Select from 'react-select';
@@ -10,6 +10,7 @@ import moment from 'moment'
 import { FaFile } from 'react-icons/fa';
 import { getProfessionTextById } from '../lib/data/professions';
 import { ToastContainer, toast } from 'react-toastify';
+import { Api } from '../lib/restapi/endpoints';
 
 
 export default function PersonnelDetail() {
@@ -186,6 +187,52 @@ export default function PersonnelDetail() {
   disableBtn();
   }
 
+  
+async function DeleteUser() {
+ 
+
+    const config = {
+      headers: { "Content-Type": "application/json" }, // Assuming the server accepts JSON
+    };
+    
+    
+
+    const _id = toast.loading("Deleting personnel...", {
+      position: "top-center",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+
+    const payload = {
+    UserId: userDetails?.userid??userId,
+    } as IDeletePersonnelRequestModel; 
+
+    axios
+      .post(
+        "https://4e07-154-117-172-210.ngrok-free.app/Users/DeleteUser",
+        payload
+        
+      )
+      .then((response: any) => {
+        console.log("response", response);
+       
+        handleComplete();
+      })
+      .catch((error: any) => {
+        toast.update(_id, {
+          render: "failed to delete personnel",
+          type: "success",
+          isLoading: false,
+        });
+        console.log(error);
+      });
+  
+}
 
 
 const createFormFiles= async()=>{
@@ -264,7 +311,7 @@ const createFormFiles= async()=>{
       });
 
   }
-
+  
 
   
   const handleComplete = () => {
@@ -747,7 +794,7 @@ const createFormFiles= async()=>{
                                 <button type="submit" class="btn btn-primary btn-color">Update</button> */}
                             <div className="mb-3">
     <button disabled={disabled} type="button" onMouseOut={() => setDisabled(false)} onMouseEnter={HandleValidation} onClick={() => createFormFiles()} className="btn btn-primary btn-color">Save changes</button>
-    <button style = {{marginLeft:"13.5em", width : "100px"}}disabled={disabled} type="button" className="btn btn-danger btn-color ml-7">Delete</button>
+    <button style = {{marginLeft:"13.5em", width : "100px"}}disabled={disabled} onClick = {DeleteUser} type="button" className="btn btn-danger btn-color ml-7">Delete</button>
 </div>
 
                             
