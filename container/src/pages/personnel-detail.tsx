@@ -319,7 +319,7 @@ async function DeleteUser() {
 
     axios
       .post(
-        "https://4e07-154-117-172-210.ngrok-free.app/Users/DeleteUser",
+        "https://param-hr-portal-prod.azurewebsites.net/Users/DeleteUser",
         payload
         
       )
