@@ -11,6 +11,7 @@ import { FaFile } from 'react-icons/fa';
 import { getProfessionTextById } from '../lib/data/professions';
 import { ToastContainer, toast } from 'react-toastify';
 import { Api } from '../lib/restapi/endpoints';
+import { url } from '../lib/restapi/endpoints';
 
 
 export default function PersonnelDetail() {
@@ -87,103 +88,207 @@ export default function PersonnelDetail() {
   }
 
   const HandleValidation = () => {
-    if(name === "" ||  surname === ""  || birthday === "" || rate === ""
-    || email === ""  || workAddress === "" || homeAddress === "" || city === "" ||
-    timezone === "" || country === "" || languages === "" || contacts === "" || proffession === "" 
-    || skillLevel === ""){
+
+    if(userDetails?.user!=null){
+       if((name === "" && userDetails?.user?.name=="") ||  (surname === ""  && userDetails?.user?.surname=="") || (birthday === "" && userDetails.birthday=="") || (rate === "" && userDetails?.rate=="")
+    || (email === "" && userDetails?.user?.email=="" ) || (workAddress === "" && userDetails?.workAddress=="") || (homeAddress === "" && userDetails?.homeAddress=="" )|| (city === ""&& userDetails?.city=="" ) ||
+    (timezone === "" && userDetails?.timezone=="" ) || (country === "" && userDetails?.country=="" ) || (languages === "" && userDetails?.languages=="")  || (contacts === "" && userDetails?.user?.contacts=="" )|| 
+    (proffession === "" && userDetails?.proffession=="")  
+    || (skillLevel === "" && userDetails?.skillLevel=="")){
 
 
       
-      if(skillLevel === ""){
+      if (skillLevel === "" && userDetails?.skillLevel==""){
         setDisabled(true);
         setSkillLevelError(true)
         window.scrollTo(0, 0); 
       }
 
-      if(name === ""){
+      if(name === "" && userDetails?.user?.name==""){
         setDisabled(true);
         setNameError(true)
         window.scrollTo(0, 0); 
       }
-      if(proffession === ""){
+      if (proffession === "" && userDetails?.proffession=="")  {
         setDisabled(true);
         setProffesionError(true)
         window.scrollTo(0, 0); 
       }
 
-      if(surname === ""){
+      if (surname === ""  && userDetails?.user?.surname==""){
         setDisabled(true);
         setSurnameError(true)
         window.scrollTo(0, 0); 
       }
 
-      if(birthday === ""){
+      if(birthday === "" && userDetails?.birthday==""){
         setDisabled(true);
         setBirthdayError(true)
         window.scrollTo(0, 0); 
       }
 
-      if(rate === ""){
+      if(rate === "" && userDetails?.rate==""){
         setDisabled(true);
         setRateError(true)
         window.scrollTo(0, 0); 
       }
 
-      if(email === ""){
+      if (email === "" && userDetails?.user?.email=="" ){
         setDisabled(true);
         setEmailError(true)
         window.scrollTo(0, 0); 
       }
 
-      if(workAddress === ""){
+      if (workAddress === "" && userDetails?.workAddress=="") {
         setDisabled(true);
         setWorkAddressError(true)
         window.scrollTo(0, 0); 
       }
 
-      if(homeAddress === ""){
+      if(homeAddress === "" && userDetails?.homeAddress=="" ){
         setDisabled(true);
         setHomeAddressError(true)
         window.scrollTo(0, 0); 
       }
 
-      if(city === ""){
+      if (city === ""&& userDetails?.city=="" ){
         setDisabled(true);
         setCityError(true)
         window.scrollTo(0, 0); 
       }
 
-      if(timezone === ""){
+      if (timezone === "" && userDetails?.timezone=="" ){
         setDisabled(true);
         setTimezoneError(true)
         window.scrollTo(0, 0); 
       }
 
-      if(country === ""){
+      if (country === "" && userDetails?.country=="" ){
         setDisabled(true);
         setCountryError(true)
         window.scrollTo(0, 0); 
       }
 
-      if(languages === ""){
+      if(languages === "" && userDetails?.languages=="") {
         setDisabled(true);
         setLanguagesError(true)
         window.scrollTo(0, 0); 
       }
 
       
-      if(contacts === ""){
+      if(contacts === "" && userDetails?.user?.contacts=="" ){
         setDisabled(true);
         setContactError(true)
         window.scrollTo(0, 0); 
 
-      }else if(!isFinite(Number(contacts)) || contacts.length != 10){
+      }
+      if(!isFinite(Number(contacts)) || ( contacts.length != 10 && userDetails?.user.contacts=="" )){
 
         setPhoneError(true);
         setDisabled(true);
         window.scrollTo(0, 0); 
     }
-  }  
+  }
+    }else{
+      if(name === "" ||  surname === ""  || birthday === "" || rate === ""
+      || email === ""  || workAddress === "" || homeAddress === "" || city === "" ||
+      timezone === "" || country === "" || languages === "" || contacts === "" || proffession === "" 
+      || skillLevel === ""){
+  
+  
+        
+        if(skillLevel === ""){
+          setDisabled(true);
+          setSkillLevelError(true)
+          window.scrollTo(0, 0); 
+        }
+  
+        if(name === ""){
+          setDisabled(true);
+          setNameError(true)
+          window.scrollTo(0, 0); 
+        }
+        if(proffession === ""){
+          setDisabled(true);
+          setProffesionError(true)
+          window.scrollTo(0, 0); 
+        }
+  
+        if(surname === ""){
+          setDisabled(true);
+          setSurnameError(true)
+          window.scrollTo(0, 0); 
+        }
+  
+        if(birthday === ""){
+          setDisabled(true);
+          setBirthdayError(true)
+          window.scrollTo(0, 0); 
+        }
+  
+        if(rate === ""){
+          setDisabled(true);
+          setRateError(true)
+          window.scrollTo(0, 0); 
+        }
+  
+        if(email === ""){
+          setDisabled(true);
+          setEmailError(true)
+          window.scrollTo(0, 0); 
+        }
+  
+        if(workAddress === ""){
+          setDisabled(true);
+          setWorkAddressError(true)
+          window.scrollTo(0, 0); 
+        }
+  
+        if(homeAddress === ""){
+          setDisabled(true);
+          setHomeAddressError(true)
+          window.scrollTo(0, 0); 
+        }
+  
+        if(city === ""){
+          setDisabled(true);
+          setCityError(true)
+          window.scrollTo(0, 0); 
+        }
+  
+        if(timezone === ""){
+          setDisabled(true);
+          setTimezoneError(true)
+          window.scrollTo(0, 0); 
+        }
+  
+        if(country === ""){
+          setDisabled(true);
+          setCountryError(true)
+          window.scrollTo(0, 0); 
+        }
+  
+        if(languages === ""){
+          setDisabled(true);
+          setLanguagesError(true)
+          window.scrollTo(0, 0); 
+        }
+  
+        
+        if(contacts === ""){
+          setDisabled(true);
+          setContactError(true)
+          window.scrollTo(0, 0); 
+  
+        }else if(!isFinite(Number(contacts)) || contacts.length != 10){
+  
+          setPhoneError(true);
+          setDisabled(true);
+          window.scrollTo(0, 0); 
+      }
+    }  
+    }
+     
   disableBtn();
   }
 
@@ -292,7 +397,7 @@ const createFormFiles= async()=>{
     theme: "light",
     });
 
-  axios.post("https://param-hr-be-dev.azurewebsites.net/Personnel/AddPersonnel", formData, config)
+  axios.post(`${url}/Personnel/AddPersonnel`, formData, config)
       .then((response:any) => {
           console.log("response", response);
           setId(response.data.data.id);
@@ -478,7 +583,7 @@ const createFormFiles= async()=>{
                                       <div className="input-group-text bgc-white bd bdwR-0">
                                         <i className="ti-calendar" />
                                       </div>
-                                      <input type="date" className="form-control bdc-grey-200 start-date"  onChange={(e) => setBirthday(e.target.value)}  defaultValue={ moment( userDetails?.birthday).format('YYYY/MM/DD') } data-provide="datepicker" />
+                                      <input type="date" className="form-control bdc-grey-200 start-date"  onChange={(e) => setBirthday(e.target.value)}  defaultValue={ moment( userDetails?.birthday).format('YYYY-MM-DD') } data-provide="datepicker" />
                                     </div>
                                   </div>
                                 </div>
